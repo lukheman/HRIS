@@ -1,0 +1,11 @@
+<?php $_shouldextend[1]=1; ?> <!-- gunakan layout main -->
+
+<?php $this->startSection('title', 'Home'); ?>
+
+<?php $this->startSection('content'); ?>
+
+<?php echo $this->runChild('hrd.features.karyawanShow'); ?>
+
+<?php $this->stopSection(); ?>
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('layouts.main'); } ?>
