@@ -36,13 +36,42 @@
       <div class="col-md-12">
 
         <div class="card">
-          <!-- <div class="card-header"> -->
 
-          <!-- <div class="row"> -->
-          <!--   <div class="col-lg-6"> -->
-          <!--     <a class="btn btn-primary float-end">Tambah Karyawan</a> -->
-          <!--   </div> -->
-          <!-- </div> -->
+          <div class="card-header">
+            <div class="row">
+              <div class="col-12">
+
+                <div class="btn-group">
+                  <a href="/hrd/absensiAllShow?by=day"
+                    class="btn btn-primary {{ $by === 'day' ? 'disabled' : 'active' }}">Hari Ini</a>
+                  <a class="btn btn-outline-primary {{ $by === 'month' ? 'disabled' : 'active' }}"
+                    href="/hrd/absensiAllShow?by=month">Bulan Ini</a>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- <div class="row"> -->
+            <!--   <div class="col-12"> -->
+            <!--     <form action="" method="get"> -->
+            <!--       <div class="form-group"> -->
+            <!--         <label for="tanggal-absensi">Tanggal Absensi</label> -->
+            <!--         <input type="date" class="form-control" id="tanggal-absensi" name="tanggal_absensi" -->
+            <!--           placeholder="Tanggal Absensi Karyawan"> -->
+            <!--         <button type="submit" class="btn btn-primary">Submit</button> -->
+            <!--       </div> -->
+            <!--     </form> -->
+            <!--   </div> -->
+            <!-- </div> -->
+
+
+            <!-- <div class="card-tools"> -->
+            <!-- <button class="btn btn-primary">GEt</button> -->
+            <!--   <a href="/hrd/absensi/bulanan?id=10" class="btn btn-primary">Bulanan</a> -->
+            <!-- </div> -->
+
+          </div>
 
           <!-- /.card-header -->
           <div class="card-body">
@@ -62,7 +91,7 @@
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Jam Keluar</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
-                          Lembur</th>
+                          Lembur (menit)</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Status</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
@@ -79,7 +108,15 @@
                         <td>{{ $karyawan->jam_keluar}}</td>
                         <td>{{ $karyawan->lembur}}</td>
                         <td>{{ $karyawan->status}}</td>
-                        <td>AKsi</td>
+                        <td>
+                          <form action="/hrd/absensiBulanan" method="get">
+                            <input type="hidden" name="id" value="{{ $karyawan->karyawan_id}}">
+                            <input type="hidden" name="periode" value="2025-01">
+
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Detail</button>
+                          </form>
+
+                        </td>
 
                       </tr>
                       @endforeach

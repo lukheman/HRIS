@@ -2,20 +2,19 @@
  <a href="/hrd" class="nav-link <?php echo \htmlentities($page === 'dashboard' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <i class="nav-icon fas fa-th"></i>
  <p>
- Dashboard ak
+ Dashboard
  </p>
  </a>
 </li>
 
-<li class="nav-item">
- <a href="/hrd/karyawan" class="nav-link <?php echo \htmlentities($page === 'karyawan' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <i class="nav-icon fas fa-th"></i>
- <p>
- Daftar Karyawan
- <!-- <span class="right badge badge-danger">New</span> -->
- </p>
- </a>
-</li>
+<!--<li class="nav-item">-->
+<!--  <a href="/hrd/karyawan" class="nav-link <?php echo \htmlentities($page === 'karyawan' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>">-->
+<!--    <i class="nav-icon fas fa-th"></i>-->
+<!--    <p>-->
+<!--      Daftar Karyawan-->
+<!--    </p>-->
+<!--  </a>-->
+<!--</li>-->
 
 <li class="nav-item">
  <a href="/hrd/karyawanAddForm" class="nav-link <?php echo \htmlentities($page === 'karyawanAdd' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>">
@@ -28,7 +27,7 @@
 </li>
 
 <li class="nav-item">
- <a href="/hrd/absensi" class="nav-link <?php echo \htmlentities($page === 'absensi' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <a href="/hrd/absensiAllShow" class="nav-link <?php echo \htmlentities($page === 'Absensi Karyawan' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <i class="nav-icon fas fa-th"></i>
  <p>
  Absensi Karyawan
@@ -37,13 +36,23 @@
  </a>
 </li>
 
-<li class="nav-item">
- <a href="hrd.php?page=karyawan-absensi-bulan"
- class="nav-link <?php echo \htmlentities($page === 'karyawan-absensi-bulan' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <i class="nav-icon fas fa-th"></i>
- <p>
- Absensi Perbulan
- <!-- <span class="right badge badge-danger">New</span> -->
- </p>
- </a>
-</li>
+<!-- <li class="nav-item"> -->
+<!--   <a href="/hrd/calendar" class="nav-link <?php echo \htmlentities($page === 'absensi' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>"> -->
+<!--     <i class="nav-icon fas fa-th"></i> -->
+<!--     <p> -->
+<!--       Kalender -->
+<!-- <span class="right badge badge-danger">New</span> -->
+<!--     </p> -->
+<!--   </a> -->
+<!-- </li> -->
+
+<!-- <li class="nav-item"> -->
+<!--   <a href="hrd.php?page=karyawan-absensi-bulan" -->
+<!--     class="nav-link <?php echo \htmlentities($page === 'karyawan-absensi-bulan' ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>"> -->
+<!--     <i class="nav-icon fas fa-th"></i> -->
+<!--     <p> -->
+<!--       Absensi Perbulan -->
+<!-- <span class="right badge badge-danger">New</span> -->
+<!--     </p> -->
+<!--   </a> -->
+<!-- </li> -->

@@ -15,12 +15,22 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $routes = [
     '/hrd' => [\App\Controllers\HrdController::class, 'index'],
     '/hrd/karyawan' => [\App\Controllers\HrdController::class, 'karyawan'],
+    '/hrd/calendar' => [\App\Controllers\HrdController::class, 'calendar'],
     '/hrd/karyawanAddForm' => [\App\Controllers\HrdController::class, 'karyawanAddForm'],
     '/hrd/karyawanUpdateForm' => [\App\Controllers\HrdController::class, 'karyawanUpdateForm'],
     '/hrd/karyawan/add' => [\App\Controllers\HrdController::class, 'karyawanCreate'],
     '/hrd/karyawan/delete' => [\App\Controllers\HrdController::class, 'karyawanDelete'],
     '/hrd/karyawan/update' => [\App\Controllers\HrdController::class, 'karyawanUpdate'],
-    '/hrd/absensi' => [\App\Controllers\HrdController::class, 'absensi']
+    '/hrd/absensiAllShow' => [\App\Controllers\HrdController::class, 'absensiAllShow'],
+    '/hrd/absensiBulanan' => [\App\Controllers\HrdController::class, 'absensiBulanan'],
+
+    '/keuangan' => [\App\Controllers\KeuanganController::class, 'index'],
+    '/keuangan/gajiKaryawanShow' => [\App\Controllers\KeuanganController::class, 'gajiKaryawanShow'],
+    '/keuangan/gajiKaryawan/verifikasiShow' => [\App\Controllers\KeuanganController::class, 'gajiKaryawanVerifikasiShow'],
+    '/keuangan/gajiKaryawan/verifikasi' => [\App\Controllers\KeuanganController::class, 'gajiKaryawanVerifikasi'],
+    '/keuangan/gajiKaryawan/update' => [\App\Controllers\KeuanganController::class, 'gajiKaryawanUpdate'],
+    '/keuangan/cetakSlipGajiOne' => [\App\Controllers\KeuanganController::class, 'cetakSlipGajiOne'],
+    '/keuangan/cetakSlipGajiAll' => [\App\Controllers\KeuanganController::class, 'cetakSlipGajiAll'],
 ];
 
 if (array_key_exists($uri, $routes)) {

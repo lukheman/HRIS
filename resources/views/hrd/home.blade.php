@@ -2,8 +2,15 @@
 
 @section('title', 'Home')
 
+@section('sidebar-menu')
+
+@include('hrd.menu')
+
+@endsection
+
 @section('content')
 
-@include('hrd.features.karyawanShow')
-
+<h1>
+  ini dashboard
+</h1>
 @endsection

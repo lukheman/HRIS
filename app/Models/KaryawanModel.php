@@ -5,6 +5,8 @@ namespace App\Models;
 
 use App\Core\Model;
 
+use phpfaker\faker;
+
 class KaryawanModel extends Model {
 
   protected $table = 'tb_karyawan';
@@ -13,5 +15,7 @@ class KaryawanModel extends Model {
     $sql = "SELECT * FROM {$this->table} WHERE id = ?";
     return $this->query($sql, [$id])->fetch();
   }
+
+
 
 }

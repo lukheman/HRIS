@@ -2,10 +2,17 @@
 
 <?php $this->startSection('title', 'Home'); ?>
 
+<?php $this->startSection('sidebar-menu'); ?>
+
+<?php echo $this->runChild('hrd.menu'); ?>
+
+<?php $this->stopSection(); ?>
+
 <?php $this->startSection('content'); ?>
 
-<?php echo $this->runChild('hrd.features.karyawanShow'); ?>
-
+<h1>
+ ini dashboard
+</h1>
 <?php $this->stopSection(); ?>
 
 <?php if (isset($_shouldextend[1])) { echo $this->runChild('layouts.main'); } ?>
