@@ -18,10 +18,8 @@ class HrdController extends Controller {
   }
 
   public function index() {
-    $data_karyawan = $this->karyawanModel->all();
 
     $data = [
-      'data_karyawan'=>$data_karyawan,
       'page' => 'dashboard'
     ];
 
@@ -108,14 +106,102 @@ class HrdController extends Controller {
 
   }
 
-  public function absensi() {
-    $data_absensi = $this->absensiModel->all();
+  public function absensiAllShow() {
+
+    // set sorting method
+
+    $by = $_GET['by'];
+
+
+
+    if (isset($by) && $by !== '') {
+      if ($by === 'month') {
+        $periode = date('Y-m'); // periode default bulan ini
+        $data_absensi = $this->absensiModel->findByBulan($periode);
+      } else if ($by === 'day') {
+        $periode = date('Y-m-d'); // default today
+        $data_absensi = $this->absensiModel->findByTanggal($periode);
+      }
+    } else {
+      $periode = date('Y-m-d'); // default today
+      $data_absensi = $this->absensiModel->findByTanggal($periode);
+    }
+
 
     $data = [
       'data_absensi' => $data_absensi,
-      'page' => 'absensi',
+      'page' => 'Absensi Karyawan',
+      'by' => $by ?? 'day'
     ];
+
     echo $this->blade->run('hrd.features.absensiShow', $data);
+  }
+
+  public function absensiBulanan() {
+    $id = $_GET['id'];
+    $periode = $_GET['periode'];
+
+    $dataAbsensi = $this->dataAbsensiBulanan($id, $periode);
+
+    $prevMonth = date('Y-m', strtotime('-1 month', strtotime($periode . '-01')));
+    $nextMonth = date('Y-m', strtotime('+1 month', strtotime($periode . '-01')));
+    $initialDate = date('Y-m-d', strtotime($periode . '-01'));
+
+    $karyawan  = $this->karyawanModel->findById($id);
+
+    $data = [
+      'dataAbsensi' => $dataAbsensi,
+      'prevMonth' => $prevMonth,
+      'nextMonth' => $nextMonth,
+      'id' => $id,
+      'initialDate' => $initialDate,
+      'karyawan' => $karyawan,
+      'page' => 'Absensi Karyawan'
+    ];
+
+    echo $this->blade->run('hrd.features.absensiBulanan', $data);
+
+
+  }
+
+  public function dataAbsensiBulanan($id, $periode) {
+    // $id: int
+    // $periode: str(Y-m);
+
+    $dataAbsensiBulanan= $this->absensiModel->absensiBulananKaryawan($id, $periode);
+
+    $dataAbsensiHarian = array();
+
+    foreach($dataAbsensiBulanan as $hari) {
+      array_push($dataAbsensiHarian, [
+        'id' => $hari->id,
+        'title' => $hari->status,
+        'start' => $hari->tanggal,
+        'backgroundColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
+        'borderColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
+      ]);
+
+      if($hari->lembur > 0) {
+      array_push($dataAbsensiHarian, [
+        'id' => $hari->id,
+        'title' => "Lembur {$hari->lembur}",
+        'start' => $hari->tanggal,
+        'backgroundColor' => '#fd7e14',
+        'borderColor' => '#fd7e14',
+      ]);
+      }
+
+    }
+
+
+    return $dataAbsensiHarian;
+
+  }
+
+  public  function calendar() {
+
+    echo $this->blade->run('hrd.features.calendar');
+
   }
 
 }
