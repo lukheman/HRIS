@@ -27,22 +27,23 @@ class HrdController extends Controller {
 
   }
 
-  public function karyawan() {
+  public function karyawanList() {
     $data_karyawan = $this->karyawanModel->all();
 
     $data = [
       'data_karyawan'=>$data_karyawan,
-      'page' => 'karyawan'
-
+      'page' => 'Daftar Karyawan',
+      'subpage' => 'Daftar Karyawan'
     ];
 
-    echo $this->blade->run('hrd.features.karyawanShow', $data);
+    echo $this->blade->run('hrd.features.karyawanList', $data);
 
   }
 
   public function karyawanAddForm() {
     $data = [
-      'page' => 'karyawanAdd'
+      'page' => 'Daftar Karyawan',
+      'subpage' => 'Tambah Karyawan'
     ];
     echo $this->blade->run('hrd.features.karyawanAddForm', $data);
   }
@@ -54,11 +55,12 @@ class HrdController extends Controller {
 
     $data = [
       'page' => 'karyawan',
-      'karyawanOne' => $karyawanOne
+      'karyawanOne' => $karyawanOne,
+      'page' => 'Daftar Karyawan',
+      'subpage' => 'Update Karyawan'
     ];
     echo $this->blade->run('hrd.features.karyawanUpdateForm', $data);
   }
-
 
 
   public function karyawanCreate() {
@@ -112,8 +114,6 @@ class HrdController extends Controller {
 
     $by = $_GET['by'];
 
-
-
     if (isset($by) && $by !== '') {
       if ($by === 'month') {
         $periode = date('Y-m'); // periode default bulan ini
@@ -131,6 +131,7 @@ class HrdController extends Controller {
     $data = [
       'data_absensi' => $data_absensi,
       'page' => 'Absensi Karyawan',
+      'subpage' => 'Absensi Karyawan',
       'by' => $by ?? 'day'
     ];
 
@@ -156,7 +157,8 @@ class HrdController extends Controller {
       'id' => $id,
       'initialDate' => $initialDate,
       'karyawan' => $karyawan,
-      'page' => 'Absensi Karyawan'
+      'page' => 'Absensi Karyawan',
+      'subpage' => 'Absensi Bulanan Karyawan',
     ];
 
     echo $this->blade->run('hrd.features.absensiBulanan', $data);
