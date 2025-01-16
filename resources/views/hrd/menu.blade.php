@@ -7,24 +7,23 @@
   </a>
 </li>
 
-<!--<li class="nav-item">-->
-<!--  <a href="/hrd/karyawan" class="nav-link {{ $page === 'karyawan' ? 'active' : ''}}">-->
-<!--    <i class="nav-icon fas fa-th"></i>-->
-<!--    <p>-->
-<!--      Daftar Karyawan-->
-<!--    </p>-->
-<!--  </a>-->
-<!--</li>-->
-
 <li class="nav-item">
-  <a href="/hrd/karyawanAddForm" class="nav-link {{ $page === 'karyawanAdd' ? 'active' : ''}}">
+  <a href="/hrd/karyawanList" class="nav-link {{ $page === 'Daftar Karyawan' ? 'active' : ''}}">
     <i class="nav-icon fas fa-th"></i>
     <p>
-      Tambah Karyawan
-      <!-- <span class="right badge badge-danger">New</span> -->
+      Daftar Karyawan
     </p>
   </a>
 </li>
+
+<!--<li class="nav-item">-->
+<!--  <a href="/hrd/karyawanAddForm" class="nav-link {{ $page === 'karyawanAdd' ? 'active' : ''}}">-->
+<!--    <i class="nav-icon fas fa-th"></i>-->
+<!--    <p>-->
+<!--      Tambah Karyawan-->
+<!--    </p>-->
+<!--  </a>-->
+<!--</li>-->
 
 <li class="nav-item">
   <a href="/hrd/absensiAllShow" class="nav-link {{ $page === 'Absensi Karyawan' ? 'active' : ''}}">
