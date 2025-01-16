@@ -14,7 +14,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $routes = [
     '/hrd' => [\App\Controllers\HrdController::class, 'index'],
-    '/hrd/karyawan' => [\App\Controllers\HrdController::class, 'karyawan'],
+    '/hrd/karyawanList' => [\App\Controllers\HrdController::class, 'karyawanList'],
     '/hrd/calendar' => [\App\Controllers\HrdController::class, 'calendar'],
     '/hrd/karyawanAddForm' => [\App\Controllers\HrdController::class, 'karyawanAddForm'],
     '/hrd/karyawanUpdateForm' => [\App\Controllers\HrdController::class, 'karyawanUpdateForm'],
