@@ -1,5 +1,5 @@
 <li class="nav-item">
-  <a href="/hrd" class="nav-link {{ $page === 'dashboard' ? 'active' : ''}}">
+  <a href="/hrd" class="nav-link {{ $page === 'Dashboard' ? 'active' : ''}}">
     <i class="nav-icon fas fa-th"></i>
     <p>
       Dashboard
@@ -8,7 +8,7 @@
 </li>
 
 <li class="nav-item">
-  <a href="/hrd/karyawanList" class="nav-link {{ $page === 'Daftar Karyawan' ? 'active' : ''}}">
+  <a href="/hrd/karyawan" class="nav-link {{ $page === 'Daftar Karyawan' ? 'active' : ''}}">
     <i class="nav-icon fas fa-th"></i>
     <p>
       Daftar Karyawan
@@ -26,11 +26,28 @@
 <!--</li>-->
 
 <li class="nav-item">
-  <a href="/hrd/absensiAllShow" class="nav-link {{ $page === 'Absensi Karyawan' ? 'active' : ''}}">
+  <a href="/hrd/absensi/all" class="nav-link {{ $page === 'Absensi Karyawan' ? 'active' : ''}}">
     <i class="nav-icon fas fa-th"></i>
     <p>
       Absensi Karyawan
-      <!-- <span class="right badge badge-danger">New</span> -->
+    </p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="/hrd/absensi/generate-qrcode" class="nav-link {{ $page === 'Generate QR Code' ? 'active' : ''}}">
+    <i class="nav-icon fas fa-th"></i>
+    <p>
+      Generate QR Code
+    </p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="/hrd/absensi/scan-qrcode" class="nav-link {{ $page === 'Scan QR Code' ? 'active' : ''}}">
+    <i class="nav-icon fas fa-th"></i>
+    <p>
+      Scan QR Code
     </p>
   </a>
 </li>

@@ -9,8 +9,8 @@ Role: Keuangan
 - [x] cetak Slip gaji: perorang + slip gaji keseluruhan karyawan
 
 Role: Pimpinan
-- Read: laporan absensi karyawan
-- Read: slip gaji keseluruhan karyawan
+- [x] Read: laporan absensi karyawan
+- [x] Read: slip gaji keseluruhan karyawan
 
 Fitur yang telah ada:
 - [x] Input karyawan
@@ -20,9 +20,9 @@ Fitur yang telah ada:
 fitur yang ditambahkan:
 - [x] Buat role user
 - [x] Cetak slip gaji: Slip gaji keseluruhan karyawan
-- [ ] Absensi: buat laporan perbulan satiap karyawan untuk melihat data kehadiran karyawan setiap hari
+- [x] Absensi: buat laporan perbulan satiap karyawan untuk melihat data kehadiran karyawan setiap hari
 - [x] Absensi: pada fitur absen karyawan tambahkan tanggal ketika karyawan absen
 - [x] pada table karyawan tambahkan total gaji karyawan untuk mengetahi total gaji karyawan
 - [x] pata fitur cetak slip gaji karyawan/tambahkan fitur cetak gaji keseluruhan karyawan
-- [ ] Absensi: tambahkan fitur untuk mengetahi hari kapan saja karyawan lembur
+- [x] Absensi: tambahkan fitur untuk mengetahi hari kapan saja karyawan lembur
 - [ ] fitur untuk melakukan absensi menggunakan qr code

@@ -16,6 +16,18 @@ class KaryawanModel extends Model {
     return $this->query($sql, [$id])->fetch();
   }
 
+  public function findByNama($nama) {
+    $sql = "SELECT * FROM {$this->table} WHERE nama LIKE ?";
+    $search = "%{$nama}%";
+    return $this->query($sql, [$search])->fetchAll();
+  }
+
+  public function count() {
+    $sql = "SELECT count(*) as jumlah FROM {$this->table}";
+
+    return $this->query($sql)->fetch();
+  }
+
 
 
 }

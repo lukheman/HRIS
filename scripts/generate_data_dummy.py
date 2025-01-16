@@ -190,8 +190,8 @@ def main():
 
     # Generate attendance for the last 30 days
     end_date = datetime.now().date()
-    start_date = end_date - timedelta(days=90)
-    # start_date = datetime.now().date()
+    # start_date = end_date - timedelta(days=90)
+    start_date = datetime.now().date()
 
     print(f"Generating attendance records from {start_date} to {end_date}")
     records = generate_attendance_records(start_date, end_date, employee_ids)

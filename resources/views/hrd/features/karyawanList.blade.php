@@ -22,7 +22,7 @@
 
             <div class="row">
               <div class="col-lg-6">
-                <a class="btn btn-primary float-end" href="/hrd/karyawanAddForm">Tambah Karyawan</a>
+                <a class="btn btn-primary float-end" href="/hrd/karyawan/add">Tambah Karyawan</a>
               </div>
             </div>
           </div>

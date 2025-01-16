@@ -10,7 +10,6 @@
 
 @section('content')
 
-
 <!-- Main content -->
 <div class="content">
   <div class="container-fluid">
@@ -28,10 +27,10 @@
               </div>
               <div class="col-6">
                 <div class="btn-group float-right">
-                  <a href="/hrd/absensiBulanan?id={{ $id }}&periode={{ $prevMonth }}" class="btn btn-primary">
+                  <a href="/hrd/absensi/detail?id={{ $id }}&periode={{ $prevMonth }}" class="btn btn-primary">
                     <i class="nav-icon fas fa-chevron-left"></i>
                   </a>
-                  <a href="/hrd/absensiBulanan?id={{ $id }}&periode={{ $nextMonth }}" class="btn btn-primary">
+                  <a href="/hrd/absensi/detail?id={{ $id }}&periode={{ $nextMonth }}" class="btn btn-primary">
                     <i class="nav-icon fas fa-chevron-right"></i>
                   </a>
                 </div>

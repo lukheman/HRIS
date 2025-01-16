@@ -8,7 +8,7 @@
 </li>
 
 <li class="nav-item">
-  <a href="/keuangan/gajiKaryawanShow" class="nav-link {{ $page === 'Gaji Karyawan' ? 'active' : ''}}">
+  <a href="/keuangan/gaji-karyawan" class="nav-link {{ $page === 'Gaji Karyawan' ? 'active' : ''}}">
     <i class="nav-icon fas fa-th"></i>
     <p>
       Gaji Karyawan

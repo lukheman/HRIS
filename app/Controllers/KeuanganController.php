@@ -28,17 +28,7 @@ class KeuanganController extends Controller {
     echo $this->blade->run('keuangan.home', $data);
   }
 
-  public function gajiKaryawanShow() {
-
-    // $tahun = $_GET['tahun'];
-    // $bulan = $_GET['bulan'];
-    //
-    // if(isset($tahun) && $tahun !== '' && isset($bulan) && $bulan !== '') {
-    //   $periode = "{$tahun}-{$bulan}";
-    // } else {
-    //   // $dataGajiKaryawan = $this->gajiModel->allComplete();
-    //   $periode = date('Y-m');
-    // }
+  public function listGajiKaryawan() {
 
     $periode = $_GET['periode'];
 
@@ -54,11 +44,12 @@ class KeuanganController extends Controller {
     $data = [
       'dataGajiKaryawan' => $dataGajiKaryawan,
       'page' => 'Gaji Karyawan',
+      'subpage' => 'Gaji Karyawan',
       'bulan' => $bulan,
       'periode' => $periode,
     ];
 
-    echo $this->blade->run('keuangan.features.gajiKaryawanShow', $data);
+    echo $this->blade->run('keuangan.features.listGajiKaryawan', $data);
 
   }
 
@@ -131,9 +122,10 @@ class KeuanganController extends Controller {
 
   }
 
-  public function gajiKaryawanUpdate() {
+  public function updateGajiKaryawan() {
 
-    $periode = '2024-12';
+    $periode = $_GET['periode'] ?? date('Y-m');
+
     $gajiLembur = 10000; // gaji lembur per/menit
 
     $dataKaryawanAll = $this->karyawanModel->all();
@@ -173,7 +165,7 @@ class KeuanganController extends Controller {
 
     }
 
-    echo "berhasil update data";
+    header('Location: /keuangan/gaji-karyawan');
 
   }
 

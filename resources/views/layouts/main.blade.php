@@ -19,6 +19,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="/assets/css/adminlte.min.css">
   <!-- fullCalendar -->
   <link rel="stylesheet" href="/plugins/fullcalendar/main.css">
+
+  <!-- instascan/camera -->
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -70,6 +73,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
+
 
   <!-- jQuery -->
   <script src="/plugins/jquery/jquery.min.js"></script>
