@@ -15,3 +15,9 @@ extension=gd
 
 1. Buat database dengan nama `fbs`
 2. Import fbs.sql ke database
+
+# Akun
+
+hrd_user - password123
+keuangan_user - password123
+pimpinan_user - password123

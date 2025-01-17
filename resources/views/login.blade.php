@@ -28,7 +28,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a href="login.php" class="h1">Login FBS</a>
       </div>
       <div class="card-body">
-        <p class="login-box-msg">Sign in to start your session akmal</p>
+        @if (isset($error))
+        <p class="login-box-msg text-danger">{{ $error }}</p>
+
+        @endif
+
 
         <form action="/login" method="post">
           <div class="input-group mb-3">

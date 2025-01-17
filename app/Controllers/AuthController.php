@@ -22,7 +22,6 @@ class AuthController extends Controller
 
     public function handleLogin()
     {
-        session_start();
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
 
@@ -51,7 +50,7 @@ class AuthController extends Controller
             }
             exit();
         } else {
-            $this->blade->run('login', ['error' => 'Invalid credentials']);
+            echo $this->blade->run('login', ['error' => 'Password atau Username salah']);
         }
     }
 

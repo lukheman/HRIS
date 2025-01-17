@@ -1,7 +1,6 @@
 {
   "require": {
     "eftec/bladeone": "^4.9",
-    "fakerphp/faker": "^1.24",
     "endroid/qr-code": "^4.8"
   },
   "autoload": {
