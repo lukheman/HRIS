@@ -4,12 +4,13 @@ namespace App\Controllers;
 
 use eftec\bladeone\BladeOne;
 
-class Controller {
+class Controller
+{
+    protected $blade;
 
-  protected $blade;
-
-  public function __construct(BladeOne $blade) {
-    $this->blade = $blade;
-  }
+    public function __construct(BladeOne $blade)
+    {
+        $this->blade = $blade;
+    }
 
 }

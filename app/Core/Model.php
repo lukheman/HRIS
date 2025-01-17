@@ -1,37 +1,44 @@
 <?php
+
 namespace App\Core;
 
 use PDO;
 
-abstract class Model {
+abstract class Model
+{
     protected $db;
     protected $table;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // Method dasar untuk query
-    public function query($sql, $params = []) {
+    public function query($sql, $params = [])
+    {
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt;
     }
 
     // Mengambil semua record
-    public function all() {
+    public function all()
+    {
         $sql = "SELECT * FROM {$this->table}";
         return $this->query($sql)->fetchAll();
     }
 
     // Mengambil satu record berdasarkan ID
-    public function find($id) {
+    public function find($id)
+    {
         $sql = "SELECT * FROM {$this->table} WHERE id = ?";
         return $this->query($sql, [$id])->fetch();
     }
 
     // Menyimpan record baru
-    public function create($data) {
+    public function create($data)
+    {
         $fields = implode(', ', array_keys($data));
         $placeholders = implode(', ', array_fill(0, count($data), '?'));
 
@@ -42,7 +49,8 @@ abstract class Model {
     }
 
     // Mengupdate record
-    public function update($id, $data) {
+    public function update($id, $data)
+    {
         $fields = implode('=?, ', array_keys($data)) . '=?';
         $sql = "UPDATE {$this->table} SET $fields WHERE id = ?";
 
@@ -53,7 +61,8 @@ abstract class Model {
     }
 
     // Menghapus record
-    public function delete($id) {
+    public function delete($id)
+    {
         $sql = "DELETE FROM {$this->table} WHERE id = ?";
         return $this->query($sql, [$id])->rowCount();
     }

@@ -1,7 +1,8 @@
 Role: HRD
 - [x] Input karyawan
-- [ ] absensi karyawan : menggunakan qr code
+- [x] absensi karyawan : menggunakan qr code
 - [x] laporan absen karyawan
+- [ ] absensi manual
 
 Role: Keuangan
 - [ ] verifikasi absen dan
@@ -25,4 +26,4 @@ fitur yang ditambahkan:
 - [x] pada table karyawan tambahkan total gaji karyawan untuk mengetahi total gaji karyawan
 - [x] pata fitur cetak slip gaji karyawan/tambahkan fitur cetak gaji keseluruhan karyawan
 - [x] Absensi: tambahkan fitur untuk mengetahi hari kapan saja karyawan lembur
-- [ ] fitur untuk melakukan absensi menggunakan qr code
+- [x] fitur untuk melakukan absensi menggunakan qr code

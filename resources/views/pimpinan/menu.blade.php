@@ -1,6 +1,6 @@
 <li class="nav-item">
   <a href="/pimpinan" class="nav-link {{ $page === 'Dashboard' ? 'active' : ''}}">
-    <i class="nav-icon fas fa-th"></i>
+    <i class="nav-icon fas fa-tachometer-alt"></i>
     <p>
       Dashboard
     </p>
@@ -9,7 +9,7 @@
 
 <li class="nav-item">
   <a href="/pimpinan/gaji-karyawan" class="nav-link {{ $page === 'Gaji Karyawan' ? 'active' : ''}}">
-    <i class="nav-icon fas fa-th"></i>
+    <i class="nav-icon fas fa-money-check-alt"></i>
     <p>
       Gaji Karyawan
     </p>
@@ -27,7 +27,7 @@
 
 <li class="nav-item">
   <a href="/pimpinan/absensi/all" class="nav-link {{ $page === 'Absensi Karyawan' ? 'active' : ''}}">
-    <i class="nav-icon fas fa-th"></i>
+    <i class="nav-icon fas fa-calendar-check"></i>
     <p>
       Absensi Karyawan
       <!-- <span class="right badge badge-danger">New</span> -->

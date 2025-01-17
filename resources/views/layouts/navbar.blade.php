@@ -18,7 +18,7 @@
 
     <li class="nav-item">
       <a class="nav-link btn btn-danger" href="/logout">
-        <!-- <i class="fas fa-th-large"></i> -->
+        <i class="fas fa-sign-out-alt"></i>
         Logout</a>
     </li>
   </ul>

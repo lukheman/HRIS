@@ -5,6 +5,9 @@ session_start();
 use App\Core\Router;
 use eftec\bladeone\BladeOne;
 
+// Mengatur zona waktu ke Indosia Tengan (WITA)
+date_default_timezone_set('Asia/Makassar');
+
 // Inisialisasi BladeOne
 $views =  __DIR__ . '/../resources/views';
 $cache =  __DIR__ . '/../storage/cache';

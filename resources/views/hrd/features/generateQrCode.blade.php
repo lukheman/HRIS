@@ -19,7 +19,7 @@
 
           </div>
           <div class="card-body">
-            <h3 class="text-secondary">generate qr code</h3>
+            <!-- <h3 class="text-secondary"></h3> -->
 
             <!-- TODO: live seearch -->
             <div class="row">
@@ -51,7 +51,10 @@
                     <tr>
                       <td>{{ $karyawan->nama }}</td>
                       <td>{{ $karyawan->nik }}</td>
-                      <td> <a href="/hrd/generateQrCodeProcess" class="btn btn-sm btn-outline-primary">Generate</a></td>
+                      <td>
+                        <button class="btn btn-outline-primary btn-sm btn-generate"
+                          value="{{ $karyawan->nik }}">Generate</button>
+                      </td>
                     </tr>
                     @endforeach
                   </tbody>
@@ -70,7 +73,19 @@
 
           </div>
           <div class="card-body">
-            <h3 class="text-secondary">informasi qr code</h3>
+            <!-- <h3 class="text-secondary">informasi qr code</h3> -->
+            <div class="row">
+              <div class="col-12">
+                <img class="img-fluid" src="" id="qrcode">
+              </div>
+              <div class="col-12">
+                <form action="/hrd/absensi/generate-qrcode/save" method="post">
+                  <input type="hidden" value="" name="nik" id="nik-karyawan">
+                  <button type="submit" class="btn btn-outline-primary" style="display: none;"
+                    id="btn-cetak-qrcode">Cetak QR Code</button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -78,4 +93,52 @@
   </div>
 </div>
 
+<script>
+
+  document.addEventListener('DOMContentLoaded', () => {
+    let qrcode = document.getElementById('qrcode');
+
+    let btnGenerates = document.getElementsByClassName('btn-generate');
+    let nikKaryawan = document.getElementById('nik-karyawan');
+    let btnCetakQrCode = document.getElementById('btn-cetak-qrcode');
+
+    Array.from(btnGenerates).forEach(btn => {
+      btn.addEventListener('click', async () => {
+        try {
+          const response = await fetch('/hrd/absensi/generate-qrcode/generate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              nik: btn.value
+            })
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Terjadi kesalahan');
+          }
+
+          const blob = await response.blob();
+          const qrCodeUrl = URL.createObjectURL(blob);
+
+          qrcode.src = qrCodeUrl;
+
+          nikKaryawan.value = btn.value;
+          btnCetakQrCode.style.display = 'block';
+
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Gagal generate QR Code: ' + error.message);
+        }
+      });
+    });
+
+
+  });
+
+
+  // TODO: gunakan jquery untuk melakuakn dom
+</script>
 @endsection

@@ -1,6 +1,6 @@
 <li class="nav-item">
   <a href="/keuangan" class="nav-link {{ $page === 'dashboard' ? 'active' : ''}}">
-    <i class="nav-icon fas fa-th"></i>
+    <i class="nav-icon fas fa-tachometer-alt"></i>
     <p>
       Dashboard Keuangan
     </p>
@@ -9,7 +9,7 @@
 
 <li class="nav-item">
   <a href="/keuangan/gaji-karyawan" class="nav-link {{ $page === 'Gaji Karyawan' ? 'active' : ''}}">
-    <i class="nav-icon fas fa-th"></i>
+    <i class="nav-icon fas fa-money-check-alt"></i>
     <p>
       Gaji Karyawan
       <!-- <span class="right badge badge-danger">New</span> -->

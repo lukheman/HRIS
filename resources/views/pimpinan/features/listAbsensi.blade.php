@@ -24,9 +24,12 @@
 
                 <div class="btn-group">
                   <a href="/pimpinan/absensi/all?by=day"
-                    class="btn btn-primary {{ $by === 'day' ? 'disabled' : 'active' }}">Hari Ini</a>
+                    class="btn btn-primary {{ $by === 'day' ? 'disabled' : 'active' }}"> <i
+                      class="nav-icon fas fa-calendar-day"></i>
+                    Hari Ini</a>
                   <a class="btn btn-primary {{ $by === 'month' ? 'disabled' : 'active' }}"
-                    href="/pimpinan/absensi/all?by=month">Bulan Ini</a>
+                    href="/pimpinan/absensi/all?by=month"> <i class="nav-icon fas fa-calendar-week"></i>
+                    Bulan Ini</a>
                 </div>
 
               </div>
@@ -94,7 +97,9 @@
                             <input type="hidden" name="id" value="{{ $karyawan->karyawan_id}}">
                             <input type="hidden" name="periode" value="2025-01">
 
-                            <button type="submit" class="btn btn-sm btn-outline-primary">Detail</button>
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                              <i class="nav-icon fas fa-calendar-alt"></i>
+                              Detail</button>
                           </form>
 
                         </td>
