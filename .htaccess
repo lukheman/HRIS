@@ -1,9 +1,11 @@
 RewriteEngine On
 
-# Atur base path sesuai kebutuhan
-RewriteBase /FBS-OOP
+# Set base untuk aplikasi
+RewriteBase /fbs-oop/
 
-# Arahkan semua permintaan ke index.php
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.php [QSA,L]
+# Jika URL adalah /login, redirect ke login tanpa fbs-oop di aplikasi
+RewriteRule ^login$ /fbs-oop/index.php/login [L]
+
+# Aturan umum untuk menangani rute lainnya
+RewriteRule ^(.*)$ index.php/$1 [L]
+
