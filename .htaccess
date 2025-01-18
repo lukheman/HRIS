@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Atur base path sesuai kebutuhan
+RewriteBase /FBS-OOP
+
+# Arahkan semua permintaan ke index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
