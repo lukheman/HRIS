@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'HRD')
+@section('title', 'Pimpinan')
 
 @section('sidebar-menu')
 
@@ -23,37 +23,18 @@
               <div class="col-12">
 
                 <div class="btn-group">
-                  <a href="/pimpinan/absensi/all?by=day"
-                    class="btn btn-primary {{ $by === 'day' ? 'disabled' : 'active' }}"> <i
-                      class="nav-icon fas fa-calendar-day"></i>
+                  <a href="@base_url(/pimpinan/absensi/all?by=day)"
+                    class="btn btn-primary {{ $by === 'day' ? 'disabled' : 'active' }}">
+                    <i class="nav-icon fas fa-calendar-day"></i>
                     Hari Ini</a>
                   <a class="btn btn-primary {{ $by === 'month' ? 'disabled' : 'active' }}"
-                    href="/pimpinan/absensi/all?by=month"> <i class="nav-icon fas fa-calendar-week"></i>
+                    href="@base_url(/pimpinan/absensi/all?by=month)"> <i class="nav-icon fas fa-calendar-week"></i>
                     Bulan Ini</a>
                 </div>
 
               </div>
 
             </div>
-
-            <!-- <div class="row"> -->
-            <!--   <div class="col-12"> -->
-            <!--     <form action="" method="get"> -->
-            <!--       <div class="form-group"> -->
-            <!--         <label for="tanggal-absensi">Tanggal Absensi</label> -->
-            <!--         <input type="date" class="form-control" id="tanggal-absensi" name="tanggal_absensi" -->
-            <!--           placeholder="Tanggal Absensi Karyawan"> -->
-            <!--         <button type="submit" class="btn btn-primary">Submit</button> -->
-            <!--       </div> -->
-            <!--     </form> -->
-            <!--   </div> -->
-            <!-- </div> -->
-
-
-            <!-- <div class="card-tools"> -->
-            <!-- <button class="btn btn-primary">GEt</button> -->
-            <!--   <a href="/pimpinan/absensi/bulanan?id=10" class="btn btn-primary">Bulanan</a> -->
-            <!-- </div> -->
 
           </div>
 
@@ -93,7 +74,7 @@
                         <td>{{ $karyawan->lembur}}</td>
                         <td>{{ $karyawan->status}}</td>
                         <td>
-                          <form action="/pimpinan/absensi/detail" method="get">
+                          <form action="@base_url(/pimpinan/absensi/detail)" method="get">
                             <input type="hidden" name="id" value="{{ $karyawan->karyawan_id}}">
                             <input type="hidden" name="periode" value="2025-01">
 
@@ -124,44 +105,17 @@
                   </table>
                 </div>
               </div>
-              <!-- <div class="row"> -->
-              <!--   <div class="col-sm-12 col-md-5"> -->
-              <!--     <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 -->
-              <!--       entries</div> -->
-              <!--   </div> -->
-              <!--   <div class="col-sm-12 col-md-7"> -->
-              <!--     <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate"> -->
-              <!--       <ul class="pagination"> -->
-              <!--         <li class="paginate_button page-item previous disabled" id="datatable_previous"><a href="#" -->
-              <!--             aria-controls="datatable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li> -->
-              <!--         <li class="paginate_button page-item active"><a href="#" aria-controls="datatable" data-dt-idx="1" -->
-              <!--             tabindex="0" class="page-link">1</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="2" -->
-              <!--             tabindex="0" class="page-link">2</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="3" -->
-              <!--             tabindex="0" class="page-link">3</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="4" -->
-              <!--             tabindex="0" class="page-link">4</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="5" -->
-              <!--             tabindex="0" class="page-link">5</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="6" -->
-              <!--             tabindex="0" class="page-link">6</a></li> -->
-              <!--         <li class="paginate_button page-item next" id="datatable_next"><a href="#" aria-controls="datatable" -->
-              <!--             data-dt-idx="7" tabindex="0" class="page-link">Next</a></li> -->
-              <!--       </ul> -->
-              <!--     </div> -->
-              <!--   </div> -->
-              <!-- </div> -->
             </div>
           </div>
-          <!-- /.card-body -->
         </div>
-
+        <!-- /.card-body -->
       </div>
-      <!-- /.col-md-6 -->
+
     </div>
-    <!-- /.row -->
-  </div><!-- /.container-fluid -->
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
 @endsection

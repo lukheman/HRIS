@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'pimpinan')
+@section('title', 'Pimpinan')
 
 @section('sidebar-menu')
 
@@ -22,7 +22,7 @@
 
             <div class="row">
               <div class="col-lg-6">
-                <form action="/pimpinan/gaji-karyawan" method="get">
+                <form action="@base_url(/pimpinan/gaji-karyawan)" method="get">
 
                   <!-- <div class="form-group"> -->
                   <!--   <label for="tahun">Tahun</label> -->
@@ -63,9 +63,11 @@
                 </form>
               </div>
               <div class="col-lg-6">
-                <!-- <a class="btn btn-primary" href="/pimpinan/gaji-karyawan/update?periode={{ $periode}}">Refresh Data</a> -->
+                <a class="btn btn-primary"
+                  href="@base_url(/pimpinan/gaji-karyawan/update?periode={{ $periode}})">Refresh
+                  Data</a>
                 <a class="btn btn-outline-primary float-right"
-                  href="/pimpinan/gaji-karyawan/cetak-slip-gaji-all?periode={{$periode}}">
+                  href="@base_url(/pimpinan/gaji-karyawan/cetak-slip-gaji-all?periode={{$periode}})">
                   <i class="nav-icon fas fa-print"></i>
                   Slip Gaji Keseluruhan</a>
               </div>
@@ -116,7 +118,7 @@
                         <td>{{ number_format($karyawan->gaji_total, 2, ',', '.')}}</td>
 
                         <td>
-                          <form action="/pimpinan/gaji-karyawan/cetak-slip-gaji" method="post">
+                          <form action="@base_url(/pimpinan/gaji-karyawan/cetak-slip-gaji)" method="post">
                             <input type="hidden" name="gaji_id" value="{{ $karyawan->gaji_id }}">
                             <button type="submit" class="btn btn-sm btn-outline-success">
                               <i class="nav-icon fas fa-print"></i>
@@ -152,21 +154,21 @@
               <!--   <div class="col-sm-12 col-md-7"> -->
               <!--     <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate"> -->
               <!--       <ul class="pagination"> -->
-              <!--         <li class="paginate_button page-item previous disabled" id="datatable_previous"><a href="#" -->
+              <!--         <li class="paginate_button page-item previous disabled" id="datatable_previous"><a href="@base_url(#)" -->
               <!--             aria-controls="datatable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li> -->
-              <!--         <li class="paginate_button page-item active"><a href="#" aria-controls="datatable" data-dt-idx="1" -->
+              <!--         <li class="paginate_button page-item active"><a href="@base_url(#)" aria-controls="datatable" data-dt-idx="1" -->
               <!--             tabindex="0" class="page-link">1</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="2" -->
+              <!--         <li class="paginate_button page-item "><a href="@base_url(#)" aria-controls="datatable" data-dt-idx="2" -->
               <!--             tabindex="0" class="page-link">2</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="3" -->
+              <!--         <li class="paginate_button page-item "><a href="@base_url(#)" aria-controls="datatable" data-dt-idx="3" -->
               <!--             tabindex="0" class="page-link">3</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="4" -->
+              <!--         <li class="paginate_button page-item "><a href="@base_url(#)" aria-controls="datatable" data-dt-idx="4" -->
               <!--             tabindex="0" class="page-link">4</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="5" -->
+              <!--         <li class="paginate_button page-item "><a href="@base_url(#)" aria-controls="datatable" data-dt-idx="5" -->
               <!--             tabindex="0" class="page-link">5</a></li> -->
-              <!--         <li class="paginate_button page-item "><a href="#" aria-controls="datatable" data-dt-idx="6" -->
+              <!--         <li class="paginate_button page-item "><a href="@base_url(#)" aria-controls="datatable" data-dt-idx="6" -->
               <!--             tabindex="0" class="page-link">6</a></li> -->
-              <!--         <li class="paginate_button page-item next" id="datatable_next"><a href="#" aria-controls="datatable" -->
+              <!--         <li class="paginate_button page-item next" id="datatable_next"><a href="@base_url(#)" aria-controls="datatable" -->
               <!--             data-dt-idx="7" tabindex="0" class="page-link">Next</a></li> -->
               <!--       </ul> -->
               <!--     </div> -->

@@ -89,7 +89,7 @@ class HrdController extends Controller
         ];
 
         $this->karyawanModel->create($data);
-        header('Location: /hrd/karyawan');
+        header("Location: {$_ENV['BASE_URL']}/hrd/karyawan");
 
     }
 
@@ -99,7 +99,7 @@ class HrdController extends Controller
         $id = $_POST['id'];
 
         $this->karyawanModel->delete($id);
-        header('Location: /hrd/karyawan');
+        header("Location: {$_ENV['BASE_URL']}/hrd/karyawan");
 
     }
 
@@ -119,7 +119,7 @@ class HrdController extends Controller
         ];
 
         $this->karyawanModel->update($id, $data);
-        header('Location: /hrd/karyawan');
+        header("Location: {$_ENV['BASE_URL']}/hrd/karyawan");
 
     }
 
@@ -165,6 +165,8 @@ class HrdController extends Controller
         $initialDate = date('Y-m-d', strtotime($periode . '-01'));
 
         $karyawan  = $this->karyawanModel->findById($id);
+        /*var_dump($dataAbsensi);*/
+        /*exit();*/
 
         $data = [
           'dataAbsensi' => $dataAbsensi,

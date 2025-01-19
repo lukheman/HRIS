@@ -22,7 +22,7 @@
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form action="/hrd/karyawan/update" method="post">
+          <form action="@base_url(/hrd/karyawan/update)" method="post">
             <div class="card-body">
 
               <input type="hidden" name="id" value="{{ $karyawanOne->id }}">

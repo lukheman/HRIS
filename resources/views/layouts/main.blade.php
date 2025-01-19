@@ -14,17 +14,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="@base_url(/plugins/fontawesome-free/css/all.min.css)">
   <!-- Theme style -->
-  <link rel="stylesheet" href="/assets/css/adminlte.min.css">
+  <link rel="stylesheet" href="@base_url(/assets/css/adminlte.min.css)">
   <!-- fullCalendar -->
-  <link rel="stylesheet" href="/plugins/fullcalendar/main.css">
+  <link rel="stylesheet" href="@base_url(/plugins/fullcalendar/main.css)">
 
   <!-- instascan/camera -->
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
   <!-- jQuery -->
-  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="@base_url(/plugins/jquery/jquery.min.js)"></script>
 
 </head>
 
@@ -80,29 +80,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
   <!-- Bootstrap 4 -->
-  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="@base_url(/plugins/bootstrap/js/bootstrap.bundle.min.js)"></script>
   <!-- jQuery UI -->
-  <script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <script src="@base_url(/plugins/jquery-ui/jquery-ui.min.js)"></script>
   <!-- AdminLTE App -->
-  <script src="/assets/js/adminlte.min.js"></script>
+  <script src="@base_url(/assets/js/adminlte.min.js)"></script>
   <!-- fullCalendar 2.2.5 -->
-  <script src="/plugins/moment/moment.min.js"></script>
-  <script src="/plugins/fullcalendar/main.js"></script>
+  <script src="@base_url(/plugins/moment/moment.min.js)"></script>
+  <script src="@base_url(/plugins/fullcalendar/main.js)"></script>
 
   <!-- DataTables  & Plugins -->
-  <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="@base_url(/plugins/datatables/jquery.dataTables.min.js)"></script>
 
-  <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-  <!-- <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script> -->
-  <!-- <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script> -->
-  <!-- <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script> -->
-  <!-- <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script> -->
-  <!-- <script src="plugins/jszip/jszip.min.js"></script> -->
-  <!-- <script src="plugins/pdfmake/pdfmake.min.js"></script> -->
-  <!-- <script src="plugins/pdfmake/vfs_fonts.js"></script> -->
-  <!-- <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script> -->
-  <!-- <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script> -->
-  <!-- <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script> -->
+  <script src="@base_url(/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js)"></script>
+  <!-- <script src="@base_url(plugins/datatables-responsive/js/dataTables.responsive.min.js)"></script> -->
+  <!-- <script src="@base_url(plugins/datatables-responsive/js/responsive.bootstrap4.min.js)"></script> -->
+  <!-- <script src="@base_url(plugins/datatables-buttons/js/dataTables.buttons.min.js)"></script> -->
+  <!-- <script src="@base_url(plugins/datatables-buttons/js/buttons.bootstrap4.min.js)"></script> -->
+  <!-- <script src="@base_url(plugins/jszip/jszip.min.js)"></script> -->
+  <!-- <script src="@base_url(plugins/pdfmake/pdfmake.min.js)"></script> -->
+  <!-- <script src="@base_url(plugins/pdfmake/vfs_fonts.js)"></script> -->
+  <!-- <script src="@base_url(plugins/datatables-buttons/js/buttons.html5.min.js)"></script> -->
+  <!-- <script src="@base_url(plugins/datatables-buttons/js/buttons.print.min.js)"></script> -->
+  <!-- <script src="@base_url(plugins/datatables-buttons/js/buttons.colVis.min.js)"></script> -->
 
 
   <script>

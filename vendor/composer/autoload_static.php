@@ -11,6 +11,10 @@ class ComposerStaticInit1b17c056e610218c22d603d4cf232f1f
         array (
             'eftec\\bladeone\\' => 15,
         ),
+        'S' => 
+        array (
+            'Symfony\\Component\\Dotenv\\' => 25,
+        ),
         'E' => 
         array (
             'Endroid\\QrCode\\' => 15,
@@ -33,6 +37,10 @@ class ComposerStaticInit1b17c056e610218c22d603d4cf232f1f
         'eftec\\bladeone\\' => 
         array (
             0 => __DIR__ . '/..' . '/eftec/bladeone/lib',
+        ),
+        'Symfony\\Component\\Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/dotenv',
         ),
         'Endroid\\QrCode\\' => 
         array (

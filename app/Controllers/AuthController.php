@@ -37,13 +37,13 @@ class AuthController extends Controller
             // Berdasarkan role, arahkan ke halaman yang sesuai
             switch ($user->role) {
                 case 'HRD':
-                    header('Location: /hrd');
+                    header("Location: {$_ENV['BASE_URL']}/hrd");
                     break;
                 case 'KEUANGAN':
-                    header('Location: /keuangan');
+                    header("Location: {$_ENV['BASE_URL']}/keuangan");
                     break;
                 case 'PIMPINAN':
-                    header('Location: /pimpinan');
+                    header("Location: {$_ENV['BASE_URL']}/pimpinan");
                     break;
                 default:
                     echo "Role tidak valid";
@@ -60,7 +60,7 @@ class AuthController extends Controller
         unset($_SESSION['username']);
         unset($_SESSION['user_role']);
         unset($_SESSION['name']);
-        header('Location: /login');
+        header("Location: {$_ENV['BASE_URL']}/login");
         exit();
     }
 

@@ -184,4 +184,53 @@ class PimpinanController extends Controller
 
     }
 
+
+    public function updateGajiKaryawan()
+    {
+
+        $periode = $_GET['periode'] ?? date('Y-m');
+
+        $gajiLembur = 10000; // gaji lembur per/menit
+
+        $dataKaryawanAll = $this->karyawanModel->all();
+
+        $dataGajiKaryawan = array(); // data karywan dan gaji karyawan
+
+        foreach($dataKaryawanAll as $karyawan) {
+            // cek apakah karyawan_id dengan periode yang sama telah ada di table tb_gaji
+            // jika tidak maka tambahkan
+
+            $result = $this->gajiModel->existKaryawanPeriode($karyawan->id, $periode);
+
+            if ($result->count > 0) {
+                continue;
+            }
+
+            $dataAbsensiBulanan = $this->absensiModel->absensiBulananKaryawan($karyawan->id, $periode);
+            $totalMenitLembur = 0; // total lembur bulan ini dalam satuan menit
+
+            foreach($dataAbsensiBulanan as $hari) {
+                $totalMenitLembur += $hari->lembur;
+            }
+
+            $totalGajiLembur = $totalMenitLembur * $gajiLembur;
+            $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
+
+            $data = [
+              'karyawan_id' => $karyawan->id,
+              'periode' => $periode,
+              'gaji_pokok' => $karyawan->gaji,
+              'gaji_lembur' => $totalGajiLembur,
+              'total_lembur' => $totalMenitLembur,
+              'gaji_total' => $gajiTotal,
+            ];
+
+            $this->gajiModel->create($data);
+
+        }
+
+        header("Location: {$_ENV['BASE_URL']}/pimpinan/gaji-karyawan");
+
+    }
+
 }

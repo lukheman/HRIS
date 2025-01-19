@@ -22,7 +22,7 @@
 
             <div class="row">
               <div class="col-lg-6">
-                <a class="btn btn-primary float-end" href="/hrd/karyawan/add">Tambah Karyawan</a>
+                <a class="btn btn-primary float-end" href="@base_url(/hrd/karyawan/add)">Tambah Karyawan</a>
               </div>
             </div>
           </div>
@@ -78,11 +78,11 @@
                         <td>{{ $karyawan->gaji}}</td>
                         <td>
                           <div class="btn-group">
-                            <form action="/hrd/karyawan/update" method="get">
+                            <form action="@base_url(/hrd/karyawan/update)" method="get">
                               <input type="hidden" name="id" value="{{ $karyawan->id }}">
                               <button type="submit" class="btn  btn-sm btn-primary">Update</button>
                             </form>
-                            <form action="/hrd/karyawan/delete" method="post">
+                            <form action="@base_url(/hrd/karyawan/delete)" method="post">
                               <input type="hidden" name="id" value="{{ $karyawan->id }}">
                               <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                             </form>

@@ -17,7 +17,7 @@
   <ul class="navbar-nav ml-auto">
 
     <li class="nav-item">
-      <a class="nav-link btn btn-danger" href="/logout">
+      <a class="nav-link btn btn-danger" href="@base_url(/logout)">
         <i class="fas fa-sign-out-alt"></i>
         Logout</a>
     </li>

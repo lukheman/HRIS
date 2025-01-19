@@ -24,7 +24,7 @@
             <!-- TODO: live seearch -->
             <div class="row">
               <div class="col-12">
-                <form action="/hrd/absensi/generate-qrcode/search" method="get">
+                <form action="@base_url(/hrd/absensi/generate-qrcode/search)" method="get">
                   <div class="input-group">
                     <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama karyawan">
                     <span class="input-group-append">
@@ -79,7 +79,7 @@
                 <img class="img-fluid" src="" id="qrcode">
               </div>
               <div class="col-12">
-                <form action="/hrd/absensi/generate-qrcode/save" method="post">
+                <form action="@base_url(/hrd/absensi/generate-qrcode/save)" method="post">
                   <input type="hidden" value="" name="nik" id="nik-karyawan">
                   <button type="submit" class="btn btn-outline-primary" style="display: none;"
                     id="btn-cetak-qrcode">Cetak QR Code</button>
@@ -105,7 +105,7 @@
     Array.from(btnGenerates).forEach(btn => {
       btn.addEventListener('click', async () => {
         try {
-          const response = await fetch('/hrd/absensi/generate-qrcode/generate', {
+          const response = await fetch('@base_url(/hrd/absensi/generate-qrcode/generate)', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

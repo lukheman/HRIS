@@ -172,7 +172,7 @@ class KeuanganController extends Controller
 
         }
 
-        header('Location: /keuangan/gaji-karyawan');
+        header("Location: {$_ENV['BASE_URL']}/keuangan/gaji-karyawan");
 
     }
 

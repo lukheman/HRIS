@@ -27,10 +27,12 @@
               </div>
               <div class="col-6">
                 <div class="btn-group float-right">
-                  <a href="/hrd/absensi/detail?id={{ $id }}&periode={{ $prevMonth }}" class="btn btn-primary">
+                  <a href="@base_url(/hrd/absensi/detail?id={{ $id }}&periode={{ $prevMonth }})"
+                    class="btn btn-primary">
                     <i class="nav-icon fas fa-chevron-left"></i>
                   </a>
-                  <a href="/hrd/absensi/detail?id={{ $id }}&periode={{ $nextMonth }}" class="btn btn-primary">
+                  <a href="@base_url(/hrd/absensi/detail?id={{ $id }}&periode={{ $nextMonth }})"
+                    class="btn btn-primary">
                     <i class="nav-icon fas fa-chevron-right"></i>
                   </a>
                 </div>
@@ -53,7 +55,7 @@
 
             <!-- <div class="card-tools"> -->
             <!-- <button class="btn btn-primary">GEt</button> -->
-            <!--   <a href="/hrd/absensi/bulanan?id=10" class="btn btn-primary">Bulanan</a> -->
+            <!--   <a href="@base_url(/hrd/absensi/bulanan?id=10)" class="btn btn-primary">Bulanan</a> -->
             <!-- </div> -->
 
           </div>
@@ -87,7 +89,7 @@
       },
       initialView: 'dayGridMonth',
       initialDate: @json($initialDate),
-      events: @json($dataAbsensi),  // URL ke controller PHP yang menyediakan data
+      events: @json($dataAbsensi),
       eventClick: function (info) {
         alert('Event: ' + info.event.title);
         alert('Description: ' + info.event.extendedProps.description);

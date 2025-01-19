@@ -1,11 +1,5 @@
 RewriteEngine On
-
-# Set base untuk aplikasi
-RewriteBase /fbs-oop/
-
-# Jika URL adalah /login, redirect ke login tanpa fbs-oop di aplikasi
-RewriteRule ^login$ /fbs-oop/index.php/login [L]
-
-# Aturan umum untuk menangani rute lainnya
-RewriteRule ^(.*)$ index.php/$1 [L]
-
+RewriteBase /fbs-oop
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L,QSA]

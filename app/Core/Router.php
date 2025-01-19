@@ -2,26 +2,26 @@
 
 namespace App\Core;
 
-use App\Controllers\AuthController;
 
 class Router
 {
     private $routes = [];
     private $middleware = [];
     private $prefix;
-    private $authController;
     protected $blade;
 
 
     public function __construct($blade)
     {
         $this->blade = $blade;
-        $this->authController = new AuthController($this->blade);
+        $this->prefix = $_ENV['BASE_URL'];
     }
 
     public function add($method, $path, $controller, $action, $middleware = [])
     {
         $path = $this->prefix . $path;
+        // echo $path ;
+        // echo "<br>";
         $this->routes[] = [
           'method' => $method,
           'path' => $path,
@@ -68,8 +68,13 @@ class Router
         /*echo '</pre>';*/
         /*exit();*/
 
+
+        $path = 'http://localhost' . $path;
+
         foreach($this->routes as $route) {
             $pattern = $this->convertPathToRegex($route['path']);
+
+           //  echo $pattern;
 
             if($route['method'] === $method && preg_match($pattern, $path, $matches)) {
                 // check middleware
@@ -84,8 +89,7 @@ class Router
                     // exit();
 
                     if(!$middlewareObj->handle()) {
-                        // $this->authController->showLogin();
-                        header('Location: /login');
+                        header("Location: {$_ENV['BASE_URL']}/login");
                         exit();
                     }
                 }

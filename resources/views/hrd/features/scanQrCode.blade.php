@@ -68,7 +68,7 @@
 
     scanner.addListener('scan', async function (content) {
       // Kirim hasil scan ke server
-      const response = await fetch('/hrd/absensi/process-scan', {
+      const response = await fetch('@base_url(/hrd/absensi/process-scan)', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

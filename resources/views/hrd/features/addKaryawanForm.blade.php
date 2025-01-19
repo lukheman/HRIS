@@ -25,7 +25,7 @@
           <!-- /.card-header -->
           <!-- form start -->
           <!-- TODO: tambahkan alert ketika data berhasil ditambahkan/diupdate/dihapus -->
-          <form action="/hrd/karyawan/add" method="post">
+          <form action="@base_url(/hrd/karyawan/add)" method="post">
             <div class="card-body">
 
               <div class="form-group">

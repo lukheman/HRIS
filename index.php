@@ -4,6 +4,13 @@ session_start();
 
 use App\Core\Router;
 use eftec\bladeone\BladeOne;
+use Symfony\Component\Dotenv\Dotenv;
+
+
+// inisialisali dotenv
+
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__.'/.env');
 
 // Mengatur zona waktu ke Indosia Tengan (WITA)
 date_default_timezone_set('Asia/Makassar');
@@ -13,6 +20,12 @@ $views =  __DIR__ . '/resources/views';
 $cache =  __DIR__ . '/storage/cache';
 
 $blade = new BladeOne($views, $cache, BladeOne::MODE_DEBUG);
+
+// fungsi custom
+$blade->directive('base_url', function ($url) {
+  return $_ENV['BASE_URL'] . $url;
+});
+
 
 $router = new Router($blade);
 
@@ -24,6 +37,7 @@ $routeFiles = [
   './app/routes/auth.php',
 ];
 
+
 foreach($routeFiles as $file) {
   $routeCallback = require $file;
   $routeCallback($router);
@@ -32,7 +46,7 @@ foreach($routeFiles as $file) {
 // get current request method and path
 $method = $_SERVER['REQUEST_METHOD'];
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// $path = rtrim($path, '/')  // Hapus trailing slash kecuali jika hanya '/'
+
 
 try {
   $router->dispatch($method, $path);
