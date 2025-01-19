@@ -7,3 +7,4 @@ test.html
 ad.js
 /.cache/
 vendor
+storage/cache
