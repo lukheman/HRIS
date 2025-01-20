@@ -26,6 +26,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- jQuery -->
   <script src="@base_url(/plugins/jquery/jquery.min.js)"></script>
 
+  <!-- sweetalert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -105,6 +108,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- <script src="@base_url(plugins/datatables-buttons/js/buttons.colVis.min.js)"></script> -->
 
 
+
   <script>
     $(document).ready(function () {
 
@@ -115,7 +119,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       });
     });
   </script>
-
 
 </body>
 

@@ -16,14 +16,27 @@
     <div class="row">
       <div class="col-md-12">
 
-        <div class="card card-primary">
+        <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Quick Example</h3>
+            <!-- <h3 class="card-title">Quick Example</h3> -->
+            <div class="row">
+              <div class="col-12">
+                <div class="card card-danger" id="message-box" style="display: none;">
+                  <div class="card-header">
+                    <p class="card-title" id="message"></p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form action="@base_url(/hrd/karyawan/update)" method="post">
+          <form id="update-form">
             <div class="card-body">
+
+              <input type="hidden" name="old-nik" value="{{ $karyawanOne->nik}}">
 
               <input type="hidden" name="id" value="{{ $karyawanOne->id }}">
 
@@ -34,7 +47,7 @@
               </div>
 
               <div class="form-group">
-                <label for="nik">Nik Karyawan</label>
+                <label for="nik">NIK Karyawan</label>
                 <input type="text" class="form-control" id="nik" name="nik" value="{{ $karyawanOne->nik }}"
                   placeholder="Masukan nik karyawan">
               </div>
@@ -68,7 +81,7 @@
             <!-- /.card-body -->
 
             <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">Update Data</button>
             </div>
           </form>
         </div>
@@ -81,5 +94,53 @@
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<script>
+  // action="@base_url(/hrd/karyawan/update)"
+
+  $(document).ready(() => {
+
+    $('#update-form').on('submit', async function (event) {
+      event.preventDefault(); // Mencegah form dari submit standar
+
+      const formData = {};
+      $(this).serializeArray().forEach(function (field) {
+        formData[field.name] = field.value;
+      });
+
+
+      const response = await fetch('@base_url(/hrd/karyawan/update)', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+
+      if (!response.ok) {
+        throw new Error(errorData.message || 'Terjadi kesalahan');
+        Swal.fire("Data gagal diupdate!", "", "danger");
+      }
+
+      const data = await response.json();
+      console.log(data)
+
+      if (data['status'] === 'success') {
+        Swal.fire("Data berhasil diupdate!", "", "success").then(() => {
+          window.location.href = '@base_url(/hrd/karyawan)';
+        });
+      } else if (data['status'] === 'error') {
+
+        $('#message-box').css({'display': 'block'});
+        $('#message').text(data['message']);
+
+      }
+
+    });
+
+
+  })
+
+</script>
 
 @endsection

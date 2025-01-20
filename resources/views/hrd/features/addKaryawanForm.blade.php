@@ -18,9 +18,24 @@
     <div class="row">
       <div class="col-md-12">
 
-        <div class="card card-primary">
+        <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Quick Example</h3>
+            <!-- <h3 class="card-title">Quick Example</h3> -->
+            <div class="row">
+              <div class="col-12">
+
+                @if (isset($message))
+
+                <div class="card card-danger">
+                  <div class="card-header">
+                    <p class="card-title">{{ $message }}</p>
+                  </div>
+                </div>
+                @endif
+
+              </div>
+            </div>
+
           </div>
           <!-- /.card-header -->
           <!-- form start -->

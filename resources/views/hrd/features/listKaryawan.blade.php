@@ -82,10 +82,10 @@
                               <input type="hidden" name="id" value="{{ $karyawan->id }}">
                               <button type="submit" class="btn  btn-sm btn-primary">Update</button>
                             </form>
-                            <form action="@base_url(/hrd/karyawan/delete)" method="post">
-                              <input type="hidden" name="id" value="{{ $karyawan->id }}">
-                              <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                            </form>
+
+
+                            <button type="submit" class="btn btn-sm btn-danger btn-delete"
+                              data-id="{{ $karyawan->id}}">Hapus</button>
 
 
                           </div>
@@ -151,4 +151,51 @@
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<script>
+  $(document).ready(() => {
+
+
+    $('.btn-delete').on('click', function () {
+
+      const id = $(this).data('id');
+
+      Swal.fire({
+        customClass: {
+          confirmButton: "btn btn-danger",
+          // cancelButton: "btn btn-danger"
+        },
+        title: "Anda yakin untuk menghapus data karyawan?",
+        text: "Proses ini akan menghapus semua data absensi dan gaji karyawan!",
+        // showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Hapus Data",
+        // denyButtonText: `Don't save`
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          console.log(id);
+          const response = await fetch('@base_url(/hrd/karyawan/delete)', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: id
+            })
+          })
+
+          if (!response.ok) {
+            throw new Error(errorData.message || 'Terjadi kesalahan');
+            Swal.fire("Data gagal dihapus!", "", "danger");
+          } else {
+            Swal.fire("Data berhasil dihapus!", "", "success").then(() =>
+              location.reload());
+          }
+        }
+      });
+
+    })
+
+  })
+</script>
 @endsection
