@@ -77,8 +77,7 @@ class HrdController extends Controller
 
     public function createKaryawan()
     {
-
-        // TODO: cek apakah nik karyawan telah ada atau belum sebelum menambahkan karyawan
+      if(!$this->karyawanModel->findByNik($_POST['nik'])) {
         $data = [
           'nama' => $_POST['nama'],
           'nik' => $_POST['nik'],
@@ -91,36 +90,56 @@ class HrdController extends Controller
         $this->karyawanModel->create($data);
         header("Location: {$_ENV['BASE_URL']}/hrd/karyawan");
 
+      } else {
+        $data = [ 'message' => 'NIK Telah terdaftar'];
+        echo $this->blade->run('hrd.features.addKaryawanForm', $data);
+      }
+
     }
 
     public function deleteKaryawan()
     {
-        // TODO: tambahakan alert ketika menghapus data bahawa seluruh data absensi karyawan juga akan terhapus
-        $id = $_POST['id'];
+      // Baca JSON input
+      $data = json_decode(file_get_contents('php://input'), true);
+      $id = $data['id'] ?? '';
 
+      if($id !== '') {
         $this->karyawanModel->delete($id);
-        header("Location: {$_ENV['BASE_URL']}/hrd/karyawan");
+      }
 
     }
 
     public function updateKaryawan()
     {
+      header('Content-Type: application/json');
+      $data = json_decode(file_get_contents('php://input'), true);
 
-        // TODO: cek apakah nik karyawan telah ada atau belum sebelum menambahkan karyawan
-        $id = $_POST['id'];
+      $oldNik = $data['old-nik'];
+      $nik = $data['nik'];
+        $id = $data['id'];
 
-        $data = [
-          'nama' => $_POST['nama'],
-          'nik' => $_POST['nik'],
-          'tanggal_lahir' => $_POST['tanggal_lahir'],
-          'alamat' => $_POST['alamat'],
-          'jabatan' => $_POST['jabatan'],
-          'gaji' => $_POST['gaji'],
-        ];
+      if(($nik !== $oldNik) && $this->karyawanModel->findByNik($nik)) {
+        $response = ['status' => 'error', 'message'=> 'NIK Telah terdaftar'];
+        echo json_encode($response);
+        exit();
+      } else {
 
-        $this->karyawanModel->update($id, $data);
-        header("Location: {$_ENV['BASE_URL']}/hrd/karyawan");
 
+          $data = [
+            'nama' => $data['nama'],
+            'nik' => $data['nik'],
+            'tanggal_lahir' => $data['tanggal_lahir'],
+            'alamat' => $data['alamat'],
+            'jabatan' => $data['jabatan'],
+            'gaji' => $data['gaji'],
+          ];
+
+          $this->karyawanModel->update($id, $data);
+
+        $response = [ 'status' => 'success', 'message' => 'NIK Telah terdaftar'];
+          echo json_encode($response);
+        exit();
+      }
     }
 
     public function listAbsensi()
