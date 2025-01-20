@@ -19,6 +19,10 @@ date_default_timezone_set('Asia/Makassar');
 $views =  __DIR__ . '/resources/views';
 $cache =  __DIR__ . '/storage/cache';
 
+if (!is_dir($cache)) {
+    mkdir($cache, 0777, true);  // 0777 untuk izin penuh, true untuk membuat subdirektori jika diperlukan
+}
+
 $blade = new BladeOne($views, $cache, BladeOne::MODE_DEBUG);
 
 // fungsi custom
