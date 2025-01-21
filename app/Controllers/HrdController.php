@@ -357,8 +357,6 @@ class HrdController extends Controller
       $data = json_decode(file_get_contents('php://input'), true);
       $nik = $data['nik'] ?? '';
 
-      // $nik = $_POST['nik'] ?? '';
-
       // Validasi NIK
       if (empty($nik)) {
         throw new \Exception('NIK tidak boleh kosong');
