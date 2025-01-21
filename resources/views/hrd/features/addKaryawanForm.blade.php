@@ -39,7 +39,6 @@
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <!-- TODO: tambahkan alert ketika data berhasil ditambahkan/diupdate/dihapus -->
           <form action="@base_url(/hrd/karyawan/add)" method="post">
             <div class="card-body">
 
