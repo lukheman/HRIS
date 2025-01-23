@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\AbsensiModel;
 use App\Models\KaryawanModel;
 
-use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
 
@@ -32,7 +31,8 @@ class HrdController extends Controller
           'karyawanCount' => $karyawanCount
         ];
 
-        echo $this->blade->run('hrd.dashboard', $data);
+        // $this->view('hrd.dashboard', $data);
+        $this->view('hrd.dashboard', $data);
 
     }
 
@@ -46,7 +46,7 @@ class HrdController extends Controller
           'subpage' => 'Daftar Karyawan'
         ];
 
-        echo $this->blade->run('hrd.features.listKaryawan', $data);
+        $this->view('hrd.features.listKaryawan', $data);
 
     }
 
@@ -56,7 +56,7 @@ class HrdController extends Controller
           'page' => 'Daftar Karyawan',
           'subpage' => 'Tambah Karyawan'
         ];
-        echo $this->blade->run('hrd.features.addKaryawanForm', $data);
+        $this->view('hrd.features.addKaryawanForm', $data);
     }
 
     public function updateKaryawanForm()
@@ -71,7 +71,7 @@ class HrdController extends Controller
           'page' => 'Daftar Karyawan',
           'subpage' => 'Update Karyawan'
         ];
-        echo $this->blade->run('hrd.features.updateKaryawanForm', $data);
+        $this->view('hrd.features.updateKaryawanForm', $data);
     }
 
 
@@ -92,7 +92,7 @@ class HrdController extends Controller
 
       } else {
         $data = [ 'message' => 'NIK Telah terdaftar'];
-        echo $this->blade->run('hrd.features.addKaryawanForm', $data);
+        $this->view('hrd.features.addKaryawanForm', $data);
       }
 
     }
@@ -169,7 +169,7 @@ class HrdController extends Controller
           'by' => $by ?? 'day'
         ];
 
-        echo $this->blade->run('hrd.features.listAbsensi', $data);
+        $this->view('hrd.features.listAbsensi', $data);
     }
 
     public function absensiBulanan()
@@ -198,7 +198,7 @@ class HrdController extends Controller
           'subpage' => 'Absensi Bulanan Karyawan',
         ];
 
-        echo $this->blade->run('hrd.features.absensiBulanan', $data);
+        $this->view('hrd.features.absensiBulanan', $data);
 
 
     }
@@ -246,7 +246,7 @@ class HrdController extends Controller
           'subpage' => 'Scan QR Code',
         ];
 
-        echo $this->blade->run('hrd.features.scanQrCode', $data);
+        $this->view('hrd.features.scanQrCode', $data);
     }
 
     public function generateQrCode()
@@ -261,13 +261,13 @@ class HrdController extends Controller
               'subpage' => 'Generate QR Code',
               'listKaryawan' => $listKaryawan
             ];
-            echo $this->blade->run('hrd.features.generateQrCode', $data);
+            $this->view('hrd.features.generateQrCode', $data);
         } else {
             $data = [
               'page' => 'Generate QR Code',
               'subpage' => 'Generate QR Code',
             ];
-            echo $this->blade->run('hrd.features.generateQrCode', $data);
+            $this->view('hrd.features.generateQrCode', $data);
         }
 
     }
@@ -344,7 +344,7 @@ class HrdController extends Controller
           'karyawan' => $karyawan
         ];
 
-        echo $this->blade->run('qrcodeKaryawan', $data);
+        $this->view('qrcodeKaryawan', $data);
 
     }
 
