@@ -31,7 +31,7 @@ class PimpinanController extends Controller
           'karyawanCount' => $karyawanCount
         ];
 
-        echo $this->blade->run('pimpinan.dashboard', $data);
+        $this->view('pimpinan.dashboard', $data);
 
     }
 
@@ -57,7 +57,7 @@ class PimpinanController extends Controller
           'periode' => $periode,
         ];
 
-        echo $this->blade->run('pimpinan.features.listGajiKaryawan', $data);
+        $this->view('pimpinan.features.listGajiKaryawan', $data);
 
     }
 
@@ -67,7 +67,7 @@ class PimpinanController extends Controller
 
         $karyawan = $this->gajiModel->findById($id);
 
-        echo $this->blade->run('slipGajiOne', ['karyawan' => $karyawan]);
+        $this->view('slipGajiOne', ['karyawan' => $karyawan]);
 
     }
 
@@ -86,7 +86,7 @@ class PimpinanController extends Controller
           'karyawan_list' => $karyawan_list,
         ];
 
-        echo $this->blade->run('slipGajiAll', $data);
+        $this->view('slipGajiAll', $data);
 
     }
 
@@ -117,7 +117,7 @@ class PimpinanController extends Controller
           'by' => $by ?? 'day'
         ];
 
-        echo $this->blade->run('pimpinan.features.listAbsensi', $data);
+        $this->view('pimpinan.features.listAbsensi', $data);
     }
 
     public function absensiBulanan()
@@ -144,8 +144,7 @@ class PimpinanController extends Controller
           'subpage' => 'Absensi Bulanan Karyawan',
         ];
 
-        echo $this->blade->run('pimpinan.features.absensiBulanan', $data);
-
+        $this->view('pimpinan.features.absensiBulanan', $data);
 
     }
 

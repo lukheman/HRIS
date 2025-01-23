@@ -28,7 +28,7 @@ class KeuanganController extends Controller
     public function index()
     {
         $data = ['page' => 'dashboard'];
-        echo $this->blade->run('keuangan.home', $data);
+        $this->view('keuangan.home', $data);
     }
 
     public function listGajiKaryawan()
@@ -53,7 +53,7 @@ class KeuanganController extends Controller
           'periode' => $periode,
         ];
 
-        echo $this->blade->run('keuangan.features.listGajiKaryawan', $data);
+        $this->view('keuangan.features.listGajiKaryawan', $data);
 
     }
 
@@ -111,7 +111,7 @@ class KeuanganController extends Controller
 
         $karyawan = $this->gajiModel->findById($id);
 
-        echo $this->blade->run('slipGajiOne', ['karyawan' => $karyawan]);
+        $this->view('slipGajiOne', ['karyawan' => $karyawan]);
 
     }
 
@@ -130,7 +130,7 @@ class KeuanganController extends Controller
           'karyawan_list' => $karyawan_list,
         ];
 
-        echo $this->blade->run('slipGajiAll', $data);
+        $this->view('slipGajiAll', $data);
 
     }
 
