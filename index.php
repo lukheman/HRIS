@@ -38,6 +38,7 @@ $routeFiles = [
   './app/routes/hrd.php',
   './app/routes/keuangan.php',
   './app/routes/pimpinan.php',
+  './app/routes/karyawan.php',
   './app/routes/auth.php',
 ];
 
