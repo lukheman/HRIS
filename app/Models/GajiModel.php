@@ -13,7 +13,7 @@ class GajiModel extends Model
     public function allComplete()
     {
         $sql = "SELECT
-      g.id as gaji_id,
+      g.id as id_gaji,
       g.periode,
       g.gaji_pokok,
       g.gaji_lembur,
