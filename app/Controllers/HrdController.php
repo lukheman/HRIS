@@ -4,20 +4,26 @@ namespace App\Controllers;
 
 use App\Models\AbsensiModel;
 use App\Models\KaryawanModel;
+use App\Models\UserModel;
+use App\Models\GajiModel;
 
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
 
 class HrdController extends Controller
 {
-    protected $karyawanModel;
-    protected $absensiModel;
+    private $karyawanModel;
+    private $absensiModel;
+    private $userModel;
+    private $gajiModel;
 
     public function __construct($blade)
     {
-        parent::__construct($blade);
+        parent::__construct($blade, 'hrd');
         $this->karyawanModel = new KaryawanModel();
         $this->absensiModel = new AbsensiModel();
+        $this->userModel = new UserModel();
+        $this->gajiModel = new GajiModel();
     }
 
     public function index()
@@ -77,69 +83,79 @@ class HrdController extends Controller
 
     public function createKaryawan()
     {
-      if(!$this->karyawanModel->findByNik($_POST['nik'])) {
-        $data = [
-          'nama' => $_POST['nama'],
-          'nik' => $_POST['nik'],
-          'tanggal_lahir' => $_POST['tanggal_lahir'],
-          'alamat' => $_POST['alamat'],
-          'jabatan' => $_POST['jabatan'],
-          'gaji' => $_POST['gaji'],
-        ];
+        if(!$this->karyawanModel->findByNik($_POST['nik'])) {
 
-        $this->karyawanModel->create($data);
-        header("Location: {$_ENV['BASE_URL']}/hrd/karyawan");
+            # buat data karyawawan di tb_karyawan
+            $this->karyawanModel->create([
+              'nama' => $_POST['nama'],
+              'nik' => $_POST['nik'],
+              'tanggal_lahir' => $_POST['tanggal_lahir'],
+              'alamat' => $_POST['alamat'],
+              'jabatan' => $_POST['jabatan'],
+              'gaji' => $_POST['gaji'],
+            ]);
 
-      } else {
-        $data = [ 'message' => 'NIK Telah terdaftar'];
-        $this->view('hrd.features.addKaryawanForm', $data);
-      }
+            # buat akun karyawan
+            $this->userModel->create([
+              'username' => $_POST['nik'],
+              'password' => password_hash(str_replace('-', '', $_POST['tanggal_lahir']), PASSWORD_DEFAULT),
+              'name' => $_POST['nama'],
+              'name' => $_POST['nama'],
+              'role' => 'KARYAWAN'
+            ]);
+
+            header("Location: {$_ENV['BASE_URL']}/hrd/karyawan");
+
+        } else {
+            $data = [ 'message' => 'NIK Telah terdaftar'];
+            $this->view('hrd.features.addKaryawanForm', $data);
+        }
 
     }
 
     public function deleteKaryawan()
     {
-      // Baca JSON input
-      $data = json_decode(file_get_contents('php://input'), true);
-      $id = $data['id'] ?? '';
+        // Baca JSON input
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id = $data['id'] ?? '';
 
-      if($id !== '') {
-        $this->karyawanModel->delete($id);
-      }
+        if($id !== '') {
+            $this->karyawanModel->delete($id);
+        }
 
     }
 
     public function updateKaryawan()
     {
-      header('Content-Type: application/json');
-      $data = json_decode(file_get_contents('php://input'), true);
+        header('Content-Type: application/json');
+        $data = json_decode(file_get_contents('php://input'), true);
 
-      $oldNik = $data['old-nik'];
-      $nik = $data['nik'];
+        $oldNik = $data['old-nik'];
+        $nik = $data['nik'];
         $id = $data['id'];
 
-      if(($nik !== $oldNik) && $this->karyawanModel->findByNik($nik)) {
-        $response = ['status' => 'error', 'message'=> 'NIK Telah terdaftar'];
-        echo json_encode($response);
-        exit();
-      } else {
+        if(($nik !== $oldNik) && $this->karyawanModel->findByNik($nik)) {
+            $response = ['status' => 'error', 'message' => 'NIK Telah terdaftar'];
+            echo json_encode($response);
+            exit();
+        } else {
 
 
-          $data = [
-            'nama' => $data['nama'],
-            'nik' => $data['nik'],
-            'tanggal_lahir' => $data['tanggal_lahir'],
-            'alamat' => $data['alamat'],
-            'jabatan' => $data['jabatan'],
-            'gaji' => $data['gaji'],
-          ];
+            $data = [
+              'nama' => $data['nama'],
+              'nik' => $data['nik'],
+              'tanggal_lahir' => $data['tanggal_lahir'],
+              'alamat' => $data['alamat'],
+              'jabatan' => $data['jabatan'],
+              'gaji' => $data['gaji'],
+            ];
 
-          $this->karyawanModel->update($id, $data);
+            $this->karyawanModel->update($id, $data);
 
-        $response = [ 'status' => 'success', 'message' => 'NIK Telah terdaftar'];
-          echo json_encode($response);
-        exit();
-      }
+            $response = [ 'status' => 'success', 'message' => 'NIK Telah terdaftar'];
+            echo json_encode($response);
+            exit();
+        }
     }
 
     public function listAbsensi()
@@ -157,19 +173,18 @@ class HrdController extends Controller
                 $data_absensi = $this->absensiModel->findByTanggal($periode);
             }
         } else {
-            $periode = date('Y-m-d'); // default today
-            $data_absensi = $this->absensiModel->findByTanggal($periode);
+            // default all
+            $data_absensi = $this->absensiModel->all();
         }
-
 
         $data = [
           'data_absensi' => $data_absensi,
           'page' => 'Absensi Karyawan',
           'subpage' => 'Absensi Karyawan',
-          'by' => $by ?? 'day'
+          'by' => $by ?? 'all'
         ];
 
-        $this->view('hrd.features.listAbsensi', $data);
+        $this->view('features.listAbsensi', $data);
     }
 
     public function absensiBulanan()
@@ -198,7 +213,7 @@ class HrdController extends Controller
           'subpage' => 'Absensi Bulanan Karyawan',
         ];
 
-        $this->view('hrd.features.absensiBulanan', $data);
+        $this->view('features.absensiBulanan', $data);
 
 
     }
@@ -272,67 +287,44 @@ class HrdController extends Controller
 
     }
 
-    // private function generateAndSave($nik)
-    // {
-    //     // Sanitasi filename
-    //     $safeNik = preg_replace('/[^a-zA-Z0-9]/', '', $nik);
-    //
-    //     // Generate QR Code
-    //     $qrCode = new QrCode($nik);
-    //     $writer = new PngWriter();
-    //     $result = $writer->write($qrCode);
-    //
-    //     // Pastikan direktori ada
-    //     $directory = __DIR__ . '/../../public/qrcodes/';
-    //     if (!file_exists($directory)) {
-    //         mkdir($directory, 0755, true);
-    //     }
-    //
-    //     // Simpan file
-    //     $qrPath = '/qrcodes/' . $safeNik . '.png';
-    //     $fullPath = $directory . $safeNik . '.png';
-    //     $result->saveToFile($fullPath);
-    //
-    //     return $qrPath;
-    // }
+    public function generateQrCodeString($nik)
+    {
 
-    public function generateQrCodeString($nik) {
+        // Membuat QR Code langsung ke output
+        $qrCode = Builder::create()
+          ->writer(new PngWriter())       // Menentukan format PNG
+          ->data($nik)   // Data yang akan dienkode
+          ->size(300)                     // Ukuran QR Code
+          ->margin(10)                    // Margin di sekitar QR Code
+          ->build();
 
-      // Membuat QR Code langsung ke output
-      $qrCode = Builder::create()
-        ->writer(new PngWriter())       // Menentukan format PNG
-        ->data($nik)   // Data yang akan dienkode
-        ->size(300)                     // Ukuran QR Code
-        ->margin(10)                    // Margin di sekitar QR Code
-        ->build();
-
-      return $qrCode->getString();
+        return $qrCode->getString();
 
     }
 
     public function generateQrCodeProcess()
     {
-      // Baca JSON input
-      $data = json_decode(file_get_contents('php://input'), true);
-      $nik = $data['nik'] ?? '';
+        // Baca JSON input
+        $data = json_decode(file_get_contents('php://input'), true);
+        $nik = $data['nik'] ?? '';
 
-      // Validasi NIK
-      if (empty($nik)) {
-        throw new \Exception('NIK tidak boleh kosong');
-      }
+        // Validasi NIK
+        if (empty($nik)) {
+            throw new \Exception('NIK tidak boleh kosong');
+        }
 
-      header('Content-Type: image/png');
+        header('Content-Type: image/png');
 
 
-      $qrString = $this->generateQrCodeString($nik);
+        $qrString = $this->generateQrCodeString($nik);
 
-      echo $qrString;
+        echo $qrString;
 
     }
 
     public function saveQrCode()
     {
-      // TODO: validasi ketika nik kosong
+        // TODO: validasi ketika nik kosong
         $nik = $_POST['nik'];
 
         $qrCodeBase64 = base64_encode($this->generateQrCodeString($nik));
@@ -348,55 +340,125 @@ class HrdController extends Controller
 
     }
 
-    public function processScan() {
-      // TODO: handling ketika nik kosong
-      // TODO: handling jam lembur
-      header('Content-Type: application/json');
+    public function processScan()
+    {
+        // TODO: handling ketika nik kosong
+        // TODO: handling jam lembur
+        header('Content-Type: application/json');
 
-      // Baca JSON input
-      $data = json_decode(file_get_contents('php://input'), true);
-      $nik = $data['nik'] ?? '';
+        // Baca JSON input
+        $data = json_decode(file_get_contents('php://input'), true);
+        $nik = $data['nik'] ?? '';
 
-      // Validasi NIK
-      if (empty($nik)) {
-        throw new \Exception('NIK tidak boleh kosong');
-      }
+        // Validasi NIK
+        if (empty($nik)) {
+            throw new \Exception('NIK tidak boleh kosong');
+        }
 
-      $karyawan = $this->karyawanModel->findByNik($nik);
+        $karyawan = $this->karyawanModel->findByNik($nik);
 
-      if(!$karyawan) {
-        echo json_encode(['status' => 'failed', 'message' => 'Karyawan Tidak Terdaftar']);
-        exit();
-      }
+        if(!$karyawan) {
+            echo json_encode(['status' => 'failed', 'message' => 'Karyawan Tidak Terdaftar']);
+            exit();
+        }
 
-      $today = date('Y-m-d');
+        $today = date('Y-m-d');
 
-      $absen = $this->absensiModel->isKaryawanAbsen($karyawan->id, $today);
+        $absen = $this->absensiModel->isKaryawanAbsen($karyawan->id, $today);
 
 
-      if(!$absen) {
+        if(!$absen) {
+            $data = [
+              'karyawan_id' => $karyawan->id,
+              'tanggal' => $today,
+              'jam_masuk' => date('H:i:s'),
+              'status' => 'Hadir'
+            ];
+
+            $this->absensiModel->create($data);
+
+            echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Absen Masuk']);
+
+        } elseif(is_null($absen->jam_keluar)) {
+            $data = [
+              'jam_keluar' => date('H:i:s')
+            ];
+            $this->absensiModel->update($absen->id, $data);
+            echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Absen Keluar']);
+        } else {
+            echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Anda Telah Absen Hari Ini']);
+        }
+
+
+    }
+
+    public function selectKaryawanGaji() {
+        $data_karyawan = $this->karyawanModel->all();
+
         $data = [
-          'karyawan_id' => $karyawan->id,
-          'tanggal' => $today,
-          'jam_masuk' => date('H:i:s'),
-          'status' => 'Hadir'
+          'data_karyawan' => $data_karyawan,
+          'page' => 'Gaji Karyawan',
+          'subpage' => 'Pilih Karyawan'
         ];
 
-        $this->absensiModel->create($data);
+        $this->view('features.gajiKaryawan.selectKaryawan', $data);
 
-        echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Absen Masuk']);
+    }
 
-      } else if(is_null($absen->jam_keluar)) {
-        $data = [
-          'jam_keluar' => date('H:i:s')
-        ];
-        $this->absensiModel->update($absen->id, $data);
-        echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Absen Keluar']);
-      } else {
-        echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Anda Telah Absen Hari Ini']);
+    public function detailGajiKaryawan() {
+      $id = $_GET['id'];
+
+      if(isset($id) && $id !== '') {
+        $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
+        $namaKaryawan = $this->karyawanModel->findById($id)->nama;
+        $this->view('features.gajiKaryawan.detailGajiKaryawan', [
+          'dataGajiKaryawan' => $dataGajiKaryawan,
+          'idKaryawan' => $id,
+          'namaKaryawan' => $namaKaryawan,
+          'page' => 'Gaji Karyawan',
+          'subpage' => 'Laporan Gaji Karyawan'
+        ]);
       }
 
+      header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
 
+
+    }
+
+    public function addGajiKaryawan() {
+
+      $id = $_POST['id'];
+      $durasi_lembur = $_POST['durasi_lembur'];
+      $gaji_lembur = $_POST['gaji_lembur'];
+      $periode = $_POST['periode'];
+
+      $result = $this->gajiModel->existKaryawanPeriode($id, $periode);
+
+      if ($result->count <= 0) {
+        $gaji_pokok  = $this->karyawanModel->findById($id)->gaji;
+
+        $this->gajiModel->create([
+          'karyawan_id' => $id,
+          'periode' => $periode,
+          'gaji_pokok' => $gaji_pokok,
+          'gaji_lembur' => $gaji_lembur,
+          'total_lembur' => $durasi_lembur,
+          'gaji_total' => $gaji_pokok + $gaji_lembur
+        ]);
+
+      }
+
+      header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan/detail?id={$id}");
+
+    }
+
+    public function deleteGajiKaryawan() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id = $data['id'] ?? ''; // id tb_gaji
+
+        if($id !== '') {
+            $this->gajiModel->delete($id);
+        }
     }
 
 }
