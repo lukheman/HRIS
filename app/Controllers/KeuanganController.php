@@ -1,7 +1,5 @@
 <?php
 
-// TODO: status pembayaran gaji
-
 namespace App\Controllers;
 
 use App\Models\KaryawanModel;
@@ -25,8 +23,20 @@ class KeuanganController extends Controller
 
     public function index()
     {
-        $data = ['page' => 'dashboard'];
-        $this->view('keuangan.home', $data);
+      $dataAbsensi = $this->absensiModel->today();
+
+      $totalStatus = ['hadir' => 0, 'alpha' => 0 ];
+
+      foreach ($dataAbsensi as $hari) {
+        if ($hari->status === 'Hadir') {
+          $totalStatus['hadir'] += 1;
+        } else if ($hari->status === 'Alpha') {
+          $totalStatus['alpha'] += 1;
+        }
+      }
+
+      $data = ['page' => 'dashboard' , 'totalStatus' => $totalStatus];
+      $this->view('keuangan.dashboard', $data);
     }
 
     public function listGajiKaryawan()
