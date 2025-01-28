@@ -59,6 +59,11 @@
                         <!--ID Karyawan</th>-->
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Periode</th>
+                        @if (!isset($idKaryawan))
+                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
+                          Nama</th>
+                        @endif
+
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Gaji Pokok (Rp.)</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
@@ -78,6 +83,9 @@
                       @foreach ($dataGajiKaryawan as $gaji)
                       <tr>
                         <td>{{ $gaji->periode}}</td>
+                        @if (!isset($idKaryawan))
+                        <td>{{ $gaji->nama}}</td>
+                        @endif
                         <td>{{ number_format($gaji->gaji_pokok, 2, ',', '.')}}</td>
                         <td>{{ number_format($gaji->gaji_lembur, 2, ',', '.')}}</td>
                         <td>{{ $gaji->total_lembur}}</td>
@@ -100,7 +108,7 @@
                             <!-- </form> -->
 
                             <button type="button" class="btn btn-sm btn-danger btn-delete-laporan"
-                              data-id="{{ $gaji->id }}">
+                              data-id="{{ $gaji->id_gaji }}">
                               <i class="nav-icon fas fa-trash"></i>
                             </button>
 
