@@ -5,7 +5,6 @@ Role: HRD
 - [ ] absensi manual
 
 Role: Keuangan
-- [ ] verifikasi absen dan
 - [x] Gaji karyawan perbulan : default bulan ini
 - [x] cetak Slip gaji: perorang + slip gaji keseluruhan karyawan
 
@@ -27,3 +26,12 @@ fitur yang ditambahkan:
 - [x] pata fitur cetak slip gaji karyawan/tambahkan fitur cetak gaji keseluruhan karyawan
 - [x] Absensi: tambahkan fitur untuk mengetahi hari kapan saja karyawan lembur
 - [x] fitur untuk melakukan absensi menggunakan qr code
+
+revisi 2025-01-25
+
+- [x] buat role Karyawan
+- [x] Role karyawan: slip gaji
+- [x] Fitur: absensi karyawan -> lihat absensi sepanjang waktu
+- [x] slip gaji keseluruhan karyawan diganti jadi kolom
+- [x] Role keuangan : absensi karyawan
+- [x] tambahkan informasi total hadir, alpha, lembur di detail absensi
