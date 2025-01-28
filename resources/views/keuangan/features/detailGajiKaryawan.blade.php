@@ -41,7 +41,10 @@
           <div class="card-body">
             <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4">
               <div class="row">
-                <div class="col-lg-12">
+                <!--<div class="col-12">-->
+                <!--  <button type="button" class="btn btn-outline-info float-right">Pilih</button>-->
+                <!--</div>-->
+                <div class="col-12">
                   <table id="datatable" class="table table-bordered table-striped dataTable dtr-inline collapsed"
                     aria-describedby="datatable_info">
                     <thead>
@@ -78,9 +81,11 @@
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Status</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
+                          Slip Gaji</th>
+                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Tindakan</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
-                          Slip Gaji</th>
+                          Pilih</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -105,37 +110,40 @@
                           @endif
                         </td>
                         <td>
-                          <div class="btn-group w-100">
-
-                            <button type="button" class="btn btn-sm btn-danger btn-delete-laporan"
-                              data-id="{{ $gaji->id }}">
-                              <i class="nav-icon fas fa-trash"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-sm btn-success btn-approve-laporan"
-                              data-id="{{ $gaji->id }}">
-                              <i class="nav-icon fas fa-check"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-sm btn-warning btn-pending-laporan"
-                              data-id="{{ $gaji->id }}">
-                              <i class="nav-icon fas fa-times"></i>
-                            </button>
-
-                          </div>
-
-
-                        </td>
-                        <td>
                           <form action="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji)" method="post">
-                            <input type="hidden" name="gaji_id" value="{{ $gaji->id }}">
+                            <input type="hidden" name="gaji_id" value="{{ $gaji->id_gaji }}">
                             <button type="submit" class="btn btn-sm btn-outline-success w-100" {{$gaji->status !==
                               'DISETUJUI'
                               ? 'disabled' : 'enabled' }}>
                               <i class="nav-icon fas fa-print"></i>
-                              Slip Gaji</button>
+                            </button>
                           </form>
                         </td>
+                        <td>
+                          <div class="btn-group w-100">
+
+                            <button type="button" class="btn btn-sm btn-danger btn-delete-laporan"
+                              data-id="{{ $gaji->id_gaji }}">
+                              <i class="nav-icon fas fa-trash"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-success btn-approve-laporan"
+                              data-id="{{ $gaji->id_gaji }}">
+                              <i class="nav-icon fas fa-check"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-warning btn-pending-laporan"
+                              data-id="{{ $gaji->id_gaji }}">
+                              <i class="nav-icon fas fa-times"></i>
+                            </button>
+                          </div>
+
+                        </td>
+
+                        <td>
+                          <input type="checkbox" class="select-laporan" data-id="{{ $gaji->id_gaji }}">
+                        </td>
+
                       </tr>
                       @endforeach
 
@@ -164,7 +172,8 @@
         </div>
 
       </div>
-      <!-- /.col-md-6 -->
+
+
     </div>
     <!-- /.row -->
   </div>
@@ -213,9 +222,77 @@
 </div>
 <!-- /.content -->
 
+<!-- Fixed Box -->
+<div class="fixed-box" id="action-box" style="display: none;">
+  <div class="btn-group float-right">
+    <button class="btn btn-success btn-sm" id="btn-setujui-selected">
+      <i class="nav-icon fas fa-check"></i>
+      Setujui</button>
+    <button class="btn btn-warning btn-sm" id="btn-pending-selected">
+      <i class="nav-icon fas fa-times"></i>
+      Pending</button>
+  </div>
+</div>
+
+
 <script>
 
   $(document).ready(() => {
+
+    $('.select-laporan').click(() => {
+      if ($('#action-box').css('display') === 'none') {
+        $('#action-box').css('display', 'block');
+      }
+    })
+
+    $('#btn-setujui-selected').click(() => {
+
+      var selected = [];
+
+      $('.select-laporan:checked').each(function () {
+        selected.push($(this).data('id'));
+      });
+
+      $.ajax({
+        url: '@base_url(/{{ $role }}/gaji-karyawan/approve-selected)',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({'selected_id': selected}),
+        success: function (response) {
+          Swal.fire("Laporan gaji berhasil diupdate", "", "success").then(() => location.reload());
+        },
+        error: function (xhr, status, error) {
+          // Tampilkan pesan error
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire("Laporan gaji gagal diupdate", "", "danger");
+        },
+      });
+
+    })
+
+    $('#btn-pending-selected').click(() => {
+      var selected = [];
+
+      $('.select-laporan:checked').each(function () {
+        selected.push($(this).data('id'));
+      });
+
+      $.ajax({
+        url: '@base_url(/{{ $role }}/gaji-karyawan/pending-selected)',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({'selected_id': selected}),
+        success: function (response) {
+          Swal.fire("Laporan gaji berhasil diupdate", "", "success").then(() => location.reload());
+        },
+        error: function (xhr, status, error) {
+          // Tampilkan pesan error
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire("Laporan gaji gagal diupdate", "", "danger");
+        },
+      });
+
+    })
 
     // btn-delete handler
     $(".btn-delete-laporan").on('click', async function () {
