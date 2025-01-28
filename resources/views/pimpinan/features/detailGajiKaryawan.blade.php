@@ -27,6 +27,11 @@
               <!-- </div> -->
               <div class="col-6">
                 <p class="font-weight-bold float-left">{{ $namaKaryawan }}</p>
+                @if (!isset($idKaryawan))
+                <a class="btn btn-outline-primary" href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all)">
+                  <i class="nav-icon fas fa-print"></i>
+                  Slip Gaji Keseluruhan</a>
+                @endif
               </div>
             </div>
           </div>
