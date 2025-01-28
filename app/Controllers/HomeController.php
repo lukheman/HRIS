@@ -42,8 +42,6 @@ class HomeController extends Controller
 
     public function processScan()
     {
-        // TODO: handling ketika nik kosong
-        // TODO: handling jam lembur
         header('Content-Type: application/json');
 
         // Baca JSON input

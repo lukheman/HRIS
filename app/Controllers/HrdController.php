@@ -329,7 +329,6 @@ class HrdController extends Controller
 
     public function saveQrCode()
     {
-        // TODO: validasi ketika nik kosong
         $nik = $_POST['nik'];
 
         $qrCodeBase64 = base64_encode($this->generateQrCodeString($nik));
@@ -347,8 +346,6 @@ class HrdController extends Controller
 
     public function processScan()
     {
-        // TODO: handling ketika nik kosong
-        // TODO: handling jam lembur
         header('Content-Type: application/json');
 
         // Baca JSON input
