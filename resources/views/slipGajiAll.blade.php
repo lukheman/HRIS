@@ -1,75 +1,65 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slip Gaji Karyawan - Periode {{ $periode }}</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <title>Data Gaji</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
 
-    .slip-container {
-      margin: 20px auto;
-      padding: 20px;
+    th,
+    td {
+      text-align: left;
+      padding: 8px;
       border: 1px solid #ddd;
-      border-radius: 5px;
-      max-width: 700px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      page-break-after: always;
     }
 
-    .slip-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .slip-header h2 {
-      margin: 0;
-    }
-
-    .details-table th,
-    .details-table td {
-      padding: 10px;
+    th {
+      background-color: #f4f4f4;
     }
   </style>
 </head>
 
-<body>
+<body onload="window.print()">
+  <div class="container mt-5">
+    <h3>Data Gaji Karyawan</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Periode</th>
+          <th>Nama</th>
+          <!-- <th>Jabatan</th> -->
+          <th>Gaji Pokok</th>
+          <th>Total Durasi Lembur (Jam)</th>
+          <th>Gaji Lembur</th>
+          <th>Total Gaji</th>
+        </tr>
+      </thead>
+      <tbody>
 
-  @foreach ($karyawan_list as $karyawan)
-  <div class="slip-container">
-    <div class="slip-header">
-      <h2>Slip Gaji Karyawan</h2>
-      <p>Periode: {{ $karyawan->periode }}</p>
-    </div>
-    <table class="table details-table">
-      <tr>
-        <th>Nama</th>
-        <td>{{ $karyawan->nama }}</td>
-      </tr>
-      <tr>
-        <th>Jabatan</th>
-        <td>{{ $karyawan->jabatan }}</td>
-      </tr>
-      <tr>
-        <th>Gaji Pokok</th>
-        <td>Rp {{ number_format($karyawan->gaji_pokok, 2, ',', '.') }}</td>
-      </tr>
-      <tr>
-        <th>Total Gaji</th>
-        <td><strong>Rp {{ number_format($karyawan->gaji_total, 2, ',', '.') }}</strong></td>
-      </tr>
+        @foreach ($listKaryawan as $karyawan)
+        <tr>
+          <td>{{ $karyawan->periode }}</td>
+          <td>{{ $karyawan->nama }}</td>
+          <!-- <td>{{ $karyawan->jabatan }}</td> -->
+          <td><strong>Rp {{ number_format($karyawan->gaji_pokok, 2, ',', '.') }}</strong></td>
+          <td>{{ $karyawan->total_lembur }}</td>
+          <td><strong>Rp {{ number_format($karyawan->gaji_lembur, 2, ',', '.') }}</strong></td>
+          <td><strong>Rp {{ number_format($karyawan->gaji_total, 2, ',', '.') }}</strong></td>
+        </tr>
+
+        @endforeach
+
+      </tbody>
     </table>
-
-    <div class="text-center mt-4">
-      <p><em>Slip gaji ini dibuat secara otomatis dan sah tanpa tanda tangan.</em></p>
-    </div>
   </div>
-  @endforeach
-
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 </body>
 
 </html>
