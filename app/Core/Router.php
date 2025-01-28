@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-
 class Router
 {
     private $routes = [];
@@ -20,8 +19,6 @@ class Router
     public function add($method, $path, $controller, $action, $middleware = [])
     {
         $path = $this->prefix . $path;
-        // echo $path ;
-        // echo "<br>";
         $this->routes[] = [
           'method' => $method,
           'path' => $path,
@@ -63,30 +60,17 @@ class Router
     public function dispatch($method, $path)
     {
 
-        /*echo '<pre>';*/
-        /*print_r($this->getRoutes());  // Menampilkan semua rute yang terdaftar*/
-        /*echo '</pre>';*/
-        /*exit();*/
-
-
         $path = 'http://localhost' . $path;
 
         foreach($this->routes as $route) {
             $pattern = $this->convertPathToRegex($route['path']);
 
-           //  echo $pattern;
-
             if($route['method'] === $method && preg_match($pattern, $path, $matches)) {
-                // check middleware
-                // var_dump($route['middleware']);
-                // exit();
+
                 foreach(array_merge($this->middleware, $route['middleware']) as $middleware) {
                     $middlewareClass = "App\\Middleware\\{$middleware}";
                     $middlewareObj = new $middlewareClass();
 
-                    // var_dump( $middlewareObj->handle());
-                    // echo "akmal";
-                    // exit();
 
                     if(!$middlewareObj->handle()) {
                         header("Location: {$_ENV['BASE_URL']}/login");
