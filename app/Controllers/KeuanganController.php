@@ -125,7 +125,7 @@ class KeuanganController extends Controller
         $karyawan_list = $this->gajiModel->findByPeriode($periode);
 
         $data = [
-          'karyawan_list' => $karyawan_list,
+          'listKaryawan' => $karyawan_list,
         ];
 
         $this->view('slipGajiAll', $data);
@@ -168,18 +168,47 @@ class KeuanganController extends Controller
         $id = $_GET['id'];
         $periode = $_GET['periode'];
 
-        $dataAbsensi = $this->dataAbsensiBulanan($id, $periode);
+        $dataAbsensiBulanan = $this->absensiModel->absensiBulananKaryawan($id, $periode);
+
+        $dataAbsensiHarian = array();
+        $totalStatus = ['alpha' => 0, 'hadir' => 0, 'total_lembur' => 0];
+
+        foreach($dataAbsensiBulanan as $hari) {
+          if ($hari->status === 'Hadir') {
+            $totalStatus['hadir'] += 1;
+          } else if ($hari->status === 'Alpha') {
+            $totalStatus['alpha'] += 1;
+          }
+            array_push($dataAbsensiHarian, [
+              'id' => $hari->id,
+              'title' => $hari->status,
+              'start' => $hari->tanggal,
+              'backgroundColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
+              'borderColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
+            ]);
+
+            if($hari->lembur > 0) {
+              $totalStatus['total_lembur'] += $hari->lembur;
+                array_push($dataAbsensiHarian, [
+                  'id' => $hari->id,
+                  'title' => "Lembur {$hari->lembur}",
+                  'start' => $hari->tanggal,
+                  'backgroundColor' => '#fd7e14',
+                  'borderColor' => '#fd7e14',
+                ]);
+            }
+
+        }
+
 
         $prevMonth = date('Y-m', strtotime('-1 month', strtotime($periode . '-01')));
         $nextMonth = date('Y-m', strtotime('+1 month', strtotime($periode . '-01')));
         $initialDate = date('Y-m-d', strtotime($periode . '-01'));
 
         $karyawan  = $this->karyawanModel->findById($id);
-        /*var_dump($dataAbsensi);*/
-        /*exit();*/
 
         $data = [
-          'dataAbsensi' => $dataAbsensi,
+          'dataAbsensi' => $dataAbsensiHarian,
           'prevMonth' => $prevMonth,
           'nextMonth' => $nextMonth,
           'id' => $id,
@@ -187,6 +216,7 @@ class KeuanganController extends Controller
           'karyawan' => $karyawan,
           'page' => 'Absensi Karyawan',
           'subpage' => 'Absensi Bulanan Karyawan',
+          'totalStatus' => $totalStatus
         ];
 
         $this->view('features.absensiBulanan', $data);
@@ -246,15 +276,33 @@ class KeuanganController extends Controller
       $id = $_GET['id'];
 
       if(isset($id) && $id !== '') {
-        $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
-        $namaKaryawan = $this->karyawanModel->findById($id)->nama;
-        $this->view('keuangan.features.detailGajiKaryawan', [
-          'dataGajiKaryawan' => $dataGajiKaryawan,
-          'idKaryawan' => $id,
-          'namaKaryawan' => $namaKaryawan,
-          'page' => 'Gaji Karyawan',
-          'subpage' => 'Laporan Gaji Karyawan'
-        ]);
+        if ($id === 'all') {
+          $dataGajiKaryawan = $this->gajiModel->all();
+
+          $this->view('keuangan.features.detailGajiKaryawan', [
+            'dataGajiKaryawan' => $dataGajiKaryawan,
+            'page' => 'Gaji Karyawan',
+            'subpage' => 'Laporan Gaji Karyawan'
+          ]);
+          exit();
+
+        } else {
+          $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
+          $namaKaryawan = $this->karyawanModel->findById($id)->nama;
+
+          $this->view('keuangan.features.detailGajiKaryawan', [
+            'dataGajiKaryawan' => $dataGajiKaryawan,
+            'idKaryawan' => $id,
+            'namaKaryawan' => $namaKaryawan,
+            'page' => 'Gaji Karyawan',
+            'subpage' => 'Laporan Gaji Karyawan'
+          ]);
+
+          exit();
+
+        }
+
+
       }
 
       header("Location: {$_ENV['BASE_URL']}/keuangan/gaji-karyawan");
