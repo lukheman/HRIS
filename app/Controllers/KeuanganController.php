@@ -288,7 +288,7 @@ class KeuanganController extends Controller
         } else {
         $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
         $namaKaryawan = $this->karyawanModel->findById($id)->nama;
-        $this->view('features.gajiKaryawan.detailGajiKaryawan', [
+        $this->view('keuangan.features.detailGajiKaryawan', [
           'dataGajiKaryawan' => $dataGajiKaryawan,
           'idKaryawan' => $id,
           'namaKaryawan' => $namaKaryawan,
@@ -348,6 +348,28 @@ class KeuanganController extends Controller
 
         if($id !== '') {
             $this->gajiModel->update($id, ['status' => 'DISETUJUI']);
+        }
+    }
+
+    public function approveSelectedGajiKaryawan() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $selected_id = $data['selected_id'] ?? ''; // id tb_gaji
+
+        if($selected_id !== '') {
+          foreach ($selected_id as $id) {
+            $this->gajiModel->update($id, ['status' => 'DISETUJUI']);
+          }
+        }
+    }
+
+    public function pendingSelectedGajiKaryawan() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $selected_id = $data['selected_id'] ?? ''; // id tb_gaji
+
+        if($selected_id !== '') {
+          foreach ($selected_id as $id) {
+            $this->gajiModel->update($id, ['status' => 'PENDING']);
+          }
         }
     }
 
