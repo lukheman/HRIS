@@ -417,7 +417,7 @@ class HrdController extends Controller
         if ($id === 'all') {
           $dataGajiKaryawan = $this->gajiModel->allComplete();
 
-          $this->view('keuangan.features.detailGajiKaryawan', [
+          $this->view('features.gajiKaryawan.detailGajiKaryawan', [
             'dataGajiKaryawan' => $dataGajiKaryawan,
             'page' => 'Gaji Karyawan',
             'subpage' => 'Laporan Gaji Karyawan'
