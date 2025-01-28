@@ -32,6 +32,16 @@ class GajiModel extends Model
         return $this->query($sql, [$id])->fetch();
     }
 
+    public function findByKaryawanId($id) {
+      $sql = "SELECT g.id AS gaji_id, g.* FROM {$this->table} g JOIN tb_karyawan k on k.id = g.karyawan_id where g.karyawan_id = ?";
+      return $this->query($sql, [$id])->fetchAll();
+    }
+
+    public function findByKaryawanIdStatus($id, $status) {
+      $sql = "SELECT g.id AS gaji_id, g.* FROM {$this->table} g JOIN tb_karyawan k on k.id = g.karyawan_id where g.karyawan_id = ? AND g.status = ?";
+      return $this->query($sql, [$id, $status])->fetchAll();
+    }
+
     public function findByPeriode($periode)
     {
         $sql = "SELECT
@@ -41,6 +51,7 @@ class GajiModel extends Model
       g.gaji_lembur,
       g.gaji_total,
       g.total_lembur,
+      g.status,
       k.nama,
       k.jabatan
       FROM {$this->table} g JOIN tb_karyawan k on k.id = g.karyawan_id WHERE g.periode = ?";
