@@ -52,7 +52,7 @@
             </div>
 
           </div>
-          <div class="card-body">
+          <div class="card-body d-flex justify-content-center">
             <video id="preview"></video>
           </div>
         </div>

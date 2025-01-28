@@ -74,14 +74,13 @@
                 <label for="gaji">Gaji Karyawan</label>
                 <input type="text" class="form-control" id="gaji" name="gaji" placeholder="Masukan Gaji karyawan">
               </div>
+
+              <button type="submit" class="btn btn-primary">Tambahkan</button>
             </form>
 
           </div>
           <!-- /.card-body -->
 
-          <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Tambahkan</button>
-          </div>
         </div>
       </div>
 
@@ -91,7 +90,6 @@
   </div>
   <!-- /.row -->
 </div><!-- /.container-fluid -->
-</div>
 <!-- /.content -->
 
 @endsection
