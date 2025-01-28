@@ -32,7 +32,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="@base_url(/assets/css/adminlte.min.css)">
   <!-- fullCalendar -->
   <link rel="stylesheet" href="@base_url(/plugins/fullcalendar/main.css)">
-
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- instascan/camera -->
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
