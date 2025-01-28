@@ -38,9 +38,10 @@
 
           </div>
           <!-- /.card-header -->
-          <!-- form start -->
-          <form action="@base_url(/hrd/karyawan/add)" method="post">
-            <div class="card-body">
+
+          <div class="card-body">
+            <!-- form start -->
+            <form action="@base_url(/hrd/karyawan/add)" method="post">
 
               <div class="form-group">
                 <label for="nama">Nama Karyawan</label>
@@ -73,23 +74,23 @@
                 <label for="gaji">Gaji Karyawan</label>
                 <input type="text" class="form-control" id="gaji" name="gaji" placeholder="Masukan Gaji karyawan">
               </div>
+            </form>
 
+          </div>
+          <!-- /.card-body -->
 
-            </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Tambahkan</button>
-            </div>
-          </form>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Tambahkan</button>
+          </div>
         </div>
-
-
       </div>
-      <!-- /.col-md-6 -->
+
+
     </div>
-    <!-- /.row -->
-  </div><!-- /.container-fluid -->
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
 
