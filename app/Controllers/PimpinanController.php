@@ -83,7 +83,7 @@ class PimpinanController extends Controller
         $karyawan_list = $this->gajiModel->findByPeriode($periode);
 
         $data = [
-          'karyawan_list' => $karyawan_list,
+          'listKaryawan' => $karyawan_list,
         ];
 
         $this->view('slipGajiAll', $data);
@@ -281,8 +281,17 @@ class PimpinanController extends Controller
       $id = $_GET['id'];
 
       if(isset($id) && $id !== '') {
-        // untuk role pimpinan hanya menampikan laporan gaji yang telah disetujui
-        $dataGajiKaryawan = $this->gajiModel->findByKaryawanIdStatus($id, 'DISETUJUI');
+        if ($id === 'all') {
+          $dataGajiKaryawan = $this->gajiModel->allComplete();
+
+          $this->view('pimpinan.features.detailGajiKaryawan', [
+            'dataGajiKaryawan' => $dataGajiKaryawan,
+            'page' => 'Gaji Karyawan',
+            'subpage' => 'Laporan Gaji Karyawan'
+          ]);
+          exit();
+        } else {
+        $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
         $namaKaryawan = $this->karyawanModel->findById($id)->nama;
         $this->view('pimpinan.features.detailGajiKaryawan', [
           'dataGajiKaryawan' => $dataGajiKaryawan,
@@ -291,9 +300,13 @@ class PimpinanController extends Controller
           'page' => 'Gaji Karyawan',
           'subpage' => 'Laporan Gaji Karyawan'
         ]);
+
+        }
+
+
       }
 
-      header("Location: {$_ENV['BASE_URL']}/pimpinan/gaji-karyawan");
+      header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
 
 
     }
