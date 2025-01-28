@@ -19,6 +19,7 @@ class GajiModel extends Model
       g.gaji_lembur,
       g.gaji_total,
       g.total_lembur,
+      g.status,
       k.nama
       FROM {$this->table} g JOIN tb_karyawan k on k.id = g.karyawan_id";
 
