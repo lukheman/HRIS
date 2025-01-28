@@ -11,6 +11,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>FBS | @yield('title', 'Default Title')</title>
 
   <!-- Google Font: Source Sans Pro -->
+  <style type="text/css">
+    .fixed-box {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      background: #f8f9fa;
+      border-top: 1px solid #dee2e6;
+      padding: 15px;
+      z-index: 99999;
+      /* Pastikan di atas konten lainnya */
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -28,6 +41,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- sweetalert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
 
