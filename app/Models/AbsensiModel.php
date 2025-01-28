@@ -19,7 +19,7 @@ class AbsensiModel extends Model
 
     public function findByTanggal($tanggal)
     {
-        $sql = "SELECT * FROM {$this->table} JOIN tb_karyawan on tb_absensi.karyawan_id = tb_karyawan.id WHERE tanggal = ?";
+        $sql = "SELECT a.id AS id_absensi, a.*, k.* FROM {$this->table} a JOIN tb_karyawan k on a.karyawan_id = k.id WHERE a.tanggal = ?";
 
         return $this->query($sql, [$tanggal])->fetchAll();
     }
@@ -27,7 +27,7 @@ class AbsensiModel extends Model
     public function findByBulan($bulan)
     {
 
-        $sql = "SELECT * FROM {$this->table} JOIN tb_karyawan on tb_absensi.karyawan_id = tb_karyawan.id WHERE DATE_FORMAT(tanggal, '%Y-%m') = ?";
+        $sql = "SELECT a.id AS id_absensi, a.*, k.* FROM {$this->table} a JOIN tb_karyawan k on a.karyawan_id = k.id WHERE DATE_FORMAT(a.tanggal, '%Y-%m') = ?";
 
         return $this->query($sql, [$bulan])->fetchAll();
     }
