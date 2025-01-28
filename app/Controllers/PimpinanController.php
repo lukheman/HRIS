@@ -14,7 +14,7 @@ class PimpinanController extends Controller
 
     public function __construct($blade)
     {
-        parent::__construct($blade);
+        parent::__construct($blade, 'pimpinan');
         $this->karyawanModel = new KaryawanModel();
         $this->absensiModel = new AbsensiModel();
         $this->gajiModel = new GajiModel();
@@ -105,19 +105,18 @@ class PimpinanController extends Controller
                 $data_absensi = $this->absensiModel->findByTanggal($periode);
             }
         } else {
-            $periode = date('Y-m-d'); // default today
-            $data_absensi = $this->absensiModel->findByTanggal($periode);
+            // default all
+            $data_absensi = $this->absensiModel->all();
         }
-
 
         $data = [
           'data_absensi' => $data_absensi,
           'page' => 'Absensi Karyawan',
           'subpage' => 'Absensi Karyawan',
-          'by' => $by ?? 'day'
+          'by' => $by ?? 'all'
         ];
 
-        $this->view('pimpinan.features.listAbsensi', $data);
+        $this->view('features.listAbsensi', $data);
     }
 
     public function absensiBulanan()
@@ -144,7 +143,7 @@ class PimpinanController extends Controller
           'subpage' => 'Absensi Bulanan Karyawan',
         ];
 
-        $this->view('pimpinan.features.absensiBulanan', $data);
+        $this->view('features.absensiBulanan', $data);
 
     }
 
@@ -232,4 +231,37 @@ class PimpinanController extends Controller
 
     }
 
+    public function selectKaryawanGaji() {
+        $data_karyawan = $this->karyawanModel->all();
+
+        $data = [
+          'data_karyawan' => $data_karyawan,
+          'page' => 'Gaji Karyawan',
+          'subpage' => 'Pilih Karyawan'
+        ];
+
+        $this->view('features.gajiKaryawan.selectKaryawan', $data);
+
+    }
+
+    public function detailGajiKaryawan() {
+      $id = $_GET['id'];
+
+      if(isset($id) && $id !== '') {
+        // untuk role pimpinan hanya menampikan laporan gaji yang telah disetujui
+        $dataGajiKaryawan = $this->gajiModel->findByKaryawanIdStatus($id, 'DISETUJUI');
+        $namaKaryawan = $this->karyawanModel->findById($id)->nama;
+        $this->view('pimpinan.features.detailGajiKaryawan', [
+          'dataGajiKaryawan' => $dataGajiKaryawan,
+          'idKaryawan' => $id,
+          'namaKaryawan' => $namaKaryawan,
+          'page' => 'Gaji Karyawan',
+          'subpage' => 'Laporan Gaji Karyawan'
+        ]);
+      }
+
+      header("Location: {$_ENV['BASE_URL']}/pimpinan/gaji-karyawan");
+
+
+    }
 }
