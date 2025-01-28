@@ -229,7 +229,6 @@ class KeuanganController extends Controller
 
     }
 
-
     public function selectKaryawanGaji() {
         $data_karyawan = $this->karyawanModel->all();
 
@@ -249,7 +248,7 @@ class KeuanganController extends Controller
       if(isset($id) && $id !== '') {
         $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
         $namaKaryawan = $this->karyawanModel->findById($id)->nama;
-        $this->view('features.gajiKaryawan.detailGajiKaryawan', [
+        $this->view('keuangan.features.detailGajiKaryawan', [
           'dataGajiKaryawan' => $dataGajiKaryawan,
           'idKaryawan' => $id,
           'namaKaryawan' => $namaKaryawan,
@@ -258,7 +257,7 @@ class KeuanganController extends Controller
         ]);
       }
 
-      header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
+      header("Location: {$_ENV['BASE_URL']}/keuangan/gaji-karyawan");
 
 
     }
@@ -286,7 +285,7 @@ class KeuanganController extends Controller
 
       }
 
-      header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan/detail?id={$id}");
+      header("Location: {$_ENV['BASE_URL']}/keuangan/gaji-karyawan/detail?id={$id}");
 
     }
 
@@ -298,5 +297,25 @@ class KeuanganController extends Controller
             $this->gajiModel->delete($id);
         }
     }
+
+    public function approveGajiKaryawan() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id = $data['id'] ?? ''; // id tb_gaji
+
+        if($id !== '') {
+            $this->gajiModel->update($id, ['status' => 'DISETUJUI']);
+        }
+    }
+
+    public function pendingGajiKaryawan() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id = $data['id'] ?? ''; // id tb_gaji
+
+        if($id !== '') {
+            $this->gajiModel->update($id, ['status' => 'PENDING']);
+        }
+    }
+
+
 
 }
