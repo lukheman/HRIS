@@ -22,9 +22,11 @@
 
             <div class="row">
               <div class="col-6">
-                <!-- <a class="btn btn-primary float-end" href="@base_url(/{{ $role }}/karyawan/add)">Tambah Laporan Gaji</a> -->
+                @if (isset($idKaryawan))
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">Tambah
                   Laporan Gaji</button>
+
+                @endif
               </div>
               <div class="col-6">
                 <p class="font-weight-bold float-right">{{ $namaKaryawan }}</p>
