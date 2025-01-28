@@ -57,10 +57,11 @@ class AbsensiModel extends Model
 
     }
 
-    public function isKaryawanAbsen($id, $tanggal) {
+    public function isKaryawanAbsen($id, $tanggal)
+    {
 
-      $sql = "SELECT * FROM {$this->table} WHERE karyawan_id = ? AND tanggal = ?";
-      return $this->query($sql, [$id, $tanggal])->fetch();
+        $sql = "SELECT * FROM {$this->table} WHERE karyawan_id = ? AND tanggal = ?";
+        return $this->query($sql, [$id, $tanggal])->fetch();
 
     }
 
