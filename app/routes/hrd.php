@@ -7,6 +7,7 @@ return function ($router) {
         $controller = '\App\Controllers\HrdController';
 
         $router->get('', $controller, 'index');
+        $router->get('/', $controller, 'index');
         $router->get('/karyawan', $controller, 'listKaryawan');
 
         $router->get('/karyawan/add', $controller, 'addKaryawanForm');
@@ -16,8 +17,17 @@ return function ($router) {
         $router->post('/karyawan/update', $controller, 'updateKaryawan');
         $router->post('/karyawan/delete', $controller, 'deleteKaryawan');
 
+        $router->get('/gaji-karyawan', $controller, 'selectKaryawanGaji');
+        $router->get('/gaji-karyawan/detail', $controller, 'detailGajiKaryawan');
+        $router->post('/gaji-karyawan/add', $controller, 'addGajiKaryawan');
+        $router->post('/gaji-karyawan/delete', $controller, 'deleteGajiKaryawan');
+
+        $router->post('/gaji-karyawan/cetak-slip-gaji', $controller, 'cetakSlipGajiOne');
+        $router->get('/gaji-karyawan/cetak-slip-gaji-all', $controller, 'cetakSlipGajiAll');
+
         $router->get('/absensi/detail', $controller, 'absensiBulanan');
         $router->get('/absensi/all', $controller, 'listAbsensi');
+        $router->post('/absensi/update', $controller, 'updateAbsensi');
 
         $router->get('/absensi/scan-qrcode', $controller, 'scanQrCode');
         $router->get('/absensi/generate-qrcode', $controller, 'generateQrCode');
