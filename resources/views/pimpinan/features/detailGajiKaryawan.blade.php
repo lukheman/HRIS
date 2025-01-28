@@ -47,6 +47,10 @@
                       <tr>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Periode</th>
+                        @if (!isset($idKaryawan))
+                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
+                          Nama</th>
+                        @endif
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Gaji Pokok (Rp.)</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
@@ -70,6 +74,9 @@
                       @foreach ($dataGajiKaryawan as $gaji)
                       <tr>
                         <td>{{ $gaji->periode}}</td>
+                        @if (!isset($idKaryawan))
+                        <td>{{ $gaji->nama}}</td>
+                        @endif
                         <td>{{ number_format($gaji->gaji_pokok, 2, ',', '.')}}</td>
                         <td>{{ number_format($gaji->gaji_lembur, 2, ',', '.')}}</td>
                         <td>{{ $gaji->total_lembur}}</td>
@@ -86,8 +93,10 @@
 
                         <td>
                           <form action="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji)" method="post">
-                            <input type="hidden" name="gaji_id" value="{{ $gaji->id }}">
-                            <button type="submit" class="btn btn-sm btn-outline-success">
+                            <input type="hidden" name="gaji_id" value="{{ $gaji->id_gaji }}">
+                            <button type="submit" class="btn btn-sm btn-outline-success w-100" {{$gaji->status !==
+                              'DISETUJUI'
+                              ? 'disabled' : 'enabled' }}>
                               <i class="nav-icon fas fa-print"></i>
                               Slip Gaji</button>
                           </form>
@@ -97,17 +106,17 @@
                         <!--   <div class="btn-group"> -->
                         <!---->
                         <!--     <button type="button" class="btn btn-sm btn-danger btn-delete-laporan" -->
-                        <!--       data-id="{{ $gaji->id }}"> -->
+                        <!--       data-id="{{ $gaji->id_gaji }}"> -->
                         <!--       <i class="nav-icon fas fa-trash"></i> -->
                         <!--     </button> -->
                         <!---->
                         <!--     <button type="button" class="btn btn-sm btn-success btn-approve-laporan" -->
-                        <!--       data-id="{{ $gaji->id }}"> -->
+                        <!--       data-id="{{ $gaji->id_gaji }}"> -->
                         <!--       <i class="nav-icon fas fa-check"></i> -->
                         <!--     </button> -->
                         <!---->
                         <!--     <button type="button" class="btn btn-sm btn-warning btn-pending-laporan" -->
-                        <!--       data-id="{{ $gaji->id }}"> -->
+                        <!--       data-id="{{ $gaji->id_gaji }}"> -->
                         <!--       <i class="nav-icon fas fa-times"></i> -->
                         <!--     </button> -->
                         <!---->
