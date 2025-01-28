@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         $user = $this->userModel->findByUsername($username);
 
-        if($user && (md5($password) === $user->password)) {
+        if($user && (password_verify($password, $user->password))) {
             $_SESSION['user_id'] = $user->id;
             $_SESSION['username'] = $user->username;
             $_SESSION['user_role'] = $user->role;
@@ -44,6 +44,9 @@ class AuthController extends Controller
                     break;
                 case 'PIMPINAN':
                     header("Location: {$_ENV['BASE_URL']}/pimpinan");
+                    break;
+                case 'KARYAWAN':
+                    header("Location: {$_ENV['BASE_URL']}/karyawan");
                     break;
                 default:
                     echo "Role tidak valid";
