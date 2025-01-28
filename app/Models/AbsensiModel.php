@@ -24,6 +24,12 @@ class AbsensiModel extends Model
         return $this->query($sql, [$tanggal])->fetchAll();
     }
 
+    public function today() {
+      $tanggal = date('Y-m-d');
+
+      return $this->findByTanggal($tanggal);
+    }
+
     public function findByBulan($bulan)
     {
 
