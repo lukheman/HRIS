@@ -277,7 +277,7 @@ class KeuanganController extends Controller
 
       if(isset($id) && $id !== '') {
         if ($id === 'all') {
-          $dataGajiKaryawan = $this->gajiModel->all();
+          $dataGajiKaryawan = $this->gajiModel->allComplete();
 
           $this->view('keuangan.features.detailGajiKaryawan', [
             'dataGajiKaryawan' => $dataGajiKaryawan,
@@ -285,27 +285,23 @@ class KeuanganController extends Controller
             'subpage' => 'Laporan Gaji Karyawan'
           ]);
           exit();
-
         } else {
-          $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
-          $namaKaryawan = $this->karyawanModel->findById($id)->nama;
-
-          $this->view('keuangan.features.detailGajiKaryawan', [
-            'dataGajiKaryawan' => $dataGajiKaryawan,
-            'idKaryawan' => $id,
-            'namaKaryawan' => $namaKaryawan,
-            'page' => 'Gaji Karyawan',
-            'subpage' => 'Laporan Gaji Karyawan'
-          ]);
-
-          exit();
+        $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
+        $namaKaryawan = $this->karyawanModel->findById($id)->nama;
+        $this->view('features.gajiKaryawan.detailGajiKaryawan', [
+          'dataGajiKaryawan' => $dataGajiKaryawan,
+          'idKaryawan' => $id,
+          'namaKaryawan' => $namaKaryawan,
+          'page' => 'Gaji Karyawan',
+          'subpage' => 'Laporan Gaji Karyawan'
+        ]);
 
         }
 
 
       }
 
-      header("Location: {$_ENV['BASE_URL']}/keuangan/gaji-karyawan");
+      header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
 
 
     }
