@@ -12,21 +12,8 @@ class HomeController extends Controller
           'content' => 'Welcome akmal ti website ku',
 
         ];
-        echo $this->blade->run('home.index', $data);
+        echo $this->blade->run('home', $data);
     }
 
-
-    public function about()
-    {
-        $data = [
-
-          'title' => 'About Page',
-          'content' => 'Welcome akmal about',
-
-        ];
-
-        echo $this->blade->run('home.about', $data);
-
-    }
 
 }
