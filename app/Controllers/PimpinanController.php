@@ -124,7 +124,38 @@ class PimpinanController extends Controller
         $id = $_GET['id'];
         $periode = $_GET['periode'];
 
-        $dataAbsensi = $this->dataAbsensiBulanan($id, $periode);
+        $dataAbsensiBulanan = $this->absensiModel->absensiBulananKaryawan($id, $periode);
+
+        $dataAbsensiHarian = array();
+        $totalStatus = ['alpha' => 0, 'hadir' => 0, 'total_lembur' => 0];
+
+        foreach($dataAbsensiBulanan as $hari) {
+          if ($hari->status === 'Hadir') {
+            $totalStatus['hadir'] += 1;
+          } else if ($hari->status === 'Alpha') {
+            $totalStatus['alpha'] += 1;
+          }
+            array_push($dataAbsensiHarian, [
+              'id' => $hari->id,
+              'title' => $hari->status,
+              'start' => $hari->tanggal,
+              'backgroundColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
+              'borderColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
+            ]);
+
+            if($hari->lembur > 0) {
+              $totalStatus['total_lembur'] += $hari->lembur;
+                array_push($dataAbsensiHarian, [
+                  'id' => $hari->id,
+                  'title' => "Lembur {$hari->lembur}",
+                  'start' => $hari->tanggal,
+                  'backgroundColor' => '#fd7e14',
+                  'borderColor' => '#fd7e14',
+                ]);
+            }
+
+        }
+
 
         $prevMonth = date('Y-m', strtotime('-1 month', strtotime($periode . '-01')));
         $nextMonth = date('Y-m', strtotime('+1 month', strtotime($periode . '-01')));
@@ -133,7 +164,7 @@ class PimpinanController extends Controller
         $karyawan  = $this->karyawanModel->findById($id);
 
         $data = [
-          'dataAbsensi' => $dataAbsensi,
+          'dataAbsensi' => $dataAbsensiHarian,
           'prevMonth' => $prevMonth,
           'nextMonth' => $nextMonth,
           'id' => $id,
@@ -141,9 +172,11 @@ class PimpinanController extends Controller
           'karyawan' => $karyawan,
           'page' => 'Absensi Karyawan',
           'subpage' => 'Absensi Bulanan Karyawan',
+          'totalStatus' => $totalStatus
         ];
 
         $this->view('features.absensiBulanan', $data);
+
 
     }
 
