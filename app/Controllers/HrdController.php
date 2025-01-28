@@ -192,42 +192,17 @@ class HrdController extends Controller
         $id = $_GET['id'];
         $periode = $_GET['periode'];
 
-        $dataAbsensi = $this->dataAbsensiBulanan($id, $periode);
-
-        $prevMonth = date('Y-m', strtotime('-1 month', strtotime($periode . '-01')));
-        $nextMonth = date('Y-m', strtotime('+1 month', strtotime($periode . '-01')));
-        $initialDate = date('Y-m-d', strtotime($periode . '-01'));
-
-        $karyawan  = $this->karyawanModel->findById($id);
-        /*var_dump($dataAbsensi);*/
-        /*exit();*/
-
-        $data = [
-          'dataAbsensi' => $dataAbsensi,
-          'prevMonth' => $prevMonth,
-          'nextMonth' => $nextMonth,
-          'id' => $id,
-          'initialDate' => $initialDate,
-          'karyawan' => $karyawan,
-          'page' => 'Absensi Karyawan',
-          'subpage' => 'Absensi Bulanan Karyawan',
-        ];
-
-        $this->view('features.absensiBulanan', $data);
-
-
-    }
-
-    public function dataAbsensiBulanan($id, $periode)
-    {
-        // $id: int
-        // $periode: str(Y-m);
-
         $dataAbsensiBulanan = $this->absensiModel->absensiBulananKaryawan($id, $periode);
 
         $dataAbsensiHarian = array();
+        $totalStatus = ['alpha' => 0, 'hadir' => 0, 'total_lembur' => 0];
 
         foreach($dataAbsensiBulanan as $hari) {
+          if ($hari->status === 'Hadir') {
+            $totalStatus['hadir'] += 1;
+          } else if ($hari->status === 'Alpha') {
+            $totalStatus['alpha'] += 1;
+          }
             array_push($dataAbsensiHarian, [
               'id' => $hari->id,
               'title' => $hari->status,
@@ -237,6 +212,7 @@ class HrdController extends Controller
             ]);
 
             if($hari->lembur > 0) {
+              $totalStatus['total_lembur'] += $hari->lembur;
                 array_push($dataAbsensiHarian, [
                   'id' => $hari->id,
                   'title' => "Lembur {$hari->lembur}",
@@ -249,8 +225,37 @@ class HrdController extends Controller
         }
 
 
-        return $dataAbsensiHarian;
+        $prevMonth = date('Y-m', strtotime('-1 month', strtotime($periode . '-01')));
+        $nextMonth = date('Y-m', strtotime('+1 month', strtotime($periode . '-01')));
+        $initialDate = date('Y-m-d', strtotime($periode . '-01'));
 
+        $karyawan  = $this->karyawanModel->findById($id);
+
+        $data = [
+          'dataAbsensi' => $dataAbsensiHarian,
+          'prevMonth' => $prevMonth,
+          'nextMonth' => $nextMonth,
+          'id' => $id,
+          'initialDate' => $initialDate,
+          'karyawan' => $karyawan,
+          'page' => 'Absensi Karyawan',
+          'subpage' => 'Absensi Bulanan Karyawan',
+          'totalStatus' => $totalStatus
+        ];
+
+        $this->view('features.absensiBulanan', $data);
+
+
+    }
+
+    public function updateAbsensi() {
+      $data = json_decode(file_get_contents('php://input'), true);
+      $id_absensi = $data['id_absensi'] ?? '';
+      $durasi_lembur = $data['durasi_lembur'] ?? '';
+
+      if (isset($id_absensi) && $id_absensi !== '' && isset($durasi_lembur) && $durasi_lembur !== '') {
+        $this->absensiModel->update($id_absensi, ['lembur' => $durasi_lembur]);
+      }
     }
 
     public function scanQrCode()
@@ -409,6 +414,16 @@ class HrdController extends Controller
       $id = $_GET['id'];
 
       if(isset($id) && $id !== '') {
+        if ($id === 'all') {
+          $dataGajiKaryawan = $this->gajiModel->allComplete();
+
+          $this->view('keuangan.features.detailGajiKaryawan', [
+            'dataGajiKaryawan' => $dataGajiKaryawan,
+            'page' => 'Gaji Karyawan',
+            'subpage' => 'Laporan Gaji Karyawan'
+          ]);
+          exit();
+        } else {
         $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
         $namaKaryawan = $this->karyawanModel->findById($id)->nama;
         $this->view('features.gajiKaryawan.detailGajiKaryawan', [
@@ -418,6 +433,10 @@ class HrdController extends Controller
           'page' => 'Gaji Karyawan',
           'subpage' => 'Laporan Gaji Karyawan'
         ]);
+
+        }
+
+
       }
 
       header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
@@ -459,6 +478,35 @@ class HrdController extends Controller
         if($id !== '') {
             $this->gajiModel->delete($id);
         }
+    }
+
+    public function cetakSlipGajiOne()
+    {
+        $id = $_POST['gaji_id'];
+
+        $karyawan = $this->gajiModel->findById($id);
+
+        $this->view('slipGajiOne', ['karyawan' => $karyawan]);
+
+    }
+
+    public function cetakSlipGajiAll()
+    {
+
+        $periode = $_GET['periode'];
+
+        if(!isset($periode) || $periode === '') {
+            $periode = date('Y-m');
+        }
+
+        $karyawan_list = $this->gajiModel->findByPeriode($periode);
+
+        $data = [
+          'listKaryawan' => $karyawan_list,
+        ];
+
+        $this->view('slipGajiAll', $data);
+
     }
 
 }
