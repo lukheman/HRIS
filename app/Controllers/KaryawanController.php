@@ -34,9 +34,18 @@ class KaryawanController extends Controller
         $this->view('karyawan.home', $data);
     }
 
+    function getCurrentKaryawan() {
+      if (!isset($_SESSION['username'])) {
+        throw new \RuntimeException('User not authenticated');
+      }
+
+      $karyawan = $this->karyawanModel->findByNik($_SESSION['username']);
+      return $karyawan;
+    }
+
     public function absensiBulanan()
     {
-        $karyawan = $this->karyawanModel->findByNik($_SESSION['username']);
+        $karyawan = $this->getCurrentKaryawan();
 
         $id = $karyawan->id;
         $periode = $_GET['periode'];
@@ -133,7 +142,7 @@ class KaryawanController extends Controller
     }
 
     public function detailGajiKaryawan() {
-        $karyawan = $this->karyawanModel->findByNik($_SESSION['username']);
+        $karyawan = $this->getCurrentKaryawan();
 
         $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($karyawan->id);
         $this->view('karyawan.features.detailGajiKaryawan', [
@@ -152,7 +161,7 @@ class KaryawanController extends Controller
       $newPassword = $_POST['newPassword'];
       $confirmNewPassword = $_POST['confirmNewPassword'];
 
-      $karyawan = $this->karyawanModel->findByNik($_SESSION['username']);
+      $karyawan = $this->getCurrentKaryawan();
       $data = ['page' => 'Profile', 'karyawan' => $karyawan];
 
       if (isset($newPassword) && $newPassword !== '' && isset($confirmNewPassword) && $confirmNewPassword !== '') {
@@ -170,7 +179,7 @@ class KaryawanController extends Controller
     }
 
     public function profile() {
-      $karyawan = $this->karyawanModel->findByNik($_SESSION['username']);
+      $karyawan = $this->getCurrentKaryawan();
 
       $this->view('karyawan.profile', ['page' => 'Profile', 'karyawan' => $karyawan]);
     }
