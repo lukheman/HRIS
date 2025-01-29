@@ -35,7 +35,7 @@ class GajiModel extends Model
 
     public function findByKaryawanId($id)
     {
-        $sql = "SELECT g.id AS gaji_id, g.* FROM {$this->table} g JOIN tb_karyawan k on k.id = g.karyawan_id where g.karyawan_id = ?";
+        $sql = "SELECT g.id AS id_gaji, g.* FROM {$this->table} g JOIN tb_karyawan k on k.id = g.karyawan_id where g.karyawan_id = ?";
         return $this->query($sql, [$id])->fetchAll();
     }
 
