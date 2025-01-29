@@ -35,11 +35,11 @@ $router = new Router($blade);
 
 // load all route files
 $routeFiles = [
+  './app/routes/auth.php',
   './app/routes/hrd.php',
   './app/routes/keuangan.php',
   './app/routes/pimpinan.php',
   './app/routes/karyawan.php',
-  './app/routes/auth.php',
 ];
 
 
