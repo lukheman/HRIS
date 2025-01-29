@@ -7,10 +7,9 @@ use App\Models\KaryawanModel;
 use App\Models\UserModel;
 use App\Models\GajiModel;
 
-use Endroid\QrCode\Builder\Builder;
-use Endroid\QrCode\Writer\PngWriter;
+use App\Interfaces\AbsensiInterface;
 
-class HrdController extends Controller
+class HrdController extends Controller implements AbsensiInterface
 {
     private $karyawanModel;
     private $absensiModel;
