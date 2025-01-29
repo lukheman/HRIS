@@ -198,7 +198,6 @@ class HrdController extends Controller implements AbsensiInterface
 
         $data = $this->absensiUtil->getDataAbsensiBulanan($id, $periode);
 
-
         $this->view('features.absensiBulanan', $data);
 
 

@@ -134,42 +134,6 @@ class PimpinanController extends Controller
 
     }
 
-    public function dataAbsensiBulanan($id, $periode)
-    {
-        // $id: int
-        // $periode: str(Y-m);
-
-        $dataAbsensiBulanan = $this->absensiModel->absensiBulananKaryawan($id, $periode);
-
-        $dataAbsensiHarian = array();
-
-        foreach($dataAbsensiBulanan as $hari) {
-            array_push($dataAbsensiHarian, [
-              'id' => $hari->id,
-              'title' => $hari->status,
-              'start' => $hari->tanggal,
-              'backgroundColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
-              'borderColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
-            ]);
-
-            if($hari->lembur > 0) {
-                array_push($dataAbsensiHarian, [
-                  'id' => $hari->id,
-                  'title' => "Lembur {$hari->lembur}",
-                  'start' => $hari->tanggal,
-                  'backgroundColor' => '#fd7e14',
-                  'borderColor' => '#fd7e14',
-                ]);
-            }
-
-        }
-
-
-        return $dataAbsensiHarian;
-
-    }
-
-
     public function updateGajiKaryawan()
     {
 
