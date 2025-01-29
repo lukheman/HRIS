@@ -120,7 +120,7 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     public function cetakSlipGajiOne()
     {
-        $id = $_POST['gaji_id'];
+        $id = $_POST['id_gaji'];
 
         $karyawan = $this->gajiModel->findById($id);
 
