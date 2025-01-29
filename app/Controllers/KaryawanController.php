@@ -7,9 +7,6 @@ use App\Models\AbsensiModel;
 use App\Models\UserModel;
 use App\Models\GajiModel;
 
-use Endroid\QrCode\Builder\Builder;
-use Endroid\QrCode\Writer\PngWriter;
-
 class KaryawanController extends Controller
 {
     private $karyawanModel;
@@ -106,20 +103,6 @@ class KaryawanController extends Controller
 
     }
 
-    public function generateQrCodeString($nik)
-    {
-
-        // Membuat QR Code langsung ke output
-        $qrCode = Builder::create()
-          ->writer(new PngWriter())       // Menentukan format PNG
-          ->data($nik)   // Data yang akan dienkode
-          ->size(300)                     // Ukuran QR Code
-          ->margin(10)                    // Margin di sekitar QR Code
-          ->build();
-
-        return $qrCode->getString();
-
-    }
 
     public function generateQrCodeProcess()
     {
@@ -135,7 +118,7 @@ class KaryawanController extends Controller
         header('Content-Type: image/png');
 
 
-        $qrString = $this->generateQrCodeString($nik);
+        $qrString = generateQrCodeString($nik);
 
         echo $qrString;
 
