@@ -6,7 +6,9 @@ use App\Models\KaryawanModel;
 use App\Models\AbsensiModel;
 use App\Models\GajiModel;
 
-class KeuanganController extends Controller
+use App\Interfaces\AbsensiInterface;
+
+class KeuanganController extends Controller implements AbsensiInterface
 {
     private $karyawanModel;
     private $absensiModel;
@@ -157,17 +159,15 @@ class KeuanganController extends Controller
                 $data_absensi = $this->absensiModel->findByTanggal($periode);
             }
         } else {
-            // $periode = date('Y-m-d'); // default today
+            // default all
             $data_absensi = $this->absensiModel->all();
         }
-
 
         $data = [
           'data_absensi' => $data_absensi,
           'page' => 'Absensi Karyawan',
           'subpage' => 'Absensi Karyawan',
-          'by' => $by ?? 'all',
-          // 'role' => $this->role
+          'by' => $by ?? 'all'
         ];
 
         $this->view('features.listAbsensi', $data);
@@ -232,6 +232,16 @@ class KeuanganController extends Controller
         $this->view('features.absensiBulanan', $data);
 
 
+    }
+
+    public function updateAbsensi() {
+      $data = json_decode(file_get_contents('php://input'), true);
+      $id_absensi = $data['id_absensi'] ?? '';
+      $durasi_lembur = $data['durasi_lembur'] ?? '';
+
+      if (isset($id_absensi) && $id_absensi !== '' && isset($durasi_lembur) && $durasi_lembur !== '') {
+        $this->absensiModel->update($id_absensi, ['lembur' => $durasi_lembur]);
+      }
     }
 
     public function dataAbsensiBulanan($id, $periode)
