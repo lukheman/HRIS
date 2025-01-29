@@ -10,7 +10,7 @@ class AbsensiModel extends Model
 
     public function all()
     {
-        $query = "SELECT a.id, a.karyawan_id, a.tanggal, a.jam_masuk, a.jam_keluar, a.lembur, a.status,
+        $query = "SELECT a.id as id_absensi, a.karyawan_id, a.tanggal, a.jam_masuk, a.jam_keluar, a.lembur, a.status,
              k.nama, k.nik, k.jabatan
               FROM tb_absensi a
               JOIN tb_karyawan k ON a.karyawan_id = k.id";
