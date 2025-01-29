@@ -3,7 +3,7 @@
 return function ($router) {
 
     $router->group('/karyawan', ['Auth', 'KaryawanAccess'], function ($router) {
-      $controller = '\App\Controllers\KaryawanController';
+        $controller = '\App\Controllers\KaryawanController';
 
         $router->get('', $controller, 'profile');
         $router->get('/', $controller, 'profile');

@@ -182,7 +182,8 @@ class PimpinanController extends Controller
 
     }
 
-    public function selectKaryawanGaji() {
+    public function selectKaryawanGaji()
+    {
         $data_karyawan = $this->karyawanModel->all();
 
         $data = [
@@ -195,36 +196,37 @@ class PimpinanController extends Controller
 
     }
 
-    public function detailGajiKaryawan() {
-      $id = $_GET['id'];
+    public function detailGajiKaryawan()
+    {
+        $id = $_GET['id'];
 
-      if(isset($id) && $id !== '') {
-        if ($id === 'all') {
-          $dataGajiKaryawan = $this->gajiModel->allComplete();
+        if(isset($id) && $id !== '') {
+            if ($id === 'all') {
+                $dataGajiKaryawan = $this->gajiModel->allComplete();
 
-          $this->view('pimpinan.features.detailGajiKaryawan', [
-            'dataGajiKaryawan' => $dataGajiKaryawan,
-            'page' => 'Gaji Karyawan',
-            'subpage' => 'Laporan Gaji Karyawan'
-          ]);
-          exit();
-        } else {
-        $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
-        $namaKaryawan = $this->karyawanModel->findById($id)->nama;
-        $this->view('pimpinan.features.detailGajiKaryawan', [
-          'dataGajiKaryawan' => $dataGajiKaryawan,
-          'idKaryawan' => $id,
-          'namaKaryawan' => $namaKaryawan,
-          'page' => 'Gaji Karyawan',
-          'subpage' => 'Laporan Gaji Karyawan'
-        ]);
+                $this->view('pimpinan.features.detailGajiKaryawan', [
+                  'dataGajiKaryawan' => $dataGajiKaryawan,
+                  'page' => 'Gaji Karyawan',
+                  'subpage' => 'Laporan Gaji Karyawan'
+                ]);
+                exit();
+            } else {
+                $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
+                $namaKaryawan = $this->karyawanModel->findById($id)->nama;
+                $this->view('pimpinan.features.detailGajiKaryawan', [
+                  'dataGajiKaryawan' => $dataGajiKaryawan,
+                  'idKaryawan' => $id,
+                  'namaKaryawan' => $namaKaryawan,
+                  'page' => 'Gaji Karyawan',
+                  'subpage' => 'Laporan Gaji Karyawan'
+                ]);
+
+            }
+
 
         }
 
-
-      }
-
-      header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
+        header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
 
 
     }

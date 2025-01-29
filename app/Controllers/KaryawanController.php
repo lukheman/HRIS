@@ -36,13 +36,14 @@ class KaryawanController extends Controller
         $this->view('karyawan.home', $data);
     }
 
-    function getCurrentKaryawan() {
-      if (!isset($_SESSION['username'])) {
-        throw new \RuntimeException('User not authenticated');
-      }
+    public function getCurrentKaryawan()
+    {
+        if (!isset($_SESSION['username'])) {
+            throw new \RuntimeException('User not authenticated');
+        }
 
-      $karyawan = $this->karyawanModel->findByNik($_SESSION['username']);
-      return $karyawan;
+        $karyawan = $this->karyawanModel->findByNik($_SESSION['username']);
+        return $karyawan;
     }
 
     public function absensiBulanan()
@@ -80,7 +81,8 @@ class KaryawanController extends Controller
 
     }
 
-    public function detailGajiKaryawan() {
+    public function detailGajiKaryawan()
+    {
         $karyawan = $this->getCurrentKaryawan();
 
         $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($karyawan->id);
@@ -95,32 +97,34 @@ class KaryawanController extends Controller
 
     }
 
-    public  function updatePassword() {
+    public function updatePassword()
+    {
 
-      $newPassword = $_POST['newPassword'];
-      $confirmNewPassword = $_POST['confirmNewPassword'];
+        $newPassword = $_POST['newPassword'];
+        $confirmNewPassword = $_POST['confirmNewPassword'];
 
-      $karyawan = $this->getCurrentKaryawan();
-      $data = ['page' => 'Profile', 'karyawan' => $karyawan];
+        $karyawan = $this->getCurrentKaryawan();
+        $data = ['page' => 'Profile', 'karyawan' => $karyawan];
 
-      if (isset($newPassword) && $newPassword !== '' && isset($confirmNewPassword) && $confirmNewPassword !== '') {
-        if ($newPassword === $confirmNewPassword ){
-          $this->userModel->update($_SESSION['user_id'], ['password' => password_hash($newPassword, PASSWORD_DEFAULT)]);
-          $data['message'] = 'Password berhasil diganti';
+        if (isset($newPassword) && $newPassword !== '' && isset($confirmNewPassword) && $confirmNewPassword !== '') {
+            if ($newPassword === $confirmNewPassword) {
+                $this->userModel->update($_SESSION['user_id'], ['password' => password_hash($newPassword, PASSWORD_DEFAULT)]);
+                $data['message'] = 'Password berhasil diganti';
+            } else {
+                $data['message'] = 'Password tidak sama';
+            }
         } else {
-          $data['message'] = 'Password tidak sama';
+            $data['message'] = 'Password tidak boleh kosong';
         }
-      } else {
-          $data['message'] = 'Password tidak boleh kosong';
-      }
 
-      $this->view('karyawan.profile', $data);
+        $this->view('karyawan.profile', $data);
     }
 
-    public function profile() {
-      $karyawan = $this->getCurrentKaryawan();
+    public function profile()
+    {
+        $karyawan = $this->getCurrentKaryawan();
 
-      $this->view('karyawan.profile', ['page' => 'Profile', 'karyawan' => $karyawan]);
+        $this->view('karyawan.profile', ['page' => 'Profile', 'karyawan' => $karyawan]);
     }
 
     public function cetakSlipGajiOne()

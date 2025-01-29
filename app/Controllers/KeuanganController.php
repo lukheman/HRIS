@@ -28,20 +28,20 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     public function index()
     {
-      $dataAbsensi = $this->absensiModel->today();
+        $dataAbsensi = $this->absensiModel->today();
 
-      $totalStatus = ['hadir' => 0, 'alpha' => 0 ];
+        $totalStatus = ['hadir' => 0, 'alpha' => 0 ];
 
-      foreach ($dataAbsensi as $hari) {
-        if ($hari->status === 'Hadir') {
-          $totalStatus['hadir'] += 1;
-        } else if ($hari->status === 'Alpha') {
-          $totalStatus['alpha'] += 1;
+        foreach ($dataAbsensi as $hari) {
+            if ($hari->status === 'Hadir') {
+                $totalStatus['hadir'] += 1;
+            } elseif ($hari->status === 'Alpha') {
+                $totalStatus['alpha'] += 1;
+            }
         }
-      }
 
-      $data = ['page' => 'dashboard' , 'totalStatus' => $totalStatus];
-      $this->view('keuangan.dashboard', $data);
+        $data = ['page' => 'dashboard' , 'totalStatus' => $totalStatus];
+        $this->view('keuangan.dashboard', $data);
     }
 
     public function listGajiKaryawan()
@@ -187,17 +187,19 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     }
 
-    public function updateAbsensi() {
-      $data = json_decode(file_get_contents('php://input'), true);
-      $id_absensi = $data['id_absensi'] ?? '';
-      $durasi_lembur = $data['durasi_lembur'] ?? '';
+    public function updateAbsensi()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id_absensi = $data['id_absensi'] ?? '';
+        $durasi_lembur = $data['durasi_lembur'] ?? '';
 
-      if (isset($id_absensi) && $id_absensi !== '' && isset($durasi_lembur) && $durasi_lembur !== '') {
-        $this->absensiModel->update($id_absensi, ['lembur' => $durasi_lembur]);
-      }
+        if (isset($id_absensi) && $id_absensi !== '' && isset($durasi_lembur) && $durasi_lembur !== '') {
+            $this->absensiModel->update($id_absensi, ['lembur' => $durasi_lembur]);
+        }
     }
 
-    public function selectKaryawanGaji() {
+    public function selectKaryawanGaji()
+    {
         $data_karyawan = $this->karyawanModel->all();
 
         $data = [
@@ -210,68 +212,71 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     }
 
-    public function detailGajiKaryawan() {
-      $id = $_GET['id'];
+    public function detailGajiKaryawan()
+    {
+        $id = $_GET['id'];
 
-      if(isset($id) && $id !== '') {
-        if ($id === 'all') {
-          $dataGajiKaryawan = $this->gajiModel->allComplete();
+        if(isset($id) && $id !== '') {
+            if ($id === 'all') {
+                $dataGajiKaryawan = $this->gajiModel->allComplete();
 
-          $this->view('keuangan.features.detailGajiKaryawan', [
-            'dataGajiKaryawan' => $dataGajiKaryawan,
-            'page' => 'Gaji Karyawan',
-            'subpage' => 'Laporan Gaji Karyawan'
-          ]);
-          exit();
-        } else {
-        $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
-        $namaKaryawan = $this->karyawanModel->findById($id)->nama;
-        $this->view('keuangan.features.detailGajiKaryawan', [
-          'dataGajiKaryawan' => $dataGajiKaryawan,
-          'idKaryawan' => $id,
-          'namaKaryawan' => $namaKaryawan,
-          'page' => 'Gaji Karyawan',
-          'subpage' => 'Laporan Gaji Karyawan'
-        ]);
+                $this->view('keuangan.features.detailGajiKaryawan', [
+                  'dataGajiKaryawan' => $dataGajiKaryawan,
+                  'page' => 'Gaji Karyawan',
+                  'subpage' => 'Laporan Gaji Karyawan'
+                ]);
+                exit();
+            } else {
+                $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
+                $namaKaryawan = $this->karyawanModel->findById($id)->nama;
+                $this->view('keuangan.features.detailGajiKaryawan', [
+                  'dataGajiKaryawan' => $dataGajiKaryawan,
+                  'idKaryawan' => $id,
+                  'namaKaryawan' => $namaKaryawan,
+                  'page' => 'Gaji Karyawan',
+                  'subpage' => 'Laporan Gaji Karyawan'
+                ]);
+
+            }
+
 
         }
 
-
-      }
-
-      header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
+        header("Location: {$_ENV['BASE_URL']}/hrd/gaji-karyawan");
 
 
     }
 
-    public function addGajiKaryawan() {
+    public function addGajiKaryawan()
+    {
 
-      $id = $_POST['id'];
-      $durasi_lembur = $_POST['durasi_lembur'];
-      $gaji_lembur = $_POST['gaji_lembur'];
-      $periode = $_POST['periode'];
+        $id = $_POST['id'];
+        $durasi_lembur = $_POST['durasi_lembur'];
+        $gaji_lembur = $_POST['gaji_lembur'];
+        $periode = $_POST['periode'];
 
-      $result = $this->gajiModel->existKaryawanPeriode($id, $periode);
+        $result = $this->gajiModel->existKaryawanPeriode($id, $periode);
 
-      if ($result->count <= 0) {
-        $gaji_pokok  = $this->karyawanModel->findById($id)->gaji;
+        if ($result->count <= 0) {
+            $gaji_pokok  = $this->karyawanModel->findById($id)->gaji;
 
-        $this->gajiModel->create([
-          'karyawan_id' => $id,
-          'periode' => $periode,
-          'gaji_pokok' => $gaji_pokok,
-          'gaji_lembur' => $gaji_lembur,
-          'total_lembur' => $durasi_lembur,
-          'gaji_total' => $gaji_pokok + $gaji_lembur
-        ]);
+            $this->gajiModel->create([
+              'karyawan_id' => $id,
+              'periode' => $periode,
+              'gaji_pokok' => $gaji_pokok,
+              'gaji_lembur' => $gaji_lembur,
+              'total_lembur' => $durasi_lembur,
+              'gaji_total' => $gaji_pokok + $gaji_lembur
+            ]);
 
-      }
+        }
 
-      header("Location: {$_ENV['BASE_URL']}/keuangan/gaji-karyawan/detail?id={$id}");
+        header("Location: {$_ENV['BASE_URL']}/keuangan/gaji-karyawan/detail?id={$id}");
 
     }
 
-    public function deleteGajiKaryawan() {
+    public function deleteGajiKaryawan()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $id = $data['id'] ?? ''; // id tb_gaji
 
@@ -280,7 +285,8 @@ class KeuanganController extends Controller implements AbsensiInterface
         }
     }
 
-    public function approveGajiKaryawan() {
+    public function approveGajiKaryawan()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $id = $data['id'] ?? ''; // id tb_gaji
 
@@ -289,29 +295,32 @@ class KeuanganController extends Controller implements AbsensiInterface
         }
     }
 
-    public function approveSelectedGajiKaryawan() {
+    public function approveSelectedGajiKaryawan()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $selected_id = $data['selected_id'] ?? ''; // id tb_gaji
 
         if($selected_id !== '') {
-          foreach ($selected_id as $id) {
-            $this->gajiModel->update($id, ['status' => 'DISETUJUI']);
-          }
+            foreach ($selected_id as $id) {
+                $this->gajiModel->update($id, ['status' => 'DISETUJUI']);
+            }
         }
     }
 
-    public function pendingSelectedGajiKaryawan() {
+    public function pendingSelectedGajiKaryawan()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $selected_id = $data['selected_id'] ?? ''; // id tb_gaji
 
         if($selected_id !== '') {
-          foreach ($selected_id as $id) {
-            $this->gajiModel->update($id, ['status' => 'PENDING']);
-          }
+            foreach ($selected_id as $id) {
+                $this->gajiModel->update($id, ['status' => 'PENDING']);
+            }
         }
     }
 
-    public function pendingGajiKaryawan() {
+    public function pendingGajiKaryawan()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $id = $data['id'] ?? ''; // id tb_gaji
 

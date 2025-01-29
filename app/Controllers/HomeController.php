@@ -7,15 +7,15 @@ use App\Models\KaryawanModel;
 
 class HomeController extends Controller
 {
+    private $absensiModel;
+    private $karyawanModel;
 
-  private $absensiModel;
-  private $karyawanModel;
-
-  public function __construct($blade) {
-    parent::__construct($blade);
-    $this->absensiModel = new AbsensiModel();
-    $this->karyawanModel = new KaryawanModel();
-  }
+    public function __construct($blade)
+    {
+        parent::__construct($blade);
+        $this->absensiModel = new AbsensiModel();
+        $this->karyawanModel = new KaryawanModel();
+    }
 
     public function index()
     {
