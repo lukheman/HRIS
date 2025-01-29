@@ -111,7 +111,7 @@
                         </td>
                         <td>
                           <form action="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji)" method="post">
-                            <input type="hidden" name="gaji_id" value="{{ $gaji->id_gaji }}">
+                            <input type="hidden" name="id_gaji" value="{{ $gaji->id_gaji }}">
                             <button type="submit" class="btn btn-sm btn-outline-success w-100" {{$gaji->status !==
                               'DISETUJUI'
                               ? 'disabled' : 'enabled' }}>
