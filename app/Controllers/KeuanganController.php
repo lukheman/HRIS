@@ -8,12 +8,14 @@ use App\Models\GajiModel;
 
 use App\Interfaces\AbsensiInterface;
 
+use App\Utils\AbsensiUtil;
+
 class KeuanganController extends Controller implements AbsensiInterface
 {
     private $karyawanModel;
     private $absensiModel;
     private $gajiModel;
-
+    private $absensiUtil;
 
     public function __construct($blade)
     {
@@ -21,6 +23,7 @@ class KeuanganController extends Controller implements AbsensiInterface
         $this->karyawanModel = new KaryawanModel();
         $this->absensiModel = new AbsensiModel();
         $this->gajiModel = new GajiModel();
+        $this->absensiUtil = new AbsensiUtil();
     }
 
     public function index()
@@ -178,59 +181,9 @@ class KeuanganController extends Controller implements AbsensiInterface
         $id = $_GET['id'];
         $periode = $_GET['periode'];
 
-        $dataAbsensiBulanan = $this->absensiModel->absensiBulananKaryawan($id, $periode);
-
-        $dataAbsensiHarian = array();
-        $totalStatus = ['alpha' => 0, 'hadir' => 0, 'total_lembur' => 0];
-
-        foreach($dataAbsensiBulanan as $hari) {
-          if ($hari->status === 'Hadir') {
-            $totalStatus['hadir'] += 1;
-          } else if ($hari->status === 'Alpha') {
-            $totalStatus['alpha'] += 1;
-          }
-            array_push($dataAbsensiHarian, [
-              'id' => $hari->id,
-              'title' => $hari->status,
-              'start' => $hari->tanggal,
-              'backgroundColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
-              'borderColor' => $hari->status === 'Alpha' ? '#dc3545' : '#28a745',
-            ]);
-
-            if($hari->lembur > 0) {
-              $totalStatus['total_lembur'] += $hari->lembur;
-                array_push($dataAbsensiHarian, [
-                  'id' => $hari->id,
-                  'title' => "Lembur {$hari->lembur}",
-                  'start' => $hari->tanggal,
-                  'backgroundColor' => '#fd7e14',
-                  'borderColor' => '#fd7e14',
-                ]);
-            }
-
-        }
-
-
-        $prevMonth = date('Y-m', strtotime('-1 month', strtotime($periode . '-01')));
-        $nextMonth = date('Y-m', strtotime('+1 month', strtotime($periode . '-01')));
-        $initialDate = date('Y-m-d', strtotime($periode . '-01'));
-
-        $karyawan  = $this->karyawanModel->findById($id);
-
-        $data = [
-          'dataAbsensi' => $dataAbsensiHarian,
-          'prevMonth' => $prevMonth,
-          'nextMonth' => $nextMonth,
-          'id' => $id,
-          'initialDate' => $initialDate,
-          'karyawan' => $karyawan,
-          'page' => 'Absensi Karyawan',
-          'subpage' => 'Absensi Bulanan Karyawan',
-          'totalStatus' => $totalStatus
-        ];
+        $data = $this->absensiUtil->getDataAbsensiBulanan($id, $periode);
 
         $this->view('features.absensiBulanan', $data);
-
 
     }
 
