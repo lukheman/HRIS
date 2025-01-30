@@ -328,6 +328,25 @@ class KeuanganController extends Controller implements AbsensiInterface
         }
     }
 
+    public function cetakLaporanAbsensi()
+    {
+        $id = $_POST['id_karyawan'];
+        $start_date = $_POST['start_date'];
+        $end_date = $_POST['end_date'];
+
+        if ($id === 'all') {
+            $listAbsensi = $this->absensiModel->absensiKaryawanAll($start_date, $end_date);
+        } else {
+            $listAbsensi = $this->absensiModel->absensiKaryawanOne($id, $start_date, $end_date);
+        }
+
+        print_r($listAbsensi);
+
+        $this->view('laporanAbsensi', [
+          'listAbsensi' => $listAbsensi
+        ]);
+
+    }
 
 
 }
