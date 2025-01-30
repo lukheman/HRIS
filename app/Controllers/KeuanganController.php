@@ -129,20 +129,20 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     public function cetakSlipGajiAll()
     {
+        // TODO: sort by periode
 
         $periode = $_GET['periode'];
 
-        if(!isset($periode) || $periode === '') {
+        if($periode === 'all') {
+            $listKaryawan = $this->gajiModel->allComplete();
+        } else {
             $periode = date('Y-m');
+            $listKaryawan = $this->gajiModel->findByPeriode($periode);
         }
 
-        $karyawan_list = $this->gajiModel->findByPeriode($periode);
-
-        $data = [
-          'listKaryawan' => $karyawan_list,
-        ];
-
-        $this->view('slipGajiAll', $data);
+        $this->view('slipGajiAll', [
+          'listKaryawan' => $listKaryawan,
+        ]);
 
     }
 
