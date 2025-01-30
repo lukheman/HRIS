@@ -17,8 +17,8 @@
       <div class="col-lg-6">
         <div class="small-box bg-success">
           <div class="inner">
-            <h3>{{ $totalStatus['hadir'] }}</h3>
-            <p>Hadir</p>
+            <h3> {{ $totalKaryawan }} Orang</h3>
+            <p>Karyawan</p>
           </div>
           <div class="icon">
             <i class="ion ion-person"></i>
@@ -28,11 +28,12 @@
       <div class="col-lg-6">
         <div class="small-box bg-danger">
           <div class="inner">
-            <h3>{{ $totalStatus['alpha'] }}</h3>
-            <p>Alpha</p>
+            <!-- total gaji pada bulan sebelumnya -->
+            <h3>Rp. {{ number_format($totalGaji, 2, ',', '.') }}</h3>
+            <p>{{ $periode }}</p>
           </div>
           <div class="icon">
-            <i class="ion ion-person"></i>
+            <i class="ion ion-cash"></i>
           </div>
         </div>
       </div>
