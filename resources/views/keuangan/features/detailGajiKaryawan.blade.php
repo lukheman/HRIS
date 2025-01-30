@@ -23,10 +23,12 @@
             <div class="row">
               <div class="col-6">
                 @if (isset($idKaryawan))
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
-                  Tambah Laporan Gaji</button>
+                <button type="button" class="btn btn-primary" id="btn-update-gaji">
+                  <i class="nav-icon fas fa-sync"></i>
+                  Perbarui Laporan Gaji</button>
                 @else
-                <a class="btn btn-outline-primary" href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all)">
+                <a class="btn btn-outline-primary"
+                  href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all?periode=all)">
                   <i class="nav-icon fas fa-print"></i>
                   Slip Gaji Keseluruhan</a>
                 @endif
@@ -49,20 +51,6 @@
                     aria-describedby="datatable_info">
                     <thead>
                       <tr>
-                        <!--     <th class="sorting sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending"> -->
-                        <!-- </th> -->
-                        <!--     <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-label="Browser: activate to sort column ascending">Browser</th> -->
-                        <!--     <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-label="Platform(s): activate to sort column ascending">Platform(s)</th> -->
-                        <!--     <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-label="Engine version: activate to sort column ascending">Engine version</th> -->
-                        <!-- <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-label="CSS grade: activate to sort column ascending" style="display: none;">CSS grade -->
-                        <!--     </th> -->
-                        <!--    <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">-->
-                        <!--ID Karyawan</th>-->
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Periode</th>
                         @if (!isset($idKaryawan))
@@ -178,47 +166,6 @@
     <!-- /.row -->
   </div>
   <!-- /.container-fluid -->
-  <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Tambah Laporan Gaji</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <form action="@base_url(/{{$role}}/gaji-karyawan/add)" method="post">
-          <div class="modal-body">
-
-            <input type="hidden" name="id" value="{{ $idKaryawan }}">
-
-            <div class="form-group">
-              <label for="durasi-lembur">Durasi Lembur (Jam)</label>
-              <input type="number" class="form-control" id="durasi-lembur" name="durasi_lembur"
-                placeholder="Total Durasi Lembur" min="0">
-            </div>
-
-            <div class="form-group">
-              <label for="gaji-lembur">Gaji Lembur</label>
-              <input type="number" class="form-control" id="gaji-lembur" name="gaji_lembur" placeholder="Gaji Lembur"
-                min="0">
-            </div>
-
-            <div class="form-group">
-              <label for="periode">Periode (Tahun-Bulan)</label>
-              <input type="month" class="form-control" id="periode" name="periode" placeholder="periode" required>
-            </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn btn-primary">Tambahkan</button>
-          </div>
-        </form>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
 </div>
 <!-- /.content -->
 
@@ -238,6 +185,25 @@
 <script>
 
   $(document).ready(() => {
+
+    $('#btn-update-gaji').click(() => {
+
+      $.ajax({
+        url: '@base_url(/{{ $role }}/gaji-karyawan/update)',
+        type: 'POST',
+        success: function (response) {
+          if (response.status === 'success') {
+            Swal.fire("Laporan gaji berhasil diupdate", "", "success").then(() => location.reload());
+          }
+        },
+        error: function (xhr, status, error) {
+          // Tampilkan pesan error
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire("Laporan gaji gagal diupdate", "", "error");
+        },
+      });
+
+    });
 
     $('.select-laporan').click(() => {
       if ($('#action-box').css('display') === 'none') {
