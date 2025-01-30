@@ -28,20 +28,19 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     public function index()
     {
-        $dataAbsensi = $this->absensiModel->today();
+        $periode = getPrevMonth();
 
-        $totalStatus = ['hadir' => 0, 'alpha' => 0 ];
+        $totalKaryawan = $this->karyawanModel->count()->jumlah;
 
-        foreach ($dataAbsensi as $hari) {
-            if ($hari->status === 'Hadir') {
-                $totalStatus['hadir'] += 1;
-            } elseif ($hari->status === 'Alpha') {
-                $totalStatus['alpha'] += 1;
-            }
-        }
+        $totalGaji = $this->gajiModel->totalGaji($periode); // total gaji pada bulan sebelumnya
 
-        $data = ['page' => 'dashboard' , 'totalStatus' => $totalStatus];
-        $this->view('keuangan.dashboard', $data);
+        $this->view('keuangan.dashboard', [
+          'totalKaryawan' => $totalKaryawan,
+          'totalGaji' => $totalGaji,
+          'periode' => $periode,
+          'page' => 'Dashboard',
+          'subpage' => 'Dashboard',
+        ]);
     }
 
     public function listGajiKaryawan()
