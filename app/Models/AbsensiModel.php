@@ -64,12 +64,70 @@ class AbsensiModel extends Model
 
     }
 
+    public function absensiKaryawanOne($id, $start_date, $end_date)
+    {
+        $sql = "SELECT
+      k.nama as nama_karyawan,
+      k.nik,
+      a.id,
+      a.tanggal,
+      a.jam_masuk,
+      a.jam_keluar,
+      a.lembur,
+      a.status
+        FROM {$this->table} a
+        JOIN tb_karyawan k ON a.karyawan_id = k.id
+        WHERE k.id = ?
+        AND a.tanggal BETWEEN ? and ?
+        ORDER BY a.karyawan_id ASC;";
+        return $this->query($sql, [$id, $start_date, $end_date])->fetchAll();
+    }
+
+    public function absensiKaryawanAll($start_date, $end_date)
+    {
+        $sql = "SELECT
+      k.nama as nama_karyawan,
+      k.nik,
+      a.id,
+      a.tanggal,
+      a.jam_masuk,
+      a.jam_keluar,
+      a.lembur,
+      a.status
+        FROM {$this->table} a
+        JOIN tb_karyawan k ON a.karyawan_id = k.id
+        AND a.tanggal BETWEEN ? and ?
+        ORDER BY a.karyawan_id ASC;";
+        return $this->query($sql, [$start_date, $end_date])->fetchAll();
+    }
+
     public function isKaryawanAbsen($id, $tanggal)
     {
 
         $sql = "SELECT * FROM {$this->table} WHERE karyawan_id = ? AND tanggal = ?";
         return $this->query($sql, [$id, $tanggal])->fetch();
 
+    }
+
+    public function findByIdKaryawan($id)
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE karyawan_id = ?";
+        return $this->query($sql, [$id])->fetchAll();
+    }
+
+    public function calculateTotalLemburMonths($id)
+    {
+        // fungsi untuk menghitung total lembur tiap bulan
+        $sql = "
+      SELECT
+        DATE_FORMAT(tanggal, '%Y-%m') AS periode,  -- Mengambil tahun dan bulan
+        SUM(lembur) AS total_lembur              -- Menghitung total lembur
+      FROM {$this->table}
+      WHERE karyawan_id = ?                        -- Filter berdasarkan karyawan_id
+      GROUP BY DATE_FORMAT(tanggal, '%Y-%m')       -- Kelompokkan berdasarkan bulan
+      ORDER BY periode ASC;                          -- Urutkan berdasarkan bulan
+      ";
+        return $this->query($sql, [$id])->fetchAll();
     }
 
 }
