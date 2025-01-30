@@ -36,6 +36,7 @@ $router = new Router($blade);
 // load all route files
 $routeFiles = [
   './app/routes/auth.php',
+  './app/routes/api.php',
   './app/routes/hrd.php',
   './app/routes/keuangan.php',
   './app/routes/pimpinan.php',
