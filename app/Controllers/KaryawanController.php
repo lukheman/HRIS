@@ -78,12 +78,12 @@ class KaryawanController extends Controller
         $karyawan = $this->getCurrentKaryawan();
 
         $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($karyawan->id);
-        $this->view('karyawan.features.detailGajiKaryawan', [
-          'dataGajiKaryawan' => $dataGajiKaryawan,
-          'idKaryawan' => $karyawan->id,
-          'namaKaryawan' => $karyawan->nama,
-          'page' => 'Gaji Karyawan',
-          'subpage' => 'Laporan Gaji Karyawan'
+        $this->view("karyawan.features.detailGajiKaryawan", [
+          "dataGajiKaryawan" => $dataGajiKaryawan,
+          "idKaryawan" => $karyawan->id,
+          "namaKaryawan" => $karyawan->nama,
+          "page" => "Gaji Karyawan",
+          "subpage" => "Laporan Gaji Karyawan",
         ]);
     }
 
