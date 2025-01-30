@@ -22,7 +22,7 @@
 
             <div class="row">
               <div class="col-lg-6">
-                <form action="@base_url(/keuangan/gaji-karyawan)" method="get">
+                <form action="@base_url(/{{ $role }}/gaji-karyawan)" method="get">
 
                   <div class="form-group">
                     <label for="periode">Periode</label>
@@ -38,10 +38,10 @@
               </div>
               <div class="col-lg-6">
                 <a class="btn btn-primary"
-                  href="@base_url(/keuangan/gaji-karyawan/update?periode={{ $periode}})">Refresh
+                  href="@base_url(/{{ $role }}/gaji-karyawan/update?periode={{ $periode}})">Refresh
                   Data</a>
                 <a class="btn btn-outline-primary float-right"
-                  href="@base_url(/keuangan/gaji-karyawan/cetak-slip-gaji-all?periode={{$periode}})">
+                  href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all?periode={{$periode}})">
                   <i class="nav-icon fas fa-print"></i>
                   Slip Gaji Keseluruhan</a>
               </div>
@@ -99,7 +99,7 @@
                           <span class="badge bg-warning">{{ $karyawan->status }}</span>
                         </td>
                         <td>
-                          <form action="@base_url(/keuangan/gaji-karyawan/cetak-slip-gaji)" method="post">
+                          <form action="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji)" method="post">
                             <input type="hidden" name="gaji_id" value="{{ $karyawan->gaji_id }}">
                             <button type="submit" class="btn btn-sm btn-outline-success">
                               <i class="nav-icon fas fa-print"></i>
