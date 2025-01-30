@@ -18,17 +18,28 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <div class="btn-group w-100">
-              <a class="btn btn-primary {{ $by === 'all' ? 'disabled' : 'active' }}"
-                href="@base_url(/{{$role }}/absensi/all)"> <i class="nav-icon fas fa-border-all"></i>
-                Semua</a>
-              <a href="@base_url(/{{$role}}/absensi/all?by=day)"
-                class="btn btn-primary {{ $by === 'day' ? 'disabled' : 'active' }}">
-                <i class="nav-icon fas fa-calendar-day"></i>
-                Hari Ini</a>
-              <a class="btn btn-primary {{ $by === 'month' ? 'disabled' : 'active' }}"
-                href="@base_url(/{{$role }}/absensi/all?by=month)"> <i class="nav-icon fas fa-calendar-week"></i>
-                Bulan Ini</a>
+            <div class="row">
+              <div class="col-6">
+                <div class="btn-group">
+                  <a class="btn btn-primary {{ $by === 'all' ? 'disabled' : 'active' }}"
+                    href="@base_url(/{{$role }}/absensi/all)"> <i class="nav-icon fas fa-border-all"></i>
+                    Semua</a>
+                  <a href="@base_url(/{{$role}}/absensi/all?by=day)"
+                    class="btn btn-primary {{ $by === 'day' ? 'disabled' : 'active' }}">
+                    <i class="nav-icon fas fa-calendar-day"></i>
+                    Hari Ini</a>
+                  <a class="btn btn-primary {{ $by === 'month' ? 'disabled' : 'active' }}"
+                    href="@base_url(/{{$role }}/absensi/all?by=month)">
+                    <i class="nav-icon fas fa-calendar"></i>
+                    Bulan Ini</a>
+                </div>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-outline-primary float-right" id="btn-print-absensi"
+                  data-toggle="modal" data-target="#modal-laporan-absensi">
+                  <i class="nav-icon fas fa-print"></i>
+                  Cetak Laporan Absensi</button>
+              </div>
             </div>
 
           </div>
@@ -89,7 +100,7 @@
                             <!-- </a> -->
 
                             <button type="button" class="btn btn-sm btn-outline-primary btn-edit" data-toggle="modal"
-                              data-target="#modal-default" data-id="{{ $absensi->id_absensi }}">
+                              data-target="#modal-input-lembur" data-id="{{ $absensi->id_absensi }}">
                               <i class="nav-icon fas fa-pencil-alt"></i> Edit
                             </button>
 
@@ -111,7 +122,8 @@
   </div>
 </div>
 
-<div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+<!-- modal edit absensi harian. digunakan untuk menambahkan durasi lembur karyawan -->
+<div class="modal fade" id="modal-input-lembur" style="display: none;" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -138,7 +150,55 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" type="submit" id="btn-submit">Simpan</button>
+          <button class="btn btn-primary" type="submit" id="btn-submit">Simpan</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<!-- modal print laporan absensi -->
+<div class="modal fade" id="modal-laporan-absensi" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Cetak Laporan Absensi</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form action="@base_url(/{{ $role }}/absensi/cetak-laporan-absensi)" method="post">
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label>Nama Karyawan</label>
+            <select class="form-control" name="id_karyawan" id="list-karyawan">
+              <option value="all" selected>Semua Karyawan</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+
+              <div class="form-group">
+                <label for="start-date">Awal</label>
+                <input type="date" class="form-control" id="start-date" name="start_date" required>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="end-date">Akhir</label>
+                <input type="date" class="form-control" id="end-date" name="end_date" required>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit">Cetak</button>
         </div>
       </form>
     </div>
@@ -151,6 +211,27 @@
 
   $(document).ready(() => {
 
+    $('#btn-print-absensi').click(() => {
+      $.ajax({
+        url: '@base_url(/api/get-karyawan-all)',
+        type: 'GET',
+        success: function (response) {
+          // Swal.fire("Laporan gaji berhasil diupdate", "", "success").then(() => location.reload());
+          if (response.status === 'success') {
+            response.data.forEach(karyawan => {
+              $('#list-karyawan').append(`<option value="${karyawan.id}">${karyawan.nama} - ${karyawan.nik}</option>`)
+            })
+          }
+        },
+        error: function (xhr, status, error) {
+          // Tampilkan pesan error
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire("Laporan gaji gagal diupdate", "", "danger");
+        },
+      })
+    })
+
+
     $('.btn-edit').click(async function () {
 
       var row = $(this).closest("tr");
@@ -159,34 +240,34 @@
       var nama = row.find("td:first").text();
 
       // Opsional: Isi input di modal dengan nama yang diambil
-      $("#modal-default input[name='nama']").val(nama);
-      $("#modal-default input[name='id_absensi']").val($(this).data('id'));
+      $("#modal-input-lembur input[name='nama']").val(nama);
+      $("#modal-input-lembur input[name='id_absensi']").val($(this).data('id'));
 
     })
-  })
 
-  $('#btn-submit').click(function (e) {
-    e.preventDefault();
+    $('#btn-submit').click(function (e) {
+      e.preventDefault();
 
-    let id_absensi = $("#modal-default input[name='id_absensi']").val();
-    let durasi_lembur = $("#modal-default input[name='durasi_lembur']").val();
+      let id_absensi = $("#modal-input-lembur input[name='id_absensi']").val();
+      let durasi_lembur = $("#modal-input-lembur input[name='durasi_lembur']").val();
 
-    $.ajax({
-      url: '@base_url(/{{ $role }}/absensi/update)',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({id_absensi: id_absensi, durasi_lembur: durasi_lembur}),
-      success: function (response) {
-        Swal.fire("Data absensi berhasil diupdate", "", "success").then(() => location.reload());
-      },
-      error: function (xhr, status, error) {
-        // Tampilkan pesan error
-        console.error("Terjadi kesalahan:", error);
-        Swal.fire("Data absensi gagal diupdate", "", "danger");
-      },
+      $.ajax({
+        url: '@base_url(/{{ $role }}/absensi/update)',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({id_absensi: id_absensi, durasi_lembur: durasi_lembur}),
+        success: function (response) {
+          Swal.fire("Data absensi berhasil diupdate", "", "success").then(() => location.reload());
+        },
+        error: function (xhr, status, error) {
+          // Tampilkan pesan error
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire("Data absensi gagal diupdate", "", "danger");
+        },
+      })
+
     })
 
   })
-
 </script>
 @endsection
