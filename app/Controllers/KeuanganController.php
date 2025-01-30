@@ -71,50 +71,47 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     public function updateGajiKaryawan()
     {
+        header('Content-Type: application/json');
 
-        $periode = $_GET['periode'] ?? date('Y-m');
-
-        $gajiLembur = 10000; // gaji lembur per/menit
+        $gajiLembur = 50000; // gaji lembur/jam
 
         $dataKaryawanAll = $this->karyawanModel->all();
 
         $dataGajiKaryawan = array(); // data karywan dan gaji karyawan
 
         foreach($dataKaryawanAll as $karyawan) {
-            // cek apakah karyawan_id dengan periode yang sama telah ada di table tb_gaji
-            // jika tidak maka tambahkan
 
-            $result = $this->gajiModel->existKaryawanPeriode($karyawan->id, $periode);
+            $lemburMonths = $this->absensiModel->calculateTotalLemburMonths($karyawan->id);
 
-            if ($result->count > 0) {
-                continue;
+            foreach ($lemburMonths as $month) {
+                // cek apakah karyawan_id dengan periode yang sama telah ada di table tb_gaji
+                // jika tidak maka tambahkan
+                $result = $this->gajiModel->existKaryawanPeriode($karyawan->id, $month->periode);
+                if ($result->count > 0) {
+                    continue;
+                }
+
+                $totalGajiLembur = $month->total_lembur * $gajiLembur;
+                $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
+
+                $data = [
+                  'karyawan_id' => $karyawan->id,
+                  'periode' => $month->periode,
+                  'gaji_pokok' => $karyawan->gaji,
+                  'gaji_lembur' => $totalGajiLembur,
+                  'total_lembur' => $month->total_lembur,
+                  'gaji_total' => $gajiTotal,
+                ];
+                $this->gajiModel->create($data);
             }
 
-            $dataAbsensiBulanan = $this->absensiModel->absensiBulananKaryawan($karyawan->id, $periode);
-            $totalMenitLembur = 0; // total lembur bulan ini dalam satuan menit
-
-            foreach($dataAbsensiBulanan as $hari) {
-                $totalMenitLembur += $hari->lembur;
-            }
-
-            $totalGajiLembur = $totalMenitLembur * $gajiLembur;
-            $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
-
-            $data = [
-              'karyawan_id' => $karyawan->id,
-              'periode' => $periode,
-              'gaji_pokok' => $karyawan->gaji,
-              'gaji_lembur' => $totalGajiLembur,
-              'total_lembur' => $totalMenitLembur,
-              'gaji_total' => $gajiTotal,
-            ];
-
-            $this->gajiModel->create($data);
 
         }
 
-        header("Location: {$_ENV['BASE_URL']}/keuangan/gaji-karyawan");
-
+        echo json_encode([
+          'status' => 'success',
+          'message' => 'successfully update data gaji karyawan'
+        ]);
     }
 
     public function cetakSlipGajiOne()
