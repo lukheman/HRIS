@@ -69,5 +69,12 @@ class GajiModel extends Model
 
     }
 
+    public function totalGaji($periode)
+    {
+        // mengembalikan total gaji pada periode tertentu
+        $sql = "SELECT sum(gaji_total) as total from {$this->table} where periode = ?";
+        return $this->query($sql, [$periode])->fetch()->total;
+    }
+
 
 }
