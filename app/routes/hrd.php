@@ -23,6 +23,7 @@ return function ($router) {
         $router->post('/gaji-karyawan/add', $controller, 'addGajiKaryawan');
         $router->post('/gaji-karyawan/delete', $controller, 'deleteGajiKaryawan');
 
+
         $router->post('/gaji-karyawan/cetak-slip-gaji', $controller, 'cetakSlipGajiOne');
         $router->get('/gaji-karyawan/cetak-slip-gaji-all', $controller, 'cetakSlipGajiAll');
 
