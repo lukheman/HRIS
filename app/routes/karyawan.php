@@ -9,6 +9,7 @@ return function ($router) {
         $router->get('/', $controller, 'profile');
 
         $router->get('/absensi/detail', $controller, 'absensiBulanan');
+        $router->get('/absensi/cetak-laporan', $controller, 'cetakLaporanAbsensi');
         $router->get('/profile', $controller, 'profile');
         $router->post('/profile/update-password', $controller, 'updatePassword');
 
