@@ -1,5 +1,5 @@
 <li class="nav-item">
-  <a href="@base_url(/keuangan)" class="nav-link {{ $page === 'dashboard' ? 'active' : ''}}">
+  <a href="@base_url(/keuangan)" class="nav-link {{ $page === 'Dashboard' ? 'active' : ''}}">
     <i class="nav-icon fas fa-tachometer-alt"></i>
     <p>
       Dashboard Keuangan
