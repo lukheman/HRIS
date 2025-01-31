@@ -45,18 +45,19 @@
 
               <div class="form-group">
                 <label for="nama">Nama Karyawan</label>
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama karyawan">
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama karyawan"
+                  required>
               </div>
 
               <div class="form-group">
                 <label for="nik">NIK Karyawan</label>
-                <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukan nik karyawan">
+                <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukan nik karyawan" required>
               </div>
 
               <div class="form-group">
                 <label for="tanggal-lahir">Tanggal lahir Karyawan</label>
                 <input type="date" class="form-control" id="tanggal-lahir" name="tanggal_lahir"
-                  placeholder="Tanggal lahir karyawan">
+                  placeholder="Tanggal lahir karyawan" required>
               </div>
 
               <div class="form-group">
@@ -72,7 +73,8 @@
 
               <div class="form-group">
                 <label for="gaji">Gaji Karyawan</label>
-                <input type="text" class="form-control" id="gaji" name="gaji" placeholder="Masukan Gaji karyawan">
+                <input type="text" class="form-control" id="gaji" name="gaji" placeholder="Masukan Gaji karyawan"
+                  required>
               </div>
 
               <button type="submit" class="btn btn-primary">Tambahkan</button>
