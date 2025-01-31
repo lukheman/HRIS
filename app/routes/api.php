@@ -5,5 +5,7 @@ return function ($router) {
         $karyawanApiController = '\App\Controllers\Api\KaryawanApiController';
 
         $router->get('/get-karyawan-all', $karyawanApiController, 'getKaryawanAll');
+
+        $router->get('/get-jabatan', $karyawanApiController, 'getJabatan');
     });
 };
