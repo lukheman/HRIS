@@ -21,6 +21,7 @@ return function ($router) {
 
         $router->post('/gaji-karyawan/cetak-slip-gaji', $controller, 'cetakSlipGajiOne');
         $router->get('/gaji-karyawan/cetak-slip-gaji-all', $controller, 'cetakSlipGajiAll');
+        $router->post('/gaji-karyawan/cetak-laporan-gaji', $controller, 'cetakLaporanGaji');
 
         $router->get('/absensi/detail', $controller, 'absensiBulanan');
         $router->get('/absensi/all', $controller, 'listAbsensi');
