@@ -43,25 +43,25 @@
               <div class="form-group">
                 <label for="nama">Nama Karyawan</label>
                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama karyawan"
-                  value="{{ $karyawanOne->nama}}">
+                  value="{{ $karyawanOne->nama}}" required>
               </div>
 
               <div class="form-group">
                 <label for="nik">NIK Karyawan</label>
                 <input type="text" class="form-control" id="nik" name="nik" value="{{ $karyawanOne->nik }}"
-                  placeholder="Masukan nik karyawan">
+                  placeholder="Masukan nik karyawan" required>
               </div>
 
               <div class="form-group">
                 <label for="tanggal-lahir">Tanggal lahir Karyawan</label>
                 <input type="date" class="form-control" id="tanggal-lahir" name="tanggal_lahir"
-                  value="{{ $karyawanOne->tanggal_lahir }}" placeholder="Tanggal lahir karyawan">
+                  value="{{ $karyawanOne->tanggal_lahir }}" placeholder="Tanggal lahir karyawan" required>
               </div>
 
               <div class="form-group">
                 <label for="alamat">Alamat Karyawan</label>
                 <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $karyawanOne->alamat }}"
-                  placeholder="Masukan alamat karyawan">
+                  placeholder="Masukan alamat karyawan" required>
               </div>
 
               <div class="form-group">
