@@ -28,15 +28,15 @@
 
             <div class="col-12">
 
-              <!-- <a class="btn btn-outline-primary " -->
-              <!--   href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all?periode={{$periode}})"> -->
-              <!--   <i class="nav-icon fas fa-print"></i> -->
-              <!--   Slip Gaji Keseluruhan</a> -->
 
               <a class="btn btn-outline-primary " href="@base_url(/{{ $role }}/gaji-karyawan/detail?id=all)">
                 <i class="nav-icon fas fa-eye"></i>
                 Semua Karyawan</a>
 
+              <!-- <a class="btn btn-outline-primary" -->
+              <!--   href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all?periode=all)"> -->
+              <!--   <i class="nav-icon fas fa-print"></i> -->
+              <!--   Slip Gaji Keseluruhan</a> -->
             </div>
 
           </div>
