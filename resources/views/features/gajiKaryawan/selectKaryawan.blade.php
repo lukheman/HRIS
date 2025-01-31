@@ -37,6 +37,12 @@
               <!--   href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all?periode=all)"> -->
               <!--   <i class="nav-icon fas fa-print"></i> -->
               <!--   Slip Gaji Keseluruhan</a> -->
+
+              <button type="button" class="btn btn-outline-primary" id="btn-laporan-gaji" data-toggle="modal"
+                data-target="#modal-laporan-gaji">
+                <i class="nav-icon fas fa-print"></i>
+                Cetak Laporan Gaji</button>
+
             </div>
 
           </div>
@@ -175,11 +181,82 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </div>
+
+<!-- modal print laporan gaji -->
+<div class="modal fade" id="modal-laporan-gaji" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Cetak Laporan Gaji</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <form action="@base_url(/{{ $role }}/gaji-karyawan/cetak-laporan-gaji)" method="post">
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label>Nama Karyawan</label>
+            <select class="form-control" name="id_karyawan" id="list-karyawan">
+              <option value="all" selected>Semua Karyawan</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+
+              <div class="form-group">
+                <label for="start-date">Awal</label>
+                <input type="month" class="form-control" id="start-date" name="start-date" required>
+              </div>
+
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="end-date">Akhir</label>
+                <input type="month" class="form-control" id="end-date" name="end-date" required>
+              </div>
+            </div>
+
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit">Cetak</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 <!-- /.content -->
 
 <script>
   $(document).ready(() => {
 
+    $('#btn-laporan-gaji').click(() => {
+      $.ajax({
+        url: '@base_url(/api/get-karyawan-all)',
+        type: 'GET',
+        success: function (response) {
+          if (response.status === 'success') {
+            response.data.forEach(karyawan => {
+              $('#list-karyawan').append(`<option value="${karyawan.id}">${karyawan.nama} - ${karyawan.nik}</option>`)
+            })
+          }
+        },
+        error: function (xhr, status, error) {
+          // Tampilkan pesan error
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire("Laporan gaji gagal diupdate", "", "danger");
+        },
+      })
+    })
 
     $('.btn-delete').on('click', function () {
 
