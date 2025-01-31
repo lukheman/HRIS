@@ -22,7 +22,9 @@
 
             <div class="row">
               <div class="col-lg-6">
-                <a class="btn btn-primary float-end" href="@base_url(/hrd/karyawan/add)">Tambah Karyawan</a>
+                <a class="btn btn-primary float-end" href="@base_url(/hrd/karyawan/add)">
+                  <i class="nav-icon fas fa-plus"></i>
+                  Tambah Karyawan</a>
               </div>
             </div>
           </div>
