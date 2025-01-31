@@ -80,14 +80,17 @@
                         <td>{{ $karyawan->gaji}}</td>
                         <td>
                           <div class="btn-group">
-                            <form action="@base_url(/hrd/karyawan/update)" method="get">
-                              <input type="hidden" name="id" value="{{ $karyawan->id }}">
-                              <button type="submit" class="btn  btn-sm btn-primary">Update</button>
-                            </form>
+
+                            <a href="@base_url(/{{ $rolel}}/karyawan/update?id={{ $karyawan->id }})" class="btn btn-sm
+                            btn-outline-primary">
+                              <i class="nav-icon fas fa-pencil-alt"></i>
+                              Edit
+                            </a>
 
 
-                            <button type="submit" class="btn btn-sm btn-danger btn-delete"
-                              data-id="{{ $karyawan->id}}">Hapus</button>
+                            <button type="submit" class="btn btn-sm btn-outline-danger btn-delete"
+                              data-id="{{ $karyawan->id}}">
+                              <i class="nav-icon fas fa-trash"></i> Hapus</button>
 
 
                           </div>
