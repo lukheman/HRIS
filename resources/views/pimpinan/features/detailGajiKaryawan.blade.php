@@ -19,21 +19,6 @@
 
         <div class="card">
           <div class="card-header">
-
-            <div class="row">
-              <!-- <div class="col-6"> -->
-              <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default"> -->
-              <!--   Tambah Laporan Gaji</button> -->
-              <!-- </div> -->
-              <div class="col-6">
-                <p class="font-weight-bold float-left">{{ $namaKaryawan }}</p>
-                @if (!isset($idKaryawan))
-                <a class="btn btn-outline-primary" href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all)">
-                  <i class="nav-icon fas fa-print"></i>
-                  Slip Gaji Keseluruhan</a>
-                @endif
-              </div>
-            </div>
           </div>
 
           <!-- /.card-header -->
