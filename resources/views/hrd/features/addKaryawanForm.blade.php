@@ -67,8 +67,11 @@
 
               <div class="form-group">
                 <label for="jabatan">Jabatan Karyawan</label>
-                <input type="text" class="form-control" id="jabatan" name="jabatan"
-                  placeholder="Masukan jabatan karyawan">
+
+                <select name="jabatan" id="jabatan" class="form-control" required>
+                  <option>Pilih Jabatan</option>
+                </select>
+
               </div>
 
               <div class="form-group">
@@ -94,4 +97,32 @@
 </div><!-- /.container-fluid -->
 <!-- /.content -->
 
+
+<script>
+
+  $(document).ready(() => {
+
+    $.ajax({
+      url: '@base_url(/api/get-jabatan)',
+      type: 'GET',
+      success: (response) => {
+        if (response.status === 'success') {
+          response.data.forEach(jabatan => {
+            $('#jabatan').append(`<option value="${jabatan.jabatan}" data-gaji="${jabatan.gaji}">${jabatan.jabatan}</option>`)
+          })
+        }
+      },
+      error: function (xhr, status, error) {
+      }
+    })
+  })
+
+  $('#jabatan').change(() => {
+    // Ambil nilai gaji dari atribut data-gaji pada option yang dipilih
+    const gaji = $('#jabatan option:selected').data('gaji');
+    // Set nilai gaji ke input
+    $('#gaji').val(gaji);
+  })
+
+</script>
 @endsection
