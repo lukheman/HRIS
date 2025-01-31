@@ -74,6 +74,13 @@ class GajiModel extends Model
         return $this->query($sql, [$id])->fetchAll();
     }
 
+    public function findByKaryawanIdStatus($id, $status)
+    {
+        $sql = "SELECT g.id AS gaji_id, g.* FROM {$this->table} g JOIN tb_karyawan k on k.id = g.karyawan_id where g.karyawan_id = ? AND g.status = ?";
+        return $this->query($sql, [$id, $status])->fetchAll();
+    }
+
+
     public function existKaryawanPeriode($id, $periode)
     {
         $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE karyawan_id = ? AND periode = ?";
@@ -88,6 +95,7 @@ class GajiModel extends Model
         $sql = "SELECT sum(gaji_total) as total from {$this->table} where periode = ?";
         return $this->query($sql, [$periode])->fetch()->total;
     }
+
 
 
 }
