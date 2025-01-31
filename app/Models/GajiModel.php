@@ -61,6 +61,13 @@ class GajiModel extends Model
         return $this->query($sql, [$periode])->fetchAll();
     }
 
+    public function findById($id)
+    {
+        $sql = "SELECT * FROM {$this->table} JOIN tb_karyawan on tb_karyawan.id = {$this->table}.karyawan_id WHERE {$this->table}.id = ?";
+
+        return $this->query($sql, [$id])->fetch();
+    }
+
     public function existKaryawanPeriode($id, $periode)
     {
         $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE karyawan_id = ? AND periode = ?";
