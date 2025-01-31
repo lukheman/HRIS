@@ -441,13 +441,15 @@ class HrdController extends Controller implements AbsensiInterface
             $periode = date('Y-m');
         }
 
-        $karyawan_list = $this->gajiModel->findByPeriode($periode);
+        $listKaryawan = $this->gajiModel->findByPeriode($periode);
 
         $data = [
-          'listKaryawan' => $karyawan_list,
+          'listKaryawan' => $listKaryawan,
         ];
 
         $this->view('slipGajiAll', $data);
+
+    }
 
     public function cetakLaporanGaji() {
 
