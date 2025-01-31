@@ -1,76 +1,118 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slip Gaji Karyawan</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <title>Data Gaji</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    table {
+      border-collapse: collapse;
+      font-weight: bold;
     }
 
-    .slip-container {
-      margin: 20px auto;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      max-width: 700px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    #table-slip {
+      margin-top: 10px;
     }
 
-    .slip-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .slip-header h2 {
-      margin: 0;
-    }
-
-    .details-table th,
-    .details-table td {
+    #table-slip th,
+    #table-slip td,
+    #table-slip tr {
+      text-align: left;
+      border: 2px solid black;
       padding: 10px;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    center {
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    hr {
+      border-width: 3px;
+      background-color: black;
+    }
+
+    #biodata th,
+    #biodata td,
+    #biodata tr {
+      padding: 10px;
+    }
+
+    #slip-wrapper {
+      width: 500px;
+      margin: 0 auto;
     }
   </style>
 </head>
 
-<body>
+<body onload="window.print()">
+  <div class="container mt-5">
+    <center>
+      <h3>PT FATWA BUMI SEJAHTERA</h3>
+      <p>CWJ8+G4, Pitulua, Kec. Lasusua, Kabupaten Kolaka Utara, Sulawesi Tenggara</p>
+      <hr>
+    </center>
 
-  <div class="slip-container">
-    <div class="slip-header">
-      <h2>Slip Gaji Karyawan</h2>
-      <p>Periode: {{ $karyawan->periode }}</p>
-    </div>
-    <table class="table details-table">
-      <tr>
-        <th>Nama</th>
-        <td>{{ $karyawan->nama }}</td>
-      </tr>
-      <tr>
-        <th>Jabatan</th>
-        <td>{{ $karyawan->jabatan }}</td>
-      </tr>
-      <tr>
-        <th>Gaji Pokok</th>
-        <td>Rp {{ number_format($karyawan->gaji_pokok, 2, ',', '.') }}</td>
-      </tr>
-      <tr>
-        <th>Gaji Lembur</th>
-        <td>Rp {{ number_format($karyawan->gaji_lembur, 2, ',', '.') }}</td>
-      </tr>
-      <tr>
-        <th>Total Gaji</th>
-        <td><strong>Rp {{ number_format($karyawan->gaji_total, 2, ',', '.') }}</strong></td>
-      </tr>
-    </table>
+    <div class="row" id="slip-wrapper">
+      <div class="col-12">
+        <table id="biodata">
 
-    <div class="text-center mt-4">
-      <p><em>Slip gaji ini dibuat secara otomatis dan sah tanpa tanda tangan.</em></p>
+          <tr>
+            <td>Nama </td>
+            <td>: {{ $karyawan->nama }}</td>
+          </tr>
+          <tr>
+            <td>NIK </td>
+            <td>: {{ $karyawan->nik }}</td>
+          </tr>
+
+          <tr>
+            <td>Jabatan </td>
+            <td>: {{ $karyawan->jabatan }}</td>
+          </tr>
+          <tr>
+            <td>Periode </td>
+            <td>: {{ $karyawan->periode }}</td>
+          </tr>
+
+        </table>
+
+      </div>
+      <div class="col-12">
+
+        <table id="table-slip">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 20%;">Pendapatan</th>
+              <th class="text-center">Jumlah (Rp)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Gaji Pokok</td>
+              <td class="text-right">{{ number_format($karyawan->gaji_pokok, 2, ',', '.')}}</td>
+            </tr>
+            <tr>
+              <td>Gaji Lembur</td>
+              <td class="text-right">{{ number_format($karyawan->gaji_lembur, 2, ',', '.')}}</td>
+            </tr>
+            <tr>
+              <td>Gaji Total</td>
+              <td class="text-right">{{ number_format($karyawan->gaji_total, 2, ',', '.')}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
   </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 </body>
 
 </html>
