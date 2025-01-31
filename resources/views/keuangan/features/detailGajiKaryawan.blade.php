@@ -22,15 +22,15 @@
 
             <div class="row">
               <div class="col-6">
-                @if (isset($idKaryawan))
                 <button type="button" class="btn btn-primary" id="btn-update-gaji">
                   <i class="nav-icon fas fa-sync"></i>
                   Perbarui Laporan Gaji</button>
+                @if (isset($idKaryawan))
                 @else
-                <a class="btn btn-outline-primary"
-                  href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all?periode=all)">
-                  <i class="nav-icon fas fa-print"></i>
-                  Slip Gaji Keseluruhan</a>
+                <!-- <a class="btn btn-outline-primary" -->
+                <!--   href="@base_url(/{{ $role }}/gaji-karyawan/cetak-slip-gaji-all?periode=all)"> -->
+                <!--   <i class="nav-icon fas fa-print"></i> -->
+                <!--   Slip Gaji Keseluruhan</a> -->
                 @endif
               </div>
               <div class="col-6">
