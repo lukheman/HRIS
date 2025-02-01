@@ -1,10 +1,10 @@
 @extends('layouts.main') <!-- gunakan layout main -->
 
-@section('title', 'Home')
+@section('title', strtoupper($role))
 
 @section('sidebar-menu')
 
-@include('pimpinan.menu')
+@include($role . '.menu')
 
 @endsection
 
@@ -14,29 +14,30 @@
   <div class="container-fluid">
     <div class="row">
 
-      <div class=" col-6">
-        <div class="info-box">
-          <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text">Jumlah Karyawan</span>
-            <span class="info-box-number">{{ $karyawanCount }}</span>
+      <div class="col-lg-6">
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3> {{ $totalKaryawan }} Orang</h3>
+            <p>Karyawan</p>
           </div>
-          <!-- /.info-box-content -->
+          <div class="icon">
+            <i class="ion ion-person"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <!-- total gaji pada bulan sebelumnya -->
+            <h3>Rp. {{ number_format($totalGaji, 2, ',', '.') }}</h3>
+            <p>{{ $periode }}</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-cash"></i>
+          </div>
         </div>
       </div>
 
-      <div class=" col-6">
-        <div class="info-box">
-          <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text">Messages</span>
-            <span class="info-box-number">1,410</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-      </div>
 
     </div>
   </div>
