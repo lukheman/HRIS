@@ -17,10 +17,26 @@ db_config = {
 }
 
 # List of possible positions
+
 jabatan_list = [
-    'Manager', 'Supervisor', 'Staff', 'Administrator',
-    'Kepala Divisi', 'Direktur', 'Asisten Manager',
-    'Senior Staff', 'Junior Staff', 'Koordinator'
+    "Direktur Utama",
+    "Direktur Operasional",
+    "General Manager (GM)",
+    "Manager Departemen",
+    "Supervisor Tambang",
+    "Geologis",
+    "Insinyur Pertambangan",
+    "Surveyor Tambang",
+    "Quality Control (QC)",
+    "Operator Alat Berat",
+    "Driller & Blaster",
+    "Teknisi Mekanik",
+    "Welder (Tukang Las)",
+    "Helper Tambang",
+    "Staff Administrasi",
+    "HRD & Payroll",
+    "Keamanan (Security)",
+    "Petugas Kebersihan & Catering"
 ]
 
 def generate_nik():
@@ -29,18 +45,28 @@ def generate_nik():
 
 def generate_salary(jabatan):
     """Generate salary based on position"""
+
     salary_ranges = {
-        'Direktur': 15000000,
-        'Manager': 10000000,
-        'Kepala Divisi': 8000000,
-        'Supervisor': 6000000,
-        'Senior Staff': 5000000,
-        'Asisten Manager': 7000000,
-        'Staff': 4000000,
-        'Junior Staff': 3500000,
-        'Administrator': 4000000,
-        'Koordinator': 5000000
+        "Direktur Utama": 100000000,
+        "Direktur Operasional": 80000000,
+        "General Manager (GM)": 60000000,
+        "Manager Departemen": 40000000,
+        "Supervisor Tambang": 20000000,
+        "Geologis": 25000000,
+        "Insinyur Pertambangan": 22000000,
+        "Surveyor Tambang": 15000000,
+        "Quality Control (QC)": 12000000,
+        "Operator Alat Berat": 10000000,
+        "Driller & Blaster": 9000000,
+        "Teknisi Mekanik": 8500000,
+        "Welder (Tukang Las)": 8000000,
+        "Helper Tambang": 7000000,
+        "Staff Administrasi": 6500000,
+        "HRD & Payroll": 7500000,
+        "Keamanan (Security)": 5500000,
+        "Petugas Kebersihan & Catering": 5000000
     }
+
     return salary_ranges[jabatan]
 
 def insert_dummy_data(num_records):
@@ -52,11 +78,16 @@ def insert_dummy_data(num_records):
         # Insert dummy records
         for _ in range(num_records):
             jabatan = random.choice(jabatan_list)
-            data = {
-                'nama': fake.name(),
-                'nik': generate_nik(),
-                'tanggal_lahir': fake.date_of_birth(minimum_age=18, maximum_age=65).strftime('%Y-%m-%d'),
-                'alamat': fake.address(),
+            nama = fake.name()
+            nik = generate_nik()
+            tanggal_lahir = fake.date_of_birth(minimum_age=18, maximum_age=65).strftime('%Y-%m-%d')
+            alamat = fake.address()
+
+            data_karyawan = {
+                'nama': nama,
+                'nik': nik,
+                'tanggal_lahir': tanggal_lahir,
+                'alamat': alamat,
                 'jabatan': jabatan,
                 'gaji': generate_salary(jabatan)
             }
@@ -67,7 +98,20 @@ def insert_dummy_data(num_records):
                 VALUES (%(nama)s, %(nik)s, %(tanggal_lahir)s, %(alamat)s, %(jabatan)s, %(gaji)s)
             """
 
-            cursor.execute(insert_query, data)
+            cursor.execute(insert_query, data_karyawan)
+
+            data_user = {
+                'username': nik,
+                'password': '$2y$10$ghHa5eVSoTDW7WP6Yl4Vuuw4.gCOxRWXEpADTk5DsFKIimOfT2JMa',
+                'name': nama,
+                'role': 'KARYAWAN'
+            }
+
+            insert_query = """
+                INSERT INTO tb_users (username, password, name, role)
+                VALUES (%(username)s, %(password)s, %(name)s, %(role)s)
+            """
+            cursor.execute(insert_query, data_user)
 
         # Commit the changes
         conn.commit()
@@ -88,11 +132,6 @@ def get_employee_ids():
     except Exception as e:
       print('tidak ada karyawan_id', e)
       exit()
-
-    # finally:
-    #     if conn.is_connected():
-    #         cursor.close()
-    #         conn.close()
 
 def generate_time(base_time, variation_minutes):
     """Generate a time with some random variation"""
@@ -182,7 +221,6 @@ def insert_attendance_records(records):
 def main():
     # Get all employee IDs
     employee_ids = get_employee_ids()
-    print(employee_ids)
 
     if not employee_ids:
         print("No employees found in the database!")
@@ -190,8 +228,8 @@ def main():
 
     # Generate attendance for the last 30 days
     end_date = datetime.now().date()
-    # start_date = end_date - timedelta(days=90)
-    start_date = datetime.now().date()
+    start_date = end_date - timedelta(days=90)
+    # start_date = datetime.now().date()
 
     print(f"Generating attendance records from {start_date} to {end_date}")
     records = generate_attendance_records(start_date, end_date, employee_ids)
@@ -200,8 +238,6 @@ def main():
     insert_attendance_records(records)
 
 if __name__ == "__main__":
+    # Generate 100 dummy records
+    insert_dummy_data(20)
     main()
-
-# if __name__ == "__main__":
-#     # Generate 100 dummy records
-#     insert_dummy_data(20)
