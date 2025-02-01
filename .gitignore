@@ -1,11 +1,4 @@
 env
 storage
-
-# ETC
-TODO
-test.html
-ad.js
-/.cache/
 vendor
-storage/cache
 .php-cs-fixer.cache
