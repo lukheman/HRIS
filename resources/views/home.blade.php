@@ -26,6 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
         <a class="h1"> FBS </a>
+        <p class="text-bold">FATWA BUMI SEJAHTERA</p>
       </div>
       <div class="card-body">
 
