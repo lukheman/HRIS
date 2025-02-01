@@ -35,3 +35,11 @@ revisi 2025-01-25
 - [x] slip gaji keseluruhan karyawan diganti jadi kolom
 - [x] Role keuangan : absensi karyawan
 - [x] tambahkan informasi total hadir, alpha, lembur di detail absensi
+
+revisi 2025-01-29
+- [x] Absensi karyawan -> tambahkan fitur cetak kehadiran
+- [x] Generate otomatis slip gaji karyawan
+- [x] Buat kop untuk slip gaji karyawan
+- [x] pada fitur cetak slip gaji tambahkan periode - total keseluruhan gaji
+- [x] pada dashboard keuangan tampilkan total karyawan dan total gaji karyawan pada bulan sebelumnya
+- [x] saat menambahkan data karywan, untuk gaji karyawan ditentuakn berdasarkan golongan
