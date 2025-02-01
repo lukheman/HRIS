@@ -130,4 +130,72 @@ class AbsensiModel extends Model
         return $this->query($sql, [$id])->fetchAll();
     }
 
+    public function getAbsensiMonth($periode)
+    {
+        $sql = "
+SELECT
+    k.nama AS nama_karyawan,
+    k.id AS id_karyawan,
+    GROUP_CONCAT(DATE_FORMAT(a.tanggal, '%d') ORDER BY a.tanggal ASC SEPARATOR ', ') AS tanggal_hadir,
+    GROUP_CONCAT(
+        CASE
+            WHEN a.status = 'Hadir' THEN DATE_FORMAT(a.tanggal, '%d')
+            ELSE NULL
+        END
+        ORDER BY a.tanggal ASC SEPARATOR ', '
+    ) AS tanggal_hadir,
+    GROUP_CONCAT(
+        CASE
+            WHEN a.status = 'Alpha' THEN DATE_FORMAT(a.tanggal, '%d')
+            ELSE NULL
+        END
+        ORDER BY a.tanggal ASC SEPARATOR ', '
+    ) AS tanggal_alpha
+FROM
+    tb_absensi a
+JOIN
+    tb_karyawan k ON a.karyawan_id = k.id
+WHERE
+    DATE_FORMAT(a.tanggal, '%Y-%m') = ?
+GROUP BY
+    k.id;
+";
+
+        return $this->query($sql, [$periode])->fetchAll();
+
+    }
+
+    public function getAbsensiMonthByIdKaryawan($id_karyawan, $periode)
+    {
+        $sql = "
+SELECT
+    GROUP_CONCAT(DATE_FORMAT(a.tanggal, '%d') ORDER BY a.tanggal ASC SEPARATOR ', ') AS tanggal_hadir,
+    GROUP_CONCAT(
+        CASE
+            WHEN a.status = 'Hadir' THEN DATE_FORMAT(a.tanggal, '%d')
+            ELSE NULL
+        END
+        ORDER BY a.tanggal ASC SEPARATOR ', '
+    ) AS tanggal_hadir,
+    GROUP_CONCAT(
+        CASE
+            WHEN a.status = 'Alpha' THEN DATE_FORMAT(a.tanggal, '%d')
+            ELSE NULL
+        END
+        ORDER BY a.tanggal ASC SEPARATOR ', '
+    ) AS tanggal_alpha
+FROM
+    tb_absensi a
+JOIN
+    tb_karyawan k ON a.karyawan_id = k.id
+WHERE
+    DATE_FORMAT(a.tanggal, '%Y-%m') = ? AND a.karyawan_id = ?
+GROUP BY
+    k.id;
+";
+
+        return $this->query($sql, [$periode, $id_karyawan])->fetchAll();
+
+    }
+
 }
