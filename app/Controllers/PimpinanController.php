@@ -8,7 +8,9 @@ use App\Models\GajiModel;
 
 use App\Utils\AbsensiUtil;
 
-class PimpinanController extends Controller
+use App\Interfaces\AbsensiInterface;
+
+class PimpinanController extends Controller implements AbsensiInterface
 {
     protected $karyawanModel;
     protected $absensiModel;
