@@ -94,3 +94,28 @@ CREATE TABLE tb_pembayaran (
 
 -- metode_bayar ENUM('Transfer', 'Tunai') NOT NULL,
 -- status ENUM('Lunas', 'Belum Lunas') NOT NULL,
+CREATE TABLE tb_jabatan (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    jabatan VARCHAR(50) NOT NULL,
+    gaji_pokok INT NOT NULL
+);
+
+INSERT INTO tb_jabatan (jabatan, gaji) VALUES
+('Direktur Utama', 100000000),
+('Direktur Operasional', 80000000),
+('General Manager (GM)', 60000000),
+('Manager Departemen', 40000000),
+('Supervisor Tambang', 20000000),
+('Geologis', 25000000),
+('Insinyur Pertambangan', 22000000),
+('Surveyor Tambang', 15000000),
+('Quality Control (QC)', 12000000),
+('Operator Alat Berat', 10000000),
+('Driller & Blaster', 9000000),
+('Teknisi Mekanik', 8500000),
+('Welder (Tukang Las)', 8000000),
+('Helper Tambang', 7000000),
+('Staff Administrasi', 6500000),
+('HRD & Payroll', 7500000),
+('Keamanan (Security)', 5500000),
+('Petugas Kebersihan & Catering', 5000000);
