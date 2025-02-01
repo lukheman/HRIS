@@ -44,9 +44,7 @@
 
     .biodata {
       border-collapse: separate;
-      /* Harus diatur ke 'separate' */
       border-spacing: 10px 10px;
-      /* 0 untuk horizontal, 10px untuk vertical */
     }
   </style>
 </head>
@@ -61,17 +59,17 @@
     <table class="biodata">
 
       <tr>
-        <td>Nama: </td>
-        <td>{{ $karyawan->nama }}</td>
+        <td>Nama </td>
+        <td>: {{ $karyawan->nama }}</td>
       </tr>
       <tr>
-        <td>NIK: </td>
-        <td>{{ $karyawan->nik }}</td>
+        <td>NIK </td>
+        <td>: {{ $karyawan->nik }}</td>
       </tr>
 
       <tr>
-        <td>Jabatan: </td>
-        <td>{{ $karyawan->jabatan }}</td>
+        <td>Jabatan </td>
+        <td>: {{ $karyawan->jabatan }}</td>
       </tr>
     </table>
     <br>
