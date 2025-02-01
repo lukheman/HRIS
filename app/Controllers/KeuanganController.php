@@ -345,31 +345,38 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     }
 
-    public function cetakLaporanGaji() {
+        var_dump($listAbsensi);
 
-      $id_karyawan = $_POST['id_karyawan'];
-      $start_date = $_POST['start-date'];
-      $end_date = $_POST['end-date'];
 
-      if($id_karyawan === 'all') {
-        $listKaryawan = $this->gajiModel->findBetweenPeriode($start_date, $end_date);
-        $data = [
-          'listKaryawan' => $listKaryawan,
-          'start_date' => $start_date,
-          'end_date' => $end_date
-        ];
-        $this->view('laporanGaji', $data);
-      } else {
-        $listKaryawan = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
-        $karyawan = $this->karyawanModel->findById($id_karyawan);
-        $data = [
-          'listKaryawan' => $listKaryawan,
-          'start_date' => $start_date,
-          'end_date' => $end_date,
-          'karyawan' => $karyawan
-        ];
-        $this->view('laporanGajiOne', $data);
-      }
+
+    }
+
+    public function cetakLaporanGaji()
+    {
+
+        $id_karyawan = $_POST['id_karyawan'];
+        $start_date = $_POST['start-date'];
+        $end_date = $_POST['end-date'];
+
+        if($id_karyawan === 'all') {
+            $listKaryawan = $this->gajiModel->findBetweenPeriode($start_date, $end_date);
+            $data = [
+              'listKaryawan' => $listKaryawan,
+              'start_date' => $start_date,
+              'end_date' => $end_date
+            ];
+            $this->view('laporanGaji', $data);
+        } else {
+            $listKaryawan = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
+            $karyawan = $this->karyawanModel->findById($id_karyawan);
+            $data = [
+              'listKaryawan' => $listKaryawan,
+              'start_date' => $start_date,
+              'end_date' => $end_date,
+              'karyawan' => $karyawan
+            ];
+            $this->view('laporanGajiOne', $data);
+        }
 
     }
 
