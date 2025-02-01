@@ -19,7 +19,7 @@
         <div class="card">
           <div class="card-header">
             <div class="row">
-              <div class="col-6">
+              <div class="col-12">
                 <div class="btn-group">
                   <a class="btn btn-primary {{ $by === 'all' ? 'disabled' : 'active' }}"
                     href="@base_url(/{{$role }}/absensi/all)"> <i class="nav-icon fas fa-border-all"></i>
@@ -33,10 +33,8 @@
                     <i class="nav-icon fas fa-calendar"></i>
                     Bulan Ini</a>
                 </div>
-              </div>
-              <div class="col-6">
-                <button type="button" class="btn btn-outline-primary float-right" id="btn-print-absensi"
-                  data-toggle="modal" data-target="#modal-laporan-absensi">
+                <button type="button" class="btn btn-outline-primary" id="btn-print-absensi" data-toggle="modal"
+                  data-target="#modal-laporan-absensi">
                   <i class="nav-icon fas fa-print"></i>
                   Cetak Laporan Absensi</button>
               </div>
@@ -179,20 +177,9 @@
             </select>
           </div>
 
-          <div class="row">
-            <div class="col-6">
-
-              <div class="form-group">
-                <label for="start-date">Awal</label>
-                <input type="date" class="form-control" id="start-date" name="start_date" required>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="end-date">Akhir</label>
-                <input type="date" class="form-control" id="end-date" name="end_date" required>
-              </div>
-            </div>
+          <div class="form-group">
+            <label for="periode">Periode</label>
+            <input type="month" class="form-control" id="periode" name="periode" required>
           </div>
 
         </div>
