@@ -15,4 +15,11 @@ class UserModel extends Model
         return $this->query($sql, [$username])->fetch();
     }
 
+    public function deleteByUsername($username)
+    {
+
+        $sql = "DELETE FROM {$this->table} WHERE username = ?";
+        return $this->query($sql, [$username])->rowCount();
+    }
+
 }
