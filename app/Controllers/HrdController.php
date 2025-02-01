@@ -125,6 +125,8 @@ class HrdController extends Controller implements AbsensiInterface
         $id = $data['id'] ?? '';
 
         if($id !== '') {
+            $karyawanNik = $this->karyawanModel->findById($id)->nik;
+            $this->userModel->deleteByUsername($karyawanNik);
             $this->karyawanModel->delete($id);
         }
 
