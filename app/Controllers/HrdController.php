@@ -32,18 +32,19 @@ class HrdController extends Controller implements AbsensiInterface
 
     public function index()
     {
+        $periode = getPrevMonth();
 
-        $karyawanCount = $this->karyawanModel->count()->jumlah;
+        $totalKaryawan = $this->karyawanModel->count()->jumlah;
 
-        $data = [
+        $totalGaji = $this->gajiModel->totalGaji($periode); // total gaji pada bulan sebelumnya
+
+        $this->view('keuangan.dashboard', [
+          'totalKaryawan' => $totalKaryawan,
+          'totalGaji' => $totalGaji,
+          'periode' => $periode,
           'page' => 'Dashboard',
           'subpage' => 'Dashboard',
-          'karyawanCount' => $karyawanCount
-        ];
-
-        // $this->view('hrd.dashboard', $data);
-        $this->view('hrd.dashboard', $data);
-
+        ]);
     }
 
     public function listKaryawan()
