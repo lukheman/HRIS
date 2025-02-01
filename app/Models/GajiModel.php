@@ -26,8 +26,9 @@ class GajiModel extends Model
         return $this->query($sql)->fetchAll();
     }
 
-    public function findBetweenPeriode($start, $end) {
-      $sql = "SELECT
+    public function findBetweenPeriode($start, $end)
+    {
+        $sql = "SELECT
         g.id as id_gaji,
         g.periode,
         g.gaji_pokok,
@@ -42,8 +43,9 @@ class GajiModel extends Model
         return $this->query($sql, [$start, $end])->fetchAll();
     }
 
-    public function findKaryawanBetweenPeriode($id, $start, $end) {
-      $sql = "SELECT
+    public function findKaryawanBetweenPeriode($id, $start, $end)
+    {
+        $sql = "SELECT
         g.id as id_gaji,
         g.periode,
         g.gaji_pokok,

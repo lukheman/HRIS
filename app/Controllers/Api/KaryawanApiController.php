@@ -29,7 +29,8 @@ class KaryawanApiController
         echo json_encode($response, JSON_PRETTY_PRINT);
     }
 
-    public function getJabatan() {
+    public function getJabatan()
+    {
         header('Content-Type: application/json');
         $data = $this->jabatanModel->all();
         $response = [

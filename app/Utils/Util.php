@@ -10,7 +10,9 @@ function getPrevMonth()
 
     return $prevMonth;
 }
-function addEndDate($periode) {
+
+function addEndDate($periode)
+{
     // Parsing tahun dan bulan dari periode
     list($tahun, $bulan) = explode('-', $periode);
 
@@ -23,8 +25,9 @@ function addEndDate($periode) {
     return $tanggalAkhir;
 }
 
-function generateHeaderDate($periode) {
-      list($tahun, $bulan) = explode('-', $periode);
+function generateHeaderDate($periode)
+{
+    list($tahun, $bulan) = explode('-', $periode);
 
     // Hitung jumlah hari dalam bulan
     $jumlahHari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
@@ -33,7 +36,7 @@ function generateHeaderDate($periode) {
     $namaHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
     // Generate array tanggal dari 01 hingga jumlah hari
-    $tanggalHeader = array_map(function($hari) {
+    $tanggalHeader = array_map(function ($hari) {
         return str_pad($hari, 2, '0', STR_PAD_LEFT); // Format dua digit (01, 02, dst.)
     }, range(1, $jumlahHari));
 

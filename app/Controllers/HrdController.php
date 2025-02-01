@@ -460,23 +460,23 @@ class HrdController extends Controller implements AbsensiInterface
 
         if ($id_karyawan === 'all') {
             $listAbsensi = $this->absensiModel->getAbsensiMonth($periode);
-        $this->view('laporanAbsensi', [
-          'start_date' =>  $periode . '-01' ,
-          'end_date' => addEndDate($periode),
-          'header_date' => generateHeaderDate($periode),
-          'listAbsensi' => $listAbsensi
-        ]);
+            $this->view('laporanAbsensi', [
+              'start_date' =>  $periode . '-01' ,
+              'end_date' => addEndDate($periode),
+              'header_date' => generateHeaderDate($periode),
+              'listAbsensi' => $listAbsensi
+            ]);
 
         } else {
             $listAbsensi = $this->absensiModel->getAbsensiMonthByIdKaryawan($id_karyawan, $periode);
             $karyawan = $this->karyawanModel->findById($id_karyawan);
-        $this->view('laporanAbsensi', [
-          'start_date' =>  $periode . '-01' ,
-          'end_date' => addEndDate($periode),
-          'header_date' => generateHeaderDate($periode),
-          'listAbsensi' => $listAbsensi,
-          'karyawan' => $karyawan
-        ]);
+            $this->view('laporanAbsensi', [
+              'start_date' =>  $periode . '-01' ,
+              'end_date' => addEndDate($periode),
+              'header_date' => generateHeaderDate($periode),
+              'listAbsensi' => $listAbsensi,
+              'karyawan' => $karyawan
+            ]);
         }
 
 
