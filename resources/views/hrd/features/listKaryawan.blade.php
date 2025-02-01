@@ -81,7 +81,7 @@
                         <td>
                           <div class="btn-group">
 
-                            <a href="@base_url(/{{ $rolel}}/karyawan/update?id={{ $karyawan->id }})" class="btn btn-sm
+                            <a href="@base_url(/{{ $role }}/karyawan/update?id={{ $karyawan->id }})" class="btn btn-sm
                             btn-outline-primary">
                               <i class="nav-icon fas fa-pencil-alt"></i>
                               Edit
