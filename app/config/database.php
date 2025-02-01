@@ -3,7 +3,7 @@
 return [
   'host' => '127.0.0.1',
   'username' => 'root',
-  'password' => 'akmal',
+  'password' => '',
   'dbname' => 'fbs',
   'charset' => 'utf8mb4',
 ];
