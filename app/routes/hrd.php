@@ -32,6 +32,7 @@ return function ($router) {
         $router->get('/absensi/detail', $controller, 'absensiBulanan');
         $router->get('/absensi/all', $controller, 'listAbsensi');
         $router->post('/absensi/update', $controller, 'updateAbsensi');
+        $router->post('/absensi/cetak-laporan-absensi', $controller, 'cetakLaporanAbsensi');
 
         // route untuk qrcode
         $router->get('/absensi/scan-qrcode', $controller, 'scanQrCode');

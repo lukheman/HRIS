@@ -24,6 +24,7 @@ return function ($router) {
 
         $router->get('/absensi/detail', $controller, 'absensiBulanan');
         $router->get('/absensi/all', $controller, 'listAbsensi');
+        $router->post('/absensi/cetak-laporan-absensi', $controller, 'cetakLaporanAbsensi');
 
     });
 };
