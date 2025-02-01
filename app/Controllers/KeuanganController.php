@@ -127,7 +127,7 @@ class KeuanganController extends Controller implements AbsensiInterface
     {
         // TODO: sort by periode
 
-        $periode = $_GET['periode'];
+        $periode = $_GET['periode'] ?? 'all';
 
         if($periode === 'all') {
             $listKaryawan = $this->gajiModel->allComplete();
@@ -146,7 +146,7 @@ class KeuanganController extends Controller implements AbsensiInterface
     {
 
         // set sorting method
-        $by = $_GET['by'];
+        $by = $_GET['by'] ?? '';
 
         if (isset($by) && $by !== '') {
             if ($by === 'month') {

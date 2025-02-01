@@ -166,7 +166,7 @@ class HrdController extends Controller implements AbsensiInterface
     {
 
         // set sorting method
-        $by = $_GET['by'];
+        $by = $_GET['by'] ?? '';
 
         if (isset($by) && $by !== '') {
             if ($by === 'month') {
@@ -434,20 +434,18 @@ class HrdController extends Controller implements AbsensiInterface
 
     public function cetakSlipGajiAll()
     {
+        $periode = $_GET['periode'] ?? 'all';
 
-        $periode = $_GET['periode'];
-
-        if(!isset($periode) || $periode === '') {
+        if($periode === 'all') {
+            $listKaryawan = $this->gajiModel->allComplete();
+        } else {
             $periode = date('Y-m');
+            $listKaryawan = $this->gajiModel->findByPeriode($periode);
         }
 
-        $listKaryawan = $this->gajiModel->findByPeriode($periode);
-
-        $data = [
+        $this->view('slipGajiAll', [
           'listKaryawan' => $listKaryawan,
-        ];
-
-        $this->view('slipGajiAll', $data);
+        ]);
 
     }
 

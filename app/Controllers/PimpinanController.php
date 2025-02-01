@@ -81,20 +81,18 @@ class PimpinanController extends Controller implements AbsensiInterface
 
     public function cetakSlipGajiAll()
     {
+        $periode = $_GET['periode'] ?? 'all';
 
-        $periode = $_GET['periode'];
-
-        if(!isset($periode) || $periode === '') {
+        if($periode === 'all') {
+            $listKaryawan = $this->gajiModel->allComplete();
+        } else {
             $periode = date('Y-m');
+            $listKaryawan = $this->gajiModel->findByPeriode($periode);
         }
 
-        $karyawan_list = $this->gajiModel->findByPeriode($periode);
-
-        $data = [
-          'listKaryawan' => $karyawan_list,
-        ];
-
-        $this->view('slipGajiAll', $data);
+        $this->view('slipGajiAll', [
+          'listKaryawan' => $listKaryawan,
+        ]);
 
     }
 
@@ -102,7 +100,7 @@ class PimpinanController extends Controller implements AbsensiInterface
     {
 
         // set sorting method
-        $by = $_GET['by'];
+        $by = $_GET['by'] ?? '';
 
         if (isset($by) && $by !== '') {
             if ($by === 'month') {
