@@ -23,8 +23,9 @@
             <div class="row">
               <div class="col-6">
                 @if (isset($idKaryawan))
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">Tambah
-                  Laporan Gaji</button>
+                <button type="button" class="btn btn-primary" id="btn-update-gaji">
+                  <i class="nav-icon fas fa-sync"></i>
+                  Perbarui Laporan Gaji</button>
 
                 @endif
               </div>
@@ -220,6 +221,24 @@
 <script>
 
   $(document).ready(() => {
+    $('#btn-update-gaji').click(() => {
+
+      $.ajax({
+        url: '@base_url(/{{ $role }}/gaji-karyawan/update)',
+        type: 'POST',
+        success: function (response) {
+          if (response.status === 'success') {
+            Swal.fire("Laporan gaji berhasil diupdate", "", "success").then(() => location.reload());
+          }
+        },
+        error: function (xhr, status, error) {
+          // Tampilkan pesan error
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire("Laporan gaji gagal diupdate", "", "error");
+        },
+      });
+
+    });
 
     $(".btn-delete-laporan").on('click', async function () {
 
