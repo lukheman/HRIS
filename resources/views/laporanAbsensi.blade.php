@@ -13,62 +13,140 @@
       border-collapse: collapse;
     }
 
-    th,
-    td {
+    .laporan-absensi th,
+    .laporan-absensi td {
       text-align: left;
       padding: 8px;
-      border: 1px solid #ddd;
+      border: 2px solid black;
     }
 
     th {
       background-color: #f4f4f4;
+    }
+
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        font-size: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+      }
+
+      th,
+      td {
+        border: 2px solid #000;
+        padding: 8px;
+      }
+
+      table,
+      tr,
+      td,
+      th {
+        page-break-inside: avoid;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 1cm;
+      }
+    }
+
+    hr {
+      width: 100%;
+      border-width: 3px;
+      background-color: black;
+    }
+
+    .biodata {
+      border-collapse: separate;
+      border-spacing: 10px 10px;
+      border: 0px;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body onload="window.print()">
   <div class="container mt-5">
-    <h3>Data Gaji Karyawan</h3>
-    <table>
+    <center>
+      <h3>PT FATWA BUMI SEJAHTERA</h3>
+      <p>CWJ8+G4, Pitulua, Kec. Lasusua, Kabupaten Kolaka Utara, Sulawesi Tenggara</p>
+      <hr>
+    </center>
+    @if (isset($karyawan))
+    <table class="biodata">
+      <tr>
+        <td>Nama </td>
+        <td>: {{ $karyawan->nama }}</td>
+      </tr>
+      <tr>
+        <td>NIK </td>
+        <td>: {{ $karyawan->nik }}</td>
+      </tr>
+
+      <tr>
+        <td>Jabatan </td>
+        <td>: {{ $karyawan->jabatan }}</td>
+      </tr>
+    </table>
+    @endif
+    <div class="row">
+      <div class="col-6">
+        <h4>Laporan Harian</h4>
+      </div>
+      <div class="col-6">
+        <p class="float-right">
+          <b>
+            Dari {{ $start_date }} s/d {{ $end_date }}
+          </b>
+        </p>
+      </div>
+    </div>
+    <table class="laporan-absensi">
       <thead>
         <tr>
+          @if (!isset($karyawan))
           <th>Nama</th>
-          <th>1</th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5</th>
-          <th>6</th>
-          <th>7</th>
-          <th>8</th>
-          <th>9</th>
-          <th>10</th>
-          <th>11</th>
-          <th>12</th>
-          <th>13</th>
-          <th>14</th>
-          <th>15</th>
-          <th>16</th>
-          <th>17</th>
-          <th>18</th>
-          <th>19</th>
-          <th>20</th>
-          <th>21</th>
-          <th>22</th>
-          <th>23</th>
-          <th>24</th>
-          <th>25</th>
-          <th>26</th>
-          <th>27</th>
-          <th>28</th>
-          <th>29</th>
-          <th>30</th>
+          @endif
+          @foreach ($header_date as $tanggal)
+          <td>{{ $tanggal }}</td>
+
+          @endforeach
         </tr>
       </thead>
       <tbody>
+        @foreach ($listAbsensi as $absensi)
+        <tr>
+          @if (!isset($karyawan))
+          <td>{{ $absensi->nama_karyawan}}</td>
+          @endif
+          @php
+          $tanggalHadir = explode(", ", $absensi->tanggal_hadir); // Ubah string tanggal hadir menjadi array
+          $tanggalAlpha = explode(", ", $absensi->tanggal_alpha); // Ubah string tanggal hadir menjadi array
+          @endphp
+
+          @foreach ($header_date as $tanggal)
+          @if (in_array($tanggal, $tanggalHadir))
+          <td>H</td>
+          @elseif (in_array($tanggal, $tanggalAlpha))
+          <td>A</td>
+          @else
+          <td></td>
+          @endif
+
+          @endforeach
+
+        </tr>
+        @endforeach
 
       </tbody>
     </table>
+    <p><small>Hadir = "H", Alpha = "A"</small></p>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 </body>
