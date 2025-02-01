@@ -387,6 +387,50 @@ class HrdController extends Controller implements AbsensiInterface
 
     }
 
+    public function updateGajiKaryawan()
+    {
+        header('Content-Type: application/json');
+
+        $gajiLembur = 50000; // gaji lembur/jam
+
+        $dataKaryawanAll = $this->karyawanModel->all();
+
+        $dataGajiKaryawan = array(); // data karywan dan gaji karyawan
+
+        foreach($dataKaryawanAll as $karyawan) {
+
+            $lemburMonths = $this->absensiModel->calculateTotalLemburMonths($karyawan->id);
+
+            foreach ($lemburMonths as $month) {
+                // cek apakah karyawan_id dengan periode yang sama telah ada di table tb_gaji
+                // jika tidak maka tambahkan
+                $result = $this->gajiModel->existKaryawanPeriode($karyawan->id, $month->periode);
+                if ($result->count > 0) {
+                    continue;
+                }
+
+                $totalGajiLembur = $month->total_lembur * $gajiLembur;
+                $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
+
+                $data = [
+                  'karyawan_id' => $karyawan->id,
+                  'periode' => $month->periode,
+                  'gaji_pokok' => $karyawan->gaji,
+                  'gaji_lembur' => $totalGajiLembur,
+                  'total_lembur' => $month->total_lembur,
+                  'gaji_total' => $gajiTotal,
+                ];
+                $this->gajiModel->create($data);
+            }
+
+
+        }
+
+        echo json_encode([
+          'status' => 'success',
+          'message' => 'successfully update data gaji karyawan'
+        ]);
+    }
     public function addGajiKaryawan()
     {
 
