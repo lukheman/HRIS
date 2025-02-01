@@ -27,6 +27,7 @@ return function ($router) {
         $router->post('/gaji-karyawan/cetak-slip-gaji', $controller, 'cetakSlipGajiOne');
         $router->post('/gaji-karyawan/cetak-slip-gaji-all', $controller, 'cetakSlipGajiAll');
         $router->post('/gaji-karyawan/cetak-laporan-gaji', $controller, 'cetakLaporanGaji');
+        $router->post('/gaji-karyawan/update', $controller, 'updateGajiKaryawan');
 
         // route untuk absensi
         $router->get('/absensi/detail', $controller, 'absensiBulanan');
