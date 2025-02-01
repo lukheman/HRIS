@@ -48,7 +48,7 @@
       <p>CWJ8+G4, Pitulua, Kec. Lasusua, Kabupaten Kolaka Utara, Sulawesi Tenggara</p>
       <hr>
     </center>
-    <h4>REKAP GAJI
+    <h4>REKAP GAJI PERIODE
       @if ($start_date === $end_date)
       {{ $start_date }}
       @else
