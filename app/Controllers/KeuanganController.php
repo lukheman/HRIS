@@ -119,7 +119,6 @@ class KeuanganController extends Controller implements AbsensiInterface
         $id = $_POST['id_gaji'];
 
         $karyawan = $this->gajiModel->findById($id);
-
         $this->view('slipGajiOne', ['karyawan' => $karyawan]);
 
     }
@@ -327,25 +326,32 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     public function cetakLaporanAbsensi()
     {
-        $id = $_POST['id_karyawan'];
-        $start_date = $_POST['start_date'];
-        $end_date = $_POST['end_date'];
+        $id_karyawan = $_POST['id_karyawan'];
+        $periode = $_POST['periode'];
 
-        if ($id === 'all') {
-            $listAbsensi = $this->absensiModel->absensiKaryawanAll($start_date, $end_date);
-        } else {
-            $listAbsensi = $this->absensiModel->absensiKaryawanOne($id, $start_date, $end_date);
-        }
+        $header_date = generateHeaderDate($periode);
 
-        print_r($listAbsensi);
-
+        if ($id_karyawan === 'all') {
+            $listAbsensi = $this->absensiModel->getAbsensiMonth($periode);
         $this->view('laporanAbsensi', [
+          'start_date' =>  $periode . '-01' ,
+          'end_date' => addEndDate($periode),
+          'header_date' => generateHeaderDate($periode),
           'listAbsensi' => $listAbsensi
         ]);
 
-    }
+        } else {
+            $listAbsensi = $this->absensiModel->getAbsensiMonthByIdKaryawan($id_karyawan, $periode);
+            $karyawan = $this->karyawanModel->findById($id_karyawan);
+        $this->view('laporanAbsensi', [
+          'start_date' =>  $periode . '-01' ,
+          'end_date' => addEndDate($periode),
+          'header_date' => generateHeaderDate($periode),
+          'listAbsensi' => $listAbsensi,
+          'karyawan' => $karyawan
+        ]);
+        }
 
-        var_dump($listAbsensi);
 
 
 

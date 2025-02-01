@@ -264,10 +264,37 @@ class PimpinanController extends Controller implements AbsensiInterface
 
     }
 
+    public function cetakLaporanAbsensi()
+    {
+        $id_karyawan = $_POST['id_karyawan'];
+        $periode = $_POST['periode'];
+
+        $header_date = generateHeaderDate($periode);
+
+        if ($id_karyawan === 'all') {
+            $listAbsensi = $this->absensiModel->getAbsensiMonth($periode);
+        $this->view('laporanAbsensi', [
+          'start_date' =>  $periode . '-01' ,
+          'end_date' => addEndDate($periode),
+          'header_date' => generateHeaderDate($periode),
+          'listAbsensi' => $listAbsensi
+        ]);
+            exit();
+
+        } else {
+            $listAbsensi = $this->absensiModel->getAbsensiMonthByIdKaryawan($id_karyawan, $periode);
+            $karyawan = $this->karyawanModel->findById($id_karyawan);
+        $this->view('laporanAbsensi', [
+          'start_date' =>  $periode . '-01' ,
+          'end_date' => addEndDate($periode),
+          'header_date' => generateHeaderDate($periode),
+          'listAbsensi' => $listAbsensi,
           'karyawan' => $karyawan
-        ];
-        $this->view('laporanGajiOne', $data);
-      }
+        ]);
+            exit();
+        }
 
     }
+
+    public function updateAbsensi() {}
 }

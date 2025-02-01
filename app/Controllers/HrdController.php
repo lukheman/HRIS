@@ -451,31 +451,38 @@ class HrdController extends Controller implements AbsensiInterface
 
     }
 
-    public function cetakLaporanGaji() {
+    public function cetakLaporanAbsensi()
+    {
+        $id_karyawan = $_POST['id_karyawan'];
+        $periode = $_POST['periode'];
 
-      $id_karyawan = $_POST['id_karyawan'];
-      $start_date = $_POST['start-date'];
-      $end_date = $_POST['end-date'];
+        $header_date = generateHeaderDate($periode);
 
-      if($id_karyawan === 'all') {
-        $listKaryawan = $this->gajiModel->findBetweenPeriode($start_date, $end_date);
-        $data = [
-          'listKaryawan' => $listKaryawan,
-          'start_date' => $start_date,
-          'end_date' => $end_date
-        ];
-        $this->view('laporanGaji', $data);
-      } else {
-        $listKaryawan = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
-        $karyawan = $this->karyawanModel->findById($id_karyawan);
-        $data = [
-          'listKaryawan' => $listKaryawan,
-          'start_date' => $start_date,
-          'end_date' => $end_date,
+        if ($id_karyawan === 'all') {
+            $listAbsensi = $this->absensiModel->getAbsensiMonth($periode);
+        $this->view('laporanAbsensi', [
+          'start_date' =>  $periode . '-01' ,
+          'end_date' => addEndDate($periode),
+          'header_date' => generateHeaderDate($periode),
+          'listAbsensi' => $listAbsensi
+        ]);
+
+        } else {
+            $listAbsensi = $this->absensiModel->getAbsensiMonthByIdKaryawan($id_karyawan, $periode);
+            $karyawan = $this->karyawanModel->findById($id_karyawan);
+        $this->view('laporanAbsensi', [
+          'start_date' =>  $periode . '-01' ,
+          'end_date' => addEndDate($periode),
+          'header_date' => generateHeaderDate($periode),
+          'listAbsensi' => $listAbsensi,
           'karyawan' => $karyawan
-        ];
-        $this->view('laporanGajiOne', $data);
-      }
+        ]);
+        }
+
+
+
+
+    }
     public function cetakLaporanGaji()
     {
 
