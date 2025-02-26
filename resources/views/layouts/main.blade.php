@@ -43,6 +43,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- sweetalert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <!-- leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 
 </head>
 
@@ -129,10 +133,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       $('#datatable').DataTable({
         "searching": true,  // Aktifkan fitur pencarian
-        "paging": false,    // Nonaktifkan fitur paginasi (opsional)
-        "ordering": false   // Nonaktifkan pengurutan (opsional)
+        "paging": true,    // Nonaktifkan fitur paginasi (opsional)
+        "ordering": true   // Nonaktifkan pengurutan (opsional)
       });
     });
+
   </script>
 
 </body>
