@@ -8,6 +8,21 @@ class KaryawanModel extends Model
 {
     protected $table = 'tb_karyawan';
 
+    public function all()
+    {
+        $sql = "SELECT
+        k.id as id_karyawan,
+        nama,
+        nik,
+        tanggal_lahir,
+        alamat,
+        j.id as id_jabatan,
+        j.jabatan,
+        j.gaji
+        FROM {$this->table} k JOIN tb_jabatan j on k.id_jabatan = j.id";
+        return $this->query($sql)->fetchAll();
+    }
+
     public function findById($id)
     {
         $sql = "SELECT * FROM {$this->table} WHERE id = ?";
