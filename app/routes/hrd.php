@@ -44,6 +44,15 @@ return function ($router) {
 
         $router->post('/absensi/process-scan', $controller, 'processScan');
 
+        $router->get('/pengaturan', $controller, 'pengaturan');
+        $router->post('/pengaturan/update', $controller, 'updatePengaturan');
+
+        $router->get('/jabatan', $controller, 'jabatan');
+        $router->post('/jabatan/add', $controller, 'addJabatan');
+        $router->post('/jabatan/update', $controller, 'updateJabatan');
+        $router->post('/jabatan/delete', $controller, 'deleteJabatan');
+        $router->get('/jabatan/show', $controller, 'showJabatan');
+
 
     });
 
