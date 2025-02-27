@@ -78,7 +78,10 @@ class GajiModel extends Model
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM {$this->table} JOIN tb_karyawan on tb_karyawan.id = {$this->table}.karyawan_id WHERE {$this->table}.id = ?";
+      $sql = "SELECT * FROM {$this->table}
+        JOIN tb_karyawan k ON k.id = {$this->table}.karyawan_id
+        JOIN tb_jabatan j ON k.id_jabatan = j.id
+        WHERE {$this->table}.id = ?";
 
         return $this->query($sql, [$id])->fetch();
     }
