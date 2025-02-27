@@ -58,7 +58,7 @@
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Jam Keluar</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
-                          Lembur (Jam)</th>
+                          Lembur (Menit)</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Status</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
@@ -97,10 +97,10 @@
                             <!--   <i class="nav-icon fas fa-pencil-alt"></i> Edit -->
                             <!-- </a> -->
 
-                            <button type="button" class="btn btn-sm btn-outline-primary btn-edit" data-toggle="modal"
-                              data-target="#modal-input-lembur" data-id="{{ $absensi->id_absensi }}">
-                              <i class="nav-icon fas fa-pencil-alt"></i> Edit
-                            </button>
+                            <!-- <button type="button" class="btn btn-sm btn-outline-primary btn-edit" data-toggle="modal" -->
+                            <!--   data-target="#modal-input-lembur" data-id="{{ $absensi->id_absensi }}"> -->
+                            <!--   <i class="nav-icon fas fa-pencil-alt"></i> Edit -->
+                            <!-- </button> -->
 
                           </div>
 
@@ -141,7 +141,7 @@
           </div>
 
           <div class="form-group">
-            <label for="lembur">Durasi Lembur (Jam)</label>
+            <label for="lembur">Durasi Lembur (Menit)</label>
             <input type="number" class="form-control" id="lembur" placeholder="Lembur" min="0" name="durasi_lembur">
           </div>
 
@@ -206,7 +206,7 @@
           // Swal.fire("Laporan gaji berhasil diupdate", "", "success").then(() => location.reload());
           if (response.status === 'success') {
             response.data.forEach(karyawan => {
-              $('#list-karyawan').append(`<option value="${karyawan.id}">${karyawan.nama} - ${karyawan.nik}</option>`)
+              $('#list-karyawan').append(`<option value="${karyawan.id_karyawan}">${karyawan.nama} - ${karyawan.nik}</option>`)
             })
           }
         },

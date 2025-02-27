@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\AbsensiModel;
 use App\Models\KaryawanModel;
 use App\Models\GajiModel;
+use App\Models\PengaturanModel;
 
 use App\Utils\AbsensiUtil;
 
@@ -15,6 +16,7 @@ class PimpinanController extends Controller implements AbsensiInterface
     protected $karyawanModel;
     protected $absensiModel;
     protected $gajiModel;
+    protected $pengaturanModel;
     private $absensiUtil;
 
     public function __construct($blade)
@@ -23,6 +25,7 @@ class PimpinanController extends Controller implements AbsensiInterface
         $this->karyawanModel = new KaryawanModel();
         $this->absensiModel = new AbsensiModel();
         $this->gajiModel = new GajiModel();
+        $this->pengaturanModel = new PengaturanModel();
         $this->absensiUtil = new AbsensiUtil();
     }
 
@@ -138,50 +141,47 @@ class PimpinanController extends Controller implements AbsensiInterface
 
     public function updateGajiKaryawan()
     {
+        header('Content-Type: application/json');
 
-        $periode = $_GET['periode'] ?? date('Y-m');
-
-        $gajiLembur = 10000; // gaji lembur per/menit
+        $gajiLembur = $this->pengaturanModel->all()->gaji_lembur; // gaji lembur/jam
 
         $dataKaryawanAll = $this->karyawanModel->all();
 
         $dataGajiKaryawan = array(); // data karywan dan gaji karyawan
 
         foreach($dataKaryawanAll as $karyawan) {
-            // cek apakah karyawan_id dengan periode yang sama telah ada di table tb_gaji
-            // jika tidak maka tambahkan
 
-            $result = $this->gajiModel->existKaryawanPeriode($karyawan->id, $periode);
+            $lemburMonths = $this->absensiModel->calculateTotalLemburMonths($karyawan->id_karyawan);
 
-            if ($result->count > 0) {
-                continue;
+            foreach ($lemburMonths as $month) {
+                // cek apakah karyawan_id dengan periode yang sama telah ada di table tb_gaji
+                // jika tidak maka tambahkan
+                $result = $this->gajiModel->existKaryawanPeriode($karyawan->id_karyawan, $month->periode);
+                if ($result->count > 0) {
+                    continue;
+                }
+
+                $totalGajiLembur = ($month->total_lembur / 60) * $gajiLembur;
+                $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
+
+                $data = [
+                  'karyawan_id' => $karyawan->id_karyawan,
+                  'periode' => $month->periode,
+                  'gaji_pokok' => $karyawan->gaji,
+                  'gaji_lembur' => $totalGajiLembur,
+                  'total_lembur' => $month->total_lembur,
+                  'gaji_total' => $gajiTotal,
+                ];
+                $this->gajiModel->create($data);
             }
 
-            $dataAbsensiBulanan = $this->absensiModel->absensiBulananKaryawan($karyawan->id, $periode);
-            $totalMenitLembur = 0; // total lembur bulan ini dalam satuan menit
-
-            foreach($dataAbsensiBulanan as $hari) {
-                $totalMenitLembur += $hari->lembur;
-            }
-
-            $totalGajiLembur = $totalMenitLembur * $gajiLembur;
-            $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
-
-            $data = [
-              'karyawan_id' => $karyawan->id,
-              'periode' => $periode,
-              'gaji_pokok' => $karyawan->gaji,
-              'gaji_lembur' => $totalGajiLembur,
-              'total_lembur' => $totalMenitLembur,
-              'gaji_total' => $gajiTotal,
-            ];
-
-            $this->gajiModel->create($data);
 
         }
 
-        header("Location: {$_ENV['BASE_URL']}/pimpinan/gaji-karyawan");
-
+        echo json_encode([
+          'status' => 'success',
+          'message' => 'successfully update data gaji karyawan'
+        ]);
     }
 
     public function selectKaryawanGaji()
@@ -249,10 +249,10 @@ class PimpinanController extends Controller implements AbsensiInterface
             ];
             $this->view('laporanGaji', $data);
         } else {
-            $listKaryawan = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
+            $listGaji = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
             $karyawan = $this->karyawanModel->findById($id_karyawan);
             $data = [
-              'listKaryawan' => $listKaryawan,
+              'listGaji' => $listGaji,
               'start_date' => $start_date,
               'end_date' => $end_date,
               'karyawan' => $karyawan

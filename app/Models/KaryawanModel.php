@@ -25,8 +25,18 @@ class KaryawanModel extends Model
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE id = ?";
-        return $this->query($sql, [$id])->fetch();
+      $sql = "SELECT
+        k.id AS id_karyawan,
+        k.nama,
+        k.nik,
+        k.tanggal_lahir,
+        k.alamat,
+        j.jabatan,
+        j.gaji
+        FROM {$this->table} k
+        JOIN tb_jabatan j ON k.id_jabatan = j.id
+        WHERE k.id = ?";
+      return $this->query($sql, [$id])->fetch();
     }
 
     public function findByNik($nik)

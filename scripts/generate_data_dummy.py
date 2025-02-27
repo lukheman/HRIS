@@ -8,36 +8,36 @@ fake = Faker('id_ID')  # Using Indonesian locale since the column names are in I
 
 # MySQL Connection Configuration
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'akmal',
-    'database': 'fbs',
-    'charset': 'utf8mb4',
-    'collation': 'utf8mb4_general_ci'
-}
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'fbs',
+        'charset': 'utf8mb4',
+        'collation': 'utf8mb4_general_ci'
+        }
 
 # List of possible positions
 
 jabatan_list = [
-    "Direktur Utama",
-    "Direktur Operasional",
-    "General Manager (GM)",
-    "Manager Departemen",
-    "Supervisor Tambang",
-    "Geologis",
-    "Insinyur Pertambangan",
-    "Surveyor Tambang",
-    "Quality Control (QC)",
-    "Operator Alat Berat",
-    "Driller & Blaster",
-    "Teknisi Mekanik",
-    "Welder (Tukang Las)",
-    "Helper Tambang",
-    "Staff Administrasi",
-    "HRD & Payroll",
-    "Keamanan (Security)",
-    "Petugas Kebersihan & Catering"
-]
+        "Direktur Utama",
+        "Direktur Operasional",
+        "General Manager (GM)",
+        "Manager Departemen",
+        "Supervisor Tambang",
+        "Geologis",
+        "Insinyur Pertambangan",
+        "Surveyor Tambang",
+        "Quality Control (QC)",
+        "Operator Alat Berat",
+        "Driller & Blaster",
+        "Teknisi Mekanik",
+        "Welder (Tukang Las)",
+        "Helper Tambang",
+        "Staff Administrasi",
+        "HRD & Payroll",
+        "Keamanan (Security)",
+        "Petugas Kebersihan & Catering"
+        ]
 
 def generate_nik():
     """Generate a unique NIK format"""
@@ -47,29 +47,29 @@ def generate_salary(jabatan):
     """Generate salary based on position"""
 
     salary_ranges = {
-        "Direktur Utama": 100000000,
-        "Direktur Operasional": 80000000,
-        "General Manager (GM)": 60000000,
-        "Manager Departemen": 40000000,
-        "Supervisor Tambang": 20000000,
-        "Geologis": 25000000,
-        "Insinyur Pertambangan": 22000000,
-        "Surveyor Tambang": 15000000,
-        "Quality Control (QC)": 12000000,
-        "Operator Alat Berat": 10000000,
-        "Driller & Blaster": 9000000,
-        "Teknisi Mekanik": 8500000,
-        "Welder (Tukang Las)": 8000000,
-        "Helper Tambang": 7000000,
-        "Staff Administrasi": 6500000,
-        "HRD & Payroll": 7500000,
-        "Keamanan (Security)": 5500000,
-        "Petugas Kebersihan & Catering": 5000000
-    }
+            "Direktur Utama": 100000000,
+            "Direktur Operasional": 80000000,
+            "General Manager (GM)": 60000000,
+            "Manager Departemen": 40000000,
+            "Supervisor Tambang": 20000000,
+            "Geologis": 25000000,
+            "Insinyur Pertambangan": 22000000,
+            "Surveyor Tambang": 15000000,
+            "Quality Control (QC)": 12000000,
+            "Operator Alat Berat": 10000000,
+            "Driller & Blaster": 9000000,
+            "Teknisi Mekanik": 8500000,
+            "Welder (Tukang Las)": 8000000,
+            "Helper Tambang": 7000000,
+            "Staff Administrasi": 6500000,
+            "HRD & Payroll": 7500000,
+            "Keamanan (Security)": 5500000,
+            "Petugas Kebersihan & Catering": 5000000
+            }
 
     return salary_ranges[jabatan]
 
-def insert_dummy_data(num_records):
+def insert_karyawan(num_records):
     try:
         # Establish database connection
         conn = mysql.connector.connect(**db_config)
@@ -77,40 +77,39 @@ def insert_dummy_data(num_records):
 
         # Insert dummy records
         for _ in range(num_records):
-            jabatan = random.choice(jabatan_list)
+            id_jabatan = random.randint(20, 37)
             nama = fake.name()
             nik = generate_nik()
             tanggal_lahir = fake.date_of_birth(minimum_age=18, maximum_age=65).strftime('%Y-%m-%d')
             alamat = fake.address()
 
             data_karyawan = {
-                'nama': nama,
-                'nik': nik,
-                'tanggal_lahir': tanggal_lahir,
-                'alamat': alamat,
-                'jabatan': jabatan,
-                'gaji': generate_salary(jabatan)
-            }
+                    'nama': nama,
+                    'nik': nik,
+                    'tanggal_lahir': tanggal_lahir,
+                    'alamat': alamat,
+                    'id_jabatan': id_jabatan,
+                    }
 
-            # SQL Insert query
             insert_query = """
-                INSERT INTO tb_karyawan (nama, nik, tanggal_lahir, alamat, jabatan, gaji)
-                VALUES (%(nama)s, %(nik)s, %(tanggal_lahir)s, %(alamat)s, %(jabatan)s, %(gaji)s)
+                INSERT INTO tb_karyawan (nama, nik, tanggal_lahir, alamat, id_jabatan)
+                VALUES (%(nama)s, %(nik)s, %(tanggal_lahir)s, %(alamat)s, %(id_jabatan)s)
             """
 
             cursor.execute(insert_query, data_karyawan)
 
             data_user = {
-                'username': nik,
-                'password': '$2y$10$ghHa5eVSoTDW7WP6Yl4Vuuw4.gCOxRWXEpADTk5DsFKIimOfT2JMa',
-                'name': nama,
-                'role': 'KARYAWAN'
-            }
+                    'username': nik,
+                    'password': '$2y$10$ghHa5eVSoTDW7WP6Yl4Vuuw4.gCOxRWXEpADTk5DsFKIimOfT2JMa',
+                    'name': nama,
+                    'role': 'KARYAWAN'
+                    }
 
             insert_query = """
                 INSERT INTO tb_users (username, password, name, role)
                 VALUES (%(username)s, %(password)s, %(name)s, %(role)s)
             """
+
             cursor.execute(insert_query, data_user)
 
         # Commit the changes
@@ -122,7 +121,6 @@ def insert_dummy_data(num_records):
 
 
 def get_employee_ids():
-    """Fetch all employee IDs from tb_karyawan"""
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
@@ -130,28 +128,24 @@ def get_employee_ids():
         employee_ids = [row[0] for row in cursor.fetchall()]
         return employee_ids
     except Exception as e:
-      print('tidak ada karyawan_id', e)
-      exit()
+        print('tidak ada karyawan_id', e)
+        exit()
 
 def generate_time(base_time, variation_minutes):
-    """Generate a time with some random variation"""
     minutes_to_add = random.randint(-variation_minutes, variation_minutes)
     return (datetime.strptime(base_time, '%H:%M') +
             timedelta(minutes=minutes_to_add)).strftime('%H:%M')
 
 def generate_attendance_status():
-    """Generate attendance status with weighted probabilities"""
     statuses = ['Hadir', 'Alpha']
     weights = [0.95, 0.05]  # 95% Hadir, 5% Alpha
     return random.choices(statuses, weights=weights)[0]
 
 def generate_attendance_records(start_date, end_date, employee_ids):
-    """Generate attendance records for the given date range"""
     current_date = start_date
     records = []
 
     while current_date <= end_date:
-        # Skip weekends
         if current_date.weekday() < 5:  # Monday = 0, Sunday = 6
             for emp_id in employee_ids:
                 status = generate_attendance_status()
@@ -163,9 +157,9 @@ def generate_attendance_records(start_date, end_date, employee_ids):
 
                     # Randomly decide if there's overtime (20% chance)
                     lembur = random.choices(
-                        [0, random.randint(30, 180)],  # 0 or 30-180 minutes
-                        weights=[0.8, 0.2]
-                    )[0]
+                            [0, random.randint(30, 180)],  # 0 or 30-180 minutes
+                            weights=[0.8, 0.2]
+                            )[0]
 
                     if lembur > 0:
                         # Adjust jam_keluar for overtime
@@ -184,14 +178,13 @@ def generate_attendance_records(start_date, end_date, employee_ids):
                     'jam_keluar': jam_keluar,
                     'lembur': lembur,
                     'status': status
-                })
+                    })
 
         current_date += timedelta(days=1)
 
     return records
 
 def insert_attendance_records(records):
-    """Insert attendance records into the database"""
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
@@ -217,9 +210,50 @@ def insert_attendance_records(records):
     except mysql.connector.Error as error:
         print(f"Failed to insert records into MySQL table: {error}")
 
+def insert_jabatan():
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
 
-def main():
-    # Get all employee IDs
+        salary_ranges = {
+                "Direktur Utama": 100000000,
+                "Direktur Operasional": 80000000,
+                "General Manager (GM)": 60000000,
+                "Manager Departemen": 40000000,
+                "Supervisor Tambang": 20000000,
+                "Geologis": 25000000,
+                "Insinyur Pertambangan": 22000000,
+                "Surveyor Tambang": 15000000,
+                "Quality Control (QC)": 12000000,
+                "Operator Alat Berat": 10000000,
+                "Driller & Blaster": 9000000,
+                "Teknisi Mekanik": 8500000,
+                "Welder (Tukang Las)": 8000000,
+                "Helper Tambang": 7000000,
+                "Staff Administrasi": 6500000,
+                "HRD & Payroll": 7500000,
+                "Keamanan (Security)": 5500000,
+                "Petugas Kebersihan & Catering": 5000000
+                }
+
+        for jabatan in salary_ranges.items():
+            insert_query = """
+              INSERT INTO tb_jabatan (jabatan, gaji)
+              VALUES (%(jabatan)s, %(gaji)s)
+          """
+
+            cursor.execute(insert_query, {
+                'jabatan': jabatan[0],
+                'gaji': jabatan[1],
+                })
+
+            conn.commit()
+
+    except mysql.connector.Error as error:
+        print(f"Failed to insert records into MySQL table: {error}")
+
+
+def insert_absensi():
     employee_ids = get_employee_ids()
 
     if not employee_ids:
@@ -228,7 +262,7 @@ def main():
 
     # Generate attendance for the last 30 days
     end_date = datetime.now().date()
-    start_date = end_date - timedelta(days=90)
+    start_date = end_date - timedelta(days=120)
     # start_date = datetime.now().date()
 
     print(f"Generating attendance records from {start_date} to {end_date}")
@@ -238,6 +272,6 @@ def main():
     insert_attendance_records(records)
 
 if __name__ == "__main__":
-    # Generate 100 dummy records
-    insert_dummy_data(20)
-    main()
+    # insert_jabatan()
+    # insert_karyawan(15)
+    insert_absensi()

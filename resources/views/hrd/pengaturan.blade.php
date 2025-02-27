@@ -52,6 +52,16 @@
         </div>
       </div>
       <div class="col-md-6">
+        <div class="card"> 
+          <div class="card-body"> 
+
+            <div class="form-group">
+              <label for="gaji-lembur">Gaji Lembur</label>
+              <input type="number" class="form-control" id="gaji-lembur" value="{{ $pengaturan->gaji_lembur }}">
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -84,6 +94,22 @@
         url: '@base_url(/hrd/pengaturan/update)',
         method: 'POST',
         data: JSON.stringify({jam_keluar: $(this).val()}),
+        contentType: 'application/json',
+        success: function (data) {
+          location.reload();
+        },
+        error: function (error) {
+          console.log(error)
+        }
+      })
+    });
+
+    $('#gaji-lembur').on('input', function () {
+
+      $.ajax({
+        url: '@base_url(/hrd/pengaturan/update)',
+        method: 'POST',
+        data: JSON.stringify({gaji_lembur: $(this).val()}),
         contentType: 'application/json',
         success: function (data) {
           location.reload();

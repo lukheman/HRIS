@@ -1,4 +1,15 @@
 @extends('layouts.main')
+      $sql = "SELECT
+        k.id as id_karyawan
+        nama,
+        nik,
+        tanggal_lahir,
+        alamat,
+        j.jabatan,
+        j.gaji
+        FROM {$this->table} k
+        JOIN tb_jabatan j on k.id_jabatan = j.id
+        WHERE k.id = ?";
 
 @section('title', strtoupper($role))
 

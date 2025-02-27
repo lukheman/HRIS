@@ -35,6 +35,16 @@
 </li>
 
 <li class="nav-item">
+  <a href="@base_url(/hrd/jabatan)" class="nav-link {{ $page === 'Jabatan' ? 'active' : ''}}">
+    <i class="nav-icon fas fa-users"></i>
+    <p>
+      Jabatan
+    </p>
+  </a>
+</li>
+
+
+<li class="nav-item">
   <a href="@base_url(/hrd/absensi/generate-qrcode)" class="nav-link {{ $page === 'Generate QR Code' ? 'active' : ''}}">
     <i class="nav-icon fas fa-qrcode"></i>
     <p>
@@ -51,3 +61,13 @@
     </p>
   </a>
 </li>
+
+<li class="nav-item">
+  <a href="@base_url(/hrd/pengaturan)" class="nav-link {{ $page === 'Pengaturan' ? 'active' : ''}}">
+    <i class="nav-icon fas fa-wrench"></i>
+    <p>
+      Pengaturan
+    </p>
+  </a>
+</li>
+

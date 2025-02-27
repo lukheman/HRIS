@@ -26,7 +26,6 @@
                 <button type="button" class="btn btn-primary" id="btn-update-gaji">
                   <i class="nav-icon fas fa-sync"></i>
                   Perbarui Laporan Gaji</button>
-
                 @endif
               </div>
               <div class="col-6">
@@ -44,20 +43,7 @@
                     aria-describedby="datatable_info">
                     <thead>
                       <tr>
-                        <!--     <th class="sorting sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending"> -->
-                        <!-- </th> -->
-                        <!--     <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-label="Browser: activate to sort column ascending">Browser</th> -->
-                        <!--     <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-label="Platform(s): activate to sort column ascending">Platform(s)</th> -->
-                        <!--     <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-label="Engine version: activate to sort column ascending">Engine version</th> -->
-                        <!-- <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" -->
-                        <!--       aria-label="CSS grade: activate to sort column ascending" style="display: none;">CSS grade -->
-                        <!--     </th> -->
-                        <!--    <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">-->
-                        <!--ID Karyawan</th>-->
+
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Periode</th>
                         @if (!isset($idKaryawan))
@@ -70,7 +56,7 @@
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Gaji Lembur (Rp.)</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
-                          Total Durasi Lembur (Jam)</th>
+                          Total Durasi Lembur (Menit)</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
                           Total Gaji (Rp.)</th>
                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1">
@@ -189,7 +175,7 @@
             <input type="hidden" name="id" value="{{ $idKaryawan }}">
 
             <div class="form-group">
-              <label for="durasi-lembur">Durasi Lembur (Jam)</label>
+              <label for="durasi-lembur">Durasi Lembur (Menit)</label>
               <input type="number" class="form-control" id="durasi-lembur" name="durasi_lembur"
                 placeholder="Total Durasi Lembur" min="0">
             </div>

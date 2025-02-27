@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\KaryawanModel;
 use App\Models\AbsensiModel;
 use App\Models\GajiModel;
+use App\Models\PengaturanModel;
 
 use App\Interfaces\AbsensiInterface;
 
@@ -15,6 +16,7 @@ class KeuanganController extends Controller implements AbsensiInterface
     private $karyawanModel;
     private $absensiModel;
     private $gajiModel;
+    private $pengaturanModel;
     private $absensiUtil;
 
     public function __construct($blade)
@@ -23,6 +25,7 @@ class KeuanganController extends Controller implements AbsensiInterface
         $this->karyawanModel = new KaryawanModel();
         $this->absensiModel = new AbsensiModel();
         $this->gajiModel = new GajiModel();
+        $this->pengaturanModel = new PengaturanModel();
         $this->absensiUtil = new AbsensiUtil();
     }
 
@@ -73,7 +76,7 @@ class KeuanganController extends Controller implements AbsensiInterface
     {
         header('Content-Type: application/json');
 
-        $gajiLembur = 50000; // gaji lembur/jam
+        $gajiLembur = $this->pengaturanModel->all()->gaji_lembur; // gaji lembur/jam
 
         $dataKaryawanAll = $this->karyawanModel->all();
 
@@ -81,21 +84,21 @@ class KeuanganController extends Controller implements AbsensiInterface
 
         foreach($dataKaryawanAll as $karyawan) {
 
-            $lemburMonths = $this->absensiModel->calculateTotalLemburMonths($karyawan->id);
+            $lemburMonths = $this->absensiModel->calculateTotalLemburMonths($karyawan->id_karyawan);
 
             foreach ($lemburMonths as $month) {
                 // cek apakah karyawan_id dengan periode yang sama telah ada di table tb_gaji
                 // jika tidak maka tambahkan
-                $result = $this->gajiModel->existKaryawanPeriode($karyawan->id, $month->periode);
+                $result = $this->gajiModel->existKaryawanPeriode($karyawan->id_karyawan, $month->periode);
                 if ($result->count > 0) {
                     continue;
                 }
 
-                $totalGajiLembur = $month->total_lembur * $gajiLembur;
+                $totalGajiLembur = ($month->total_lembur / 60) * $gajiLembur;
                 $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
 
                 $data = [
-                  'karyawan_id' => $karyawan->id,
+                  'karyawan_id' => $karyawan->id_karyawan,
                   'periode' => $month->periode,
                   'gaji_pokok' => $karyawan->gaji,
                   'gaji_lembur' => $totalGajiLembur,
@@ -125,8 +128,6 @@ class KeuanganController extends Controller implements AbsensiInterface
 
     public function cetakSlipGajiAll()
     {
-        // TODO: sort by periode
-
         $periode = $_GET['periode'] ?? 'all';
 
         if($periode === 'all') {
@@ -373,10 +374,10 @@ class KeuanganController extends Controller implements AbsensiInterface
             ];
             $this->view('laporanGaji', $data);
         } else {
-            $listKaryawan = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
+            $listGaji = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
             $karyawan = $this->karyawanModel->findById($id_karyawan);
             $data = [
-              'listKaryawan' => $listKaryawan,
+              'listGaji' => $listGaji,
               'start_date' => $start_date,
               'end_date' => $end_date,
               'karyawan' => $karyawan

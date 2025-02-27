@@ -6,6 +6,8 @@ use App\Models\AbsensiModel;
 use App\Models\KaryawanModel;
 use App\Models\UserModel;
 use App\Models\GajiModel;
+use App\Models\JabatanModel;
+use App\Models\PengaturanModel;
 
 use App\Interfaces\AbsensiInterface;
 
@@ -18,6 +20,8 @@ class HrdController extends Controller implements AbsensiInterface
     private $userModel;
     private $gajiModel;
     private $absensiUtil;
+    private $jabatanModel;
+    private $pengaturanModel;
 
     public function __construct($blade)
     {
@@ -26,6 +30,8 @@ class HrdController extends Controller implements AbsensiInterface
         $this->absensiModel = new AbsensiModel();
         $this->userModel = new UserModel();
         $this->gajiModel = new GajiModel();
+        $this->jabatanModel = new JabatanModel();
+        $this->pengaturanModel = new PengaturanModel();
 
         $this->absensiUtil = new AbsensiUtil();
     }
@@ -96,15 +102,13 @@ class HrdController extends Controller implements AbsensiInterface
               'nik' => $_POST['nik'],
               'tanggal_lahir' => $_POST['tanggal_lahir'],
               'alamat' => $_POST['alamat'],
-              'jabatan' => $_POST['jabatan'],
-              'gaji' => $_POST['gaji'],
+              'id_jabatan' => $_POST['id_jabatan'],
             ]);
 
             # buat akun karyawan
             $this->userModel->create([
               'username' => $_POST['nik'],
               'password' => password_hash(str_replace('-', '', $_POST['tanggal_lahir']), PASSWORD_DEFAULT),
-              'name' => $_POST['nama'],
               'name' => $_POST['nama'],
               'role' => 'KARYAWAN'
             ]);
@@ -153,8 +157,7 @@ class HrdController extends Controller implements AbsensiInterface
               'nik' => $data['nik'],
               'tanggal_lahir' => $data['tanggal_lahir'],
               'alamat' => $data['alamat'],
-              'jabatan' => $data['jabatan'],
-              'gaji' => $data['gaji'],
+              'id_jabatan' => $data['id_jabatan'],
             ];
 
             $this->karyawanModel->update($id, $data);
@@ -292,6 +295,8 @@ class HrdController extends Controller implements AbsensiInterface
     {
         header('Content-Type: application/json');
 
+        $radiusMaksimal = 30;
+
         // Baca JSON input
         $data = json_decode(file_get_contents('php://input'), true);
         $nik = $data['nik'] ?? '';
@@ -312,28 +317,59 @@ class HrdController extends Controller implements AbsensiInterface
 
         $absen = $this->absensiModel->isKaryawanAbsen($karyawan->id, $today);
 
+        $latitude = $data['position'][0];
+        $longitude = $data['position'][1];
 
-        if(!$absen) {
-            $data = [
-              'karyawan_id' => $karyawan->id,
-              'tanggal' => $today,
-              'jam_masuk' => date('H:i:s'),
-              'status' => 'Hadir'
-            ];
+        $jarak = hitungJarak($latitude, $longitude, $this->pengaturanModel->latitude, $this->pengaturanModel->longitude);
 
-            $this->absensiModel->create($data);
+        if($jarak <= $radiusMaksimal) {
+            if(!$absen) {
 
-            echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Absen Masuk']);
+                $data = [
+                  'karyawan_id' => $karyawan->id,
+                  'tanggal' => $today,
+                  'jam_masuk' => date('H:i:s'),
+                  'status' => 'Hadir'
+                ];
 
-        } elseif(is_null($absen->jam_keluar)) {
-            $data = [
-              'jam_keluar' => date('H:i:s')
-            ];
-            $this->absensiModel->update($absen->id, $data);
-            echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Absen Keluar']);
+                $this->absensiModel->create($data);
+
+                echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Absen Masuk']);
+            } elseif(is_null($absen->jam_keluar)) {
+                $jam_keluar = $this->pengaturanModel->jam_keluar();
+
+                $waktuSekarang = date('H:i:s');
+
+                // Konversi ke detik
+                $detik_keluar = strtotime($jam_keluar);
+                $detik_sekarang = strtotime($waktuSekarang);
+
+                // Hitung selisih dalam menit
+                $lembur = ($detik_sekarang - $detik_keluar) / 60;
+
+                if($lembur > 0) {
+                    $data = [
+                      'jam_keluar' => $waktuSekarang,
+                      'lembur' => $lembur
+                    ];
+
+                } else {
+                    $data = [
+                      'jam_keluar' => $waktuSekarang,
+                    ];
+                }
+
+
+                $this->absensiModel->update($absen->id, $data);
+                echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Absen Keluar']);
+            } else {
+                echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Anda Telah Absen Hari Ini']);
+            }
+
         } else {
-            echo json_encode(['status' => 'success', 'karyawan' => $karyawan, 'message' => 'Anda Telah Absen Hari Ini']);
+            echo json_encode(['status' => 'failed', 'message' => 'Anda berada di luar lokasi absen']);
         }
+
 
 
     }
@@ -365,10 +401,12 @@ class HrdController extends Controller implements AbsensiInterface
                   'page' => 'Gaji Karyawan',
                   'subpage' => 'Laporan Gaji Karyawan'
                 ]);
+
                 exit();
             } else {
                 $dataGajiKaryawan = $this->gajiModel->findByKaryawanId($id);
                 $namaKaryawan = $this->karyawanModel->findById($id)->nama;
+
                 $this->view('features.gajiKaryawan.detailGajiKaryawan', [
                   'dataGajiKaryawan' => $dataGajiKaryawan,
                   'idKaryawan' => $id,
@@ -391,7 +429,7 @@ class HrdController extends Controller implements AbsensiInterface
     {
         header('Content-Type: application/json');
 
-        $gajiLembur = 50000; // gaji lembur/jam
+        $gajiLembur = $this->pengaturanModel->all()->gaji_lembur; // gaji lembur/jam
 
         $dataKaryawanAll = $this->karyawanModel->all();
 
@@ -399,21 +437,21 @@ class HrdController extends Controller implements AbsensiInterface
 
         foreach($dataKaryawanAll as $karyawan) {
 
-            $lemburMonths = $this->absensiModel->calculateTotalLemburMonths($karyawan->id);
+            $lemburMonths = $this->absensiModel->calculateTotalLemburMonths($karyawan->id_karyawan);
 
             foreach ($lemburMonths as $month) {
                 // cek apakah karyawan_id dengan periode yang sama telah ada di table tb_gaji
                 // jika tidak maka tambahkan
-                $result = $this->gajiModel->existKaryawanPeriode($karyawan->id, $month->periode);
+                $result = $this->gajiModel->existKaryawanPeriode($karyawan->id_karyawan, $month->periode);
                 if ($result->count > 0) {
                     continue;
                 }
 
-                $totalGajiLembur = $month->total_lembur * $gajiLembur;
+                $totalGajiLembur = ($month->total_lembur / 60) * $gajiLembur;
                 $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
 
                 $data = [
-                  'karyawan_id' => $karyawan->id,
+                  'karyawan_id' => $karyawan->id_karyawan,
                   'periode' => $month->periode,
                   'gaji_pokok' => $karyawan->gaji,
                   'gaji_lembur' => $totalGajiLembur,
@@ -431,6 +469,7 @@ class HrdController extends Controller implements AbsensiInterface
           'message' => 'successfully update data gaji karyawan'
         ]);
     }
+
     public function addGajiKaryawan()
     {
 
@@ -528,6 +567,7 @@ class HrdController extends Controller implements AbsensiInterface
 
 
     }
+
     public function cetakLaporanGaji()
     {
 
@@ -544,16 +584,113 @@ class HrdController extends Controller implements AbsensiInterface
             ];
             $this->view('laporanGaji', $data);
         } else {
-            $listKaryawan = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
+            $listGaji = $this->gajiModel->findKaryawanBetweenPeriode($id_karyawan, $start_date, $end_date);
             $karyawan = $this->karyawanModel->findById($id_karyawan);
             $data = [
-              'listKaryawan' => $listKaryawan,
+              'listGaji' => $listGaji,
               'start_date' => $start_date,
               'end_date' => $end_date,
               'karyawan' => $karyawan
             ];
             $this->view('laporanGajiOne', $data);
         }
+
+    }
+
+    public function pengaturan()
+    {
+        $pengaturan = $this->pengaturanModel->all();
+
+        return $this->view('hrd.pengaturan', [
+          'page' => 'Pengaturan',
+          'subpage' => 'Pengaturan',
+          'pengaturan' => $pengaturan
+        ]);
+    }
+
+    public function updatePengaturan()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $this->pengaturanModel->updateData($data);
+
+        header("Location: {$_ENV['BASE_URL']}/hrd/pengaturan");
+
+    }
+
+    public function jabatan()
+    {
+
+        $jabatan = $this->jabatanModel->all();
+
+        return $this->view('hrd.jabatan', [
+          'page' => 'Jabatan',
+          'subpage' => 'Jabatan',
+          'jabatan' => $jabatan
+        ]);
+    }
+
+
+    public function showJabatan()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            echo json_encode(['success' => false, "message" => "ID tidak ditemukan"]);
+            return;
+        }
+
+        $jabatan = $this->jabatanModel->find($id);
+
+
+        header("Content-Type: application/json");
+
+        echo json_encode([
+          'status' => true,
+          'message' => 'berhasil mendapatkan data jabatan',
+          'data' => $jabatan
+        ]);
+
+    }
+
+    public function addJabatan()
+    {
+
+        $this->jabatanModel->create([
+          'jabatan' => $_POST['jabatan'],
+          'gaji' => $_POST['gaji'],
+        ]);
+
+        header("Location: {$_ENV['BASE_URL']}/hrd/jabatan");
+
+    }
+
+    public function updateJabatan()
+    {
+        $id = $_POST['id_jabatan'] ?? null;
+
+        $this->jabatanModel->update($id, [
+          'jabatan' => $_POST['jabatan'],
+          'gaji' => $_POST['gaji'],
+        ]);
+
+        header("Location: {$_ENV['BASE_URL']}/hrd/jabatan");
+
+    }
+
+    public function deleteJabatan()
+    {
+        header("Content-Type: application/json");
+
+        $id = $_POST['id'] ?? null;
+
+        $this->jabatanModel->delete($id);
+
+        echo json_encode([
+          'success' => true,
+          'message' => 'Berhasil menghapus jabatan',
+        ]);
+
     }
 
 }

@@ -126,13 +126,6 @@
 
                         <td>
 
-                          <!-- <form action="@base_url(/keuangan/gaji-karyawan/cetak-slip-gaji)" method="post"> -->
-                          <!--   <input type="hidden" name="gaji_id" value="{{ $karyawan->gaji_id }}"> -->
-                          <!--   <button type="submit" class="btn btn-sm btn-outline-success"> -->
-                          <!--     <i class="nav-icon fas fa-print"></i> -->
-                          <!--     Slip Gaji</button> -->
-                          <!-- </form> -->
-
                           <button class="btn btn-sm btn-success">Update</button>
 
                         </td>

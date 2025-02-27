@@ -88,7 +88,7 @@
           @endif
           <!-- <th>Jabatan</th> -->
           <th>Gaji Pokok</th>
-          <th>Total Durasi Lembur (Jam)</th>
+          <th>Total Durasi Lembur (Menit)</th>
           <th>Gaji Lembur</th>
           <th>Total Gaji</th>
         </tr>
@@ -101,20 +101,20 @@
         $total_gaji_total = 0;
         @endphp
 
-        @foreach ($listKaryawan as $karyawan)
+        @foreach ($listGaji as $gaji)
         <tr>
           @if ($start_date !== $end_date)
-          <td>{{ $karyawan->periode }}</td>
+          <td>{{ $gaji->periode }}</td>
           @endif
-          <td><strong>Rp {{ number_format($karyawan->gaji_pokok, 2, ',', '.') }}</strong></td>
-          <td>{{ $karyawan->total_lembur }}</td>
-          <td><strong>Rp {{ number_format($karyawan->gaji_lembur, 2, ',', '.') }}</strong></td>
-          <td><strong>Rp {{ number_format($karyawan->gaji_total, 2, ',', '.') }}</strong></td>
+          <td><strong>Rp {{ number_format($gaji->gaji_pokok, 2, ',', '.') }}</strong></td>
+          <td>{{ $gaji->total_lembur }}</td>
+          <td><strong>Rp {{ number_format($gaji->gaji_lembur, 2, ',', '.') }}</strong></td>
+          <td><strong>Rp {{ number_format($gaji->gaji_total, 2, ',', '.') }}</strong></td>
           @php
-          $total_gaji_pokok += $karyawan->gaji_pokok;
-          $total_gaji_lembur += $karyawan->gaji_lembur;
-          $total_gaji_total += $karyawan->gaji_total;
-          $total_durasi_lembur += $karyawan->total_lembur;
+          $total_gaji_pokok += $gaji->gaji_pokok;
+          $total_gaji_lembur += $gaji->gaji_lembur;
+          $total_gaji_total += $gaji->gaji_total;
+          $total_durasi_lembur += $gaji->total_lembur;
           @endphp
         </tr>
         @endforeach
@@ -128,7 +128,7 @@
             </strong>
           </td>
           <td><strong>
-              {{ $total_durasi_lembur }} Jam
+              {{ $total_durasi_lembur }} Menit
             </strong></td>
           <td> <strong> Rp. {{ number_format($total_gaji_lembur, 2, ',', '.') }}</strong></td>
           <td><strong> Rp. {{ number_format($total_gaji_total, 2, ',', '.') }}</strong></td>

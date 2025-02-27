@@ -62,7 +62,22 @@
 </div>
 
 <script>
+
+  function currentPosition() {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      let userLat = position.coords.latitude;
+      let userLng = position.coords.longitude;
+
+      console.log(userLat);
+      console.log(userLng);
+      return [userLat, userLng];
+
+    });
+  }
+
   $(document).ready(() => {
+
+
 
     let scanner = new Instascan.Scanner({video: document.getElementById('preview')});
 
@@ -74,7 +89,8 @@
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          nik: content
+          nik: content,
+          position: currentPosition()
         })
       })
 

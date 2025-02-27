@@ -68,8 +68,8 @@
               <div class="form-group">
                 <label for="jabatan">Jabatan Karyawan</label>
 
-                <select name="jabatan" id="jabatan" class="form-control" required>
-                  <option>Pilih Jabatan</option>
+                <select name="id_jabatan" id="jabatan" class="form-control" required>
+                  <!-- <option>Pilih Jabatan</option> -->
                 </select>
 
               </div>
@@ -77,7 +77,7 @@
               <div class="form-group">
                 <label for="gaji">Gaji Karyawan</label>
                 <input type="text" class="form-control" id="gaji" name="gaji" placeholder="Masukan Gaji karyawan"
-                  required>
+                  required readonly>
               </div>
 
               <button type="submit" class="btn btn-primary">Tambahkan</button>
@@ -108,7 +108,7 @@
       success: (response) => {
         if (response.status === 'success') {
           response.data.forEach(jabatan => {
-            $('#jabatan').append(`<option value="${jabatan.jabatan}" data-gaji="${jabatan.gaji}">${jabatan.jabatan}</option>`)
+            $('#jabatan').append(`<option value="${jabatan.id}" data-gaji="${jabatan.gaji}">${jabatan.jabatan}</option>`)
           })
         }
       },

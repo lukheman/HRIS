@@ -38,6 +38,12 @@ class PengaturanModel extends Model
         return $this->query($sql)->fetch()->longitude;
     }
 
+    public function gaji_lembur()
+    {
+        $sql = "SELECT gaji_lembur from {$this->table}";
+        return $this->query($sql)->fetch()->gaji_lembur;
+    }
+
 
     public function updateData($data)
     {

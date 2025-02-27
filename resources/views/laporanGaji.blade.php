@@ -64,7 +64,7 @@
           <th>Nama</th>
           <!-- <th>Jabatan</th> -->
           <th>Gaji Pokok</th>
-          <th>Total Durasi Lembur (Jam)</th>
+          <th>Total Durasi Lembur (Menit)</th>
           <th>Gaji Lembur</th>
           <th>Total Gaji</th>
         </tr>
@@ -107,7 +107,7 @@
             </strong>
           </td>
           <td><strong>
-              {{ $total_durasi_lembur }} Jam
+              {{ $total_durasi_lembur }} Menit
             </strong></td>
           <td> <strong> Rp. {{ number_format($total_gaji_lembur, 2, ',', '.') }}</strong></td>
           <td><strong> Rp. {{ number_format($total_gaji_total, 2, ',', '.') }}</strong></td>
