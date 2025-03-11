@@ -36,9 +36,9 @@
           <form id="update-form">
             <div class="card-body">
 
-              <input type="hidden" name="old-nik" value="{{ $karyawanOne->nik}}">
+              <input type="hidden" name="old_nik" value="{{ $karyawanOne->nik}}">
 
-              <input type="hidden" name="id" value="{{ $karyawanOne->id}}">
+              <input type="hidden" name="id" value="{{ $karyawanOne->id_karyawan }}">
 
               <div class="form-group">
                 <label for="nama">Nama Karyawan</label>
@@ -72,9 +72,16 @@
               </div>
 
               <div class="form-group">
-                <label for="gaji">Gaji Karyawan</label>
-                <input type="text" class="form-control" id="gaji" name="gaji" value="{{ $karyawanOne->gaji }}"
-                  placeholder="Masukan Gaji karyawan" required readonly>
+                <label for="gaji">Gaji Utama Karyawan</label>
+                <input type="text" class="form-control" id="gaji" name="gaji"
+                  value="Rp {{ number_format($karyawanOne->gaji, 2, ',', '.') }}" placeholder="Masukan Gaji karyawan"
+                  required readonly>
+              </div>
+
+              <div class="form-group">
+                <label for="gaji-lembur">Gaji Lembur</label>
+                <input type="number" class="form-control" id="gaji-lembur" name="gaji_lembur"
+                  value="{{ $karyawanOne->gaji_lembur }}" placeholder="Masukan Gaji Lembur" required>
               </div>
 
               <button type="submit" class="btn btn-primary">Update Data</button>
@@ -117,7 +124,7 @@
       // Ambil nilai gaji dari atribut data-gaji pada option yang dipilih
       const gaji = $('#jabatan option:selected').data('gaji');
       // Set nilai gaji ke input
-      $('#gaji').val(gaji);
+      $('#gaji').val(formatRupiah(gaji));
     })
 
 
@@ -144,7 +151,6 @@
       }
 
       const data = await response.json();
-      console.log(data)
 
       if (data['status'] === 'success') {
         Swal.fire("Data berhasil diupdate!", "", "success").then(() => {

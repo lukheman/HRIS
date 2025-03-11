@@ -75,9 +75,15 @@
               </div>
 
               <div class="form-group">
-                <label for="gaji">Gaji Karyawan</label>
+                <label for="gaji">Gaji Utama Karyawan</label>
                 <input type="text" class="form-control" id="gaji" name="gaji" placeholder="Masukan Gaji karyawan"
                   required readonly>
+              </div>
+
+              <div class="form-group">
+                <label for="gaji-lembur">Gaji Lembur</label>
+                <input type="number" class="form-control" id="gaji-lembur" name="gaji_lembur"
+                  placeholder="Masukan Gaji Lembur" required>
               </div>
 
               <button type="submit" class="btn btn-primary">Tambahkan</button>
@@ -121,7 +127,7 @@
     // Ambil nilai gaji dari atribut data-gaji pada option yang dipilih
     const gaji = $('#jabatan option:selected').data('gaji');
     // Set nilai gaji ke input
-    $('#gaji').val(gaji);
+    $('#gaji').val(formatRupiah(gaji));
   })
 
 </script>
