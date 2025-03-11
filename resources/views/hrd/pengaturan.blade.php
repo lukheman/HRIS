@@ -43,25 +43,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div class="card">
           <div class="card-body">
           <p class="text-bold">Lokasi Absen</p>
             <div id="map" style="height: 400px;"></div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card"> 
-          <div class="card-body"> 
-
-            <div class="form-group">
-              <label for="gaji-lembur">Gaji Lembur</label>
-              <input type="number" class="form-control" id="gaji-lembur" value="{{ $pengaturan->gaji_lembur }}">
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
