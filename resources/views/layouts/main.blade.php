@@ -140,6 +140,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   </script>
 
+  <script>
+    function formatRupiah(angka) {
+      return new Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR'}).format(angka);
+    }
+
+  </script>
+
 </body>
 
 </html>
