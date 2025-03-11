@@ -31,6 +31,7 @@ class KaryawanModel extends Model
         k.nik,
         k.tanggal_lahir,
         k.alamat,
+        k.gaji_lembur,
         j.jabatan,
         j.gaji
         FROM {$this->table} k
