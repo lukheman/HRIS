@@ -103,6 +103,7 @@ class HrdController extends Controller implements AbsensiInterface
               'tanggal_lahir' => $_POST['tanggal_lahir'],
               'alamat' => $_POST['alamat'],
               'id_jabatan' => $_POST['id_jabatan'],
+              'gaji_lembur' => $_POST['gaji_lembur'],
             ]);
 
             # buat akun karyawan
@@ -141,7 +142,7 @@ class HrdController extends Controller implements AbsensiInterface
         header('Content-Type: application/json');
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $oldNik = $data['old-nik'];
+        $oldNik = $data['old_nik'];
         $nik = $data['nik'];
         $id = $data['id'];
 
@@ -152,17 +153,19 @@ class HrdController extends Controller implements AbsensiInterface
         } else {
 
 
-            $data = [
+            $dataBaru = [
               'nama' => $data['nama'],
               'nik' => $data['nik'],
               'tanggal_lahir' => $data['tanggal_lahir'],
               'alamat' => $data['alamat'],
+              'gaji_lembur' => $data['gaji_lembur'],
               'id_jabatan' => $data['id_jabatan'],
+              'gaji_lembur' => $data['gaji_lembur'],
             ];
 
-            $this->karyawanModel->update($id, $data);
+            $this->karyawanModel->update($id, $dataBaru);
 
-            $response = [ 'status' => 'success', 'message' => 'NIK Telah terdaftar'];
+            $response = [ 'status' => 'success', 'message' => 'Data karyawan berhasil diupdate'];
             echo json_encode($response);
             exit();
         }
