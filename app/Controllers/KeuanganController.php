@@ -76,8 +76,6 @@ class KeuanganController extends Controller implements AbsensiInterface
     {
         header('Content-Type: application/json');
 
-        $gajiLembur = $this->pengaturanModel->all()->gaji_lembur; // gaji lembur/jam
-
         $dataKaryawanAll = $this->karyawanModel->all();
 
         $dataGajiKaryawan = array(); // data karywan dan gaji karyawan
@@ -94,7 +92,7 @@ class KeuanganController extends Controller implements AbsensiInterface
                     continue;
                 }
 
-                $totalGajiLembur = ($month->total_lembur / 60) * $gajiLembur;
+                $totalGajiLembur = ($month->total_lembur / 60) * $karyawan->gaji_lembur; // total gaji lembur bulan ini
                 $gajiTotal = $karyawan->gaji + $totalGajiLembur; // gaji pokok + gaji lembur bulan ini
 
                 $data = [
