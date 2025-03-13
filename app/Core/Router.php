@@ -60,8 +60,6 @@ class Router
     public function dispatch($method, $path)
     {
 
-        $path = 'http://localhost' . $path;
-
         foreach($this->routes as $route) {
             $pattern = $this->convertPathToRegex($route['path']);
 

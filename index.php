@@ -51,8 +51,9 @@ foreach($routeFiles as $file) {
 
 // get current request method and path
 $method = $_SERVER['REQUEST_METHOD'];
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
+// $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$path = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") .
+            "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 try {
   $router->dispatch($method, $path);
