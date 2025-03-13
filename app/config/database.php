@@ -1,9 +1,9 @@
 <?php
 
 return [
-  'host' => '127.0.0.1',
-  'username' => 'root',
-  'password' => '',
-  'dbname' => 'fbs',
-  'charset' => 'utf8mb4',
+  'host' => $_ENV['DB_HOST'],
+  'username' => $_ENV['DB_USER'],
+  'password' => $_ENV['DB_PASS'],
+  'dbname' => $_ENV['DB_NAME'],
+  'charset' => $_ENV['DB_CHARSET'],
 ];
