@@ -15,9 +15,6 @@
     <div class="row">
       <div class="col-md-6">
         <div class="card">
-          <!-- <div class="card-header"> -->
-          <!--   <h6 class="card-title">Jam Masuk</h6> -->
-          <!-- </div> -->
           <div class="card-body">
             <div class="form-group">
               <div class="form-group">
@@ -30,9 +27,6 @@
       </div>
       <div class="col-md-6">
         <div class="card">
-          <!-- <div class="card-header"> -->
-          <!--   <h6 class="card-title">Jam Keluar</h6> -->
-          <!-- </div> -->
           <div class="card-body">
             <div class="form-group">
               <label for="jam-keluar">Jam Keluar</label>
@@ -42,70 +36,102 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
+    <div class="row"> 
+    <div class="col-md-9"> 
         <div class="card">
           <div class="card-body">
           <p class="text-bold">Lokasi Absen</p>
             <div id="map" style="height: 400px;"></div>
           </div>
         </div>
-      </div>
+    </div>
+    <div class="col-md-3"> 
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="latitude">Latitude</label>
+                <input type="text" class="form-control" id="latitude" value="{{ $pengaturan->latitude }}">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="longitude">Longitude</label>
+                <input type="text" class="form-control" id="longitude" value="{{ $pengaturan->longitude }}">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="radius-maksimal">Radius Maksimal</label>
+                <input type="text" class="form-control" id="radius-maksimal" value="{{ $pengaturan->radius_maksimal }}">
+              </div>
+            </div>
+          </div>
+
+    </div>
     </div>
   </div>
 </div>
 
 <script>
 
+  function ubahMarker(latitude, longitude) {
+    if (marker) {
+      map.removeLayer(marker);
+    }
+
+    marker = L.marker([latitude, longitude]).addTo(map)
+    .bindPopup("Lokasi Absen")
+    .openPopup();
+  }
+
+  function updatePengaturan (data) {
+    $.ajax({
+      url: '@base_url(/hrd/pengaturan/update)',
+      method: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function (response) {
+        console.log(response);
+        if (data.latitude !== undefined || data.longitude !== undefined) {
+          ubahMarker(response.data.latitude, response.data.longitude);
+        }
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
+  }
+
   $(document).ready(function () {
 
     $('#jam-masuk').on('input', function () {
-
-      $.ajax({
-        url: '@base_url(/hrd/pengaturan/update)',
-        method: 'POST',
-        data: JSON.stringify({jam_masuk: $(this).val()}),
-        contentType: 'application/json',
-        success: function (data) {
-          location.reload();
-        },
-        error: function (error) {
-          console.log(error);
-        }
-      });
-
+      updatePengaturan({ jam_masuk: $(this).val() });
     });
 
     $('#jam-keluar').on('input', function () {
-
-      $.ajax({
-        url: '@base_url(/hrd/pengaturan/update)',
-        method: 'POST',
-        data: JSON.stringify({jam_keluar: $(this).val()}),
-        contentType: 'application/json',
-        success: function (data) {
-          location.reload();
-        },
-        error: function (error) {
-          console.log(error)
-        }
-      })
+      updatePengaturan({ jam_keluar: $(this).val() });
     });
 
     $('#gaji-lembur').on('input', function () {
+      updatePengaturan({ gaji_lembur: $(this).val() });
+    });
 
-      $.ajax({
-        url: '@base_url(/hrd/pengaturan/update)',
-        method: 'POST',
-        data: JSON.stringify({gaji_lembur: $(this).val()}),
-        contentType: 'application/json',
-        success: function (data) {
-          location.reload();
-        },
-        error: function (error) {
-          console.log(error)
-        }
-      })
+    $('#latitude').on('change', function () {
+      updatePengaturan({ latitude: $(this).val() });
+    });
+
+    $('#longitude').on('change', function () {
+      updatePengaturan({ longitude: $(this).val() });
+    });
+
+    $('#radius-maksimal').on('change', function () {
+      updatePengaturan({ radius_maksimal: $(this).val() });
     });
 
   });
@@ -128,30 +154,24 @@
     var latitude = e.latlng.lat; // Latitude
     var longitude = e.latlng.lng; // Longitude
 
-      $.ajax({
-        url: '@base_url(/hrd/pengaturan/update)',
-        method: 'POST',
-        data: JSON.stringify({ 
-          latitude, longitude
-        }),
-        contentType: 'application/json',
-        success: function (data) {
-          location.reload();
-        },
-        error: function (error) {
-          console.log(error);
-        }
-      });
+    $.ajax({
+      url: '@base_url(/hrd/pengaturan/update)',
+      method: 'POST',
+      data: JSON.stringify({ 
+        latitude, longitude
+      }),
+      contentType: 'application/json',
+      success: function (data) {
+        $('#latitude').val(data.data.latitude);
+        $('#longitude').val(data.data.longitude);
 
-    // Hapus marker sebelumnya jika ada
-    if (marker) {
-      map.removeLayer(marker);
-    }
+        ubahMarker(data.data.latitude, data.data.longitude);
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
 
-    // Tambahkan marker ke lokasi yang diklik
-    marker = L.marker([latitude, longitude]).addTo(map)
-    .bindPopup("Lokasi Absen")
-    .openPopup();
   });
 
 </script>
