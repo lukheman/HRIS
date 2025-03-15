@@ -645,6 +645,8 @@ class HrdController extends Controller implements AbsensiInterface
 
     public function showJabatan()
     {
+        header("Content-Type: application/json");
+
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
@@ -655,7 +657,6 @@ class HrdController extends Controller implements AbsensiInterface
         $jabatan = $this->jabatanModel->find($id);
 
 
-        header("Content-Type: application/json");
 
         echo json_encode([
           'status' => true,
