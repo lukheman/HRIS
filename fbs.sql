@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 11, 2025 at 02:33 PM
+-- Generation Time: Mar 15, 2025 at 03:59 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -110,7 +110,9 @@ CREATE TABLE `tb_karyawan` (
 --
 
 INSERT INTO `tb_karyawan` (`id`, `nama`, `nik`, `tanggal_lahir`, `alamat`, `id_jabatan`, `gaji_lembur`) VALUES
-(171, '111', '22221', '5555-05-05', 'd3', 20, 1234);
+(171, '111', '22221', '5555-05-05', 'd3', 20, 1234),
+(172, '2312', '12', '0033-03-31', '12', 36, 12),
+(173, '23', '12111', '0011-11-11', '111', 35, 111);
 
 -- --------------------------------------------------------
 
@@ -123,15 +125,16 @@ CREATE TABLE `tb_pengaturan` (
   `jam_keluar` time NOT NULL,
   `latitude` decimal(9,6) NOT NULL,
   `longitude` decimal(9,6) NOT NULL,
-  `gaji_lembur` int(11) DEFAULT NULL
+  `gaji_lembur` int(11) DEFAULT NULL,
+  `radius_maksimal` int(11) DEFAULT 30
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_pengaturan`
 --
 
-INSERT INTO `tb_pengaturan` (`jam_masuk`, `jam_keluar`, `latitude`, `longitude`, `gaji_lembur`) VALUES
-('06:00:00', '17:00:00', -4.344073, 121.581054, 50000);
+INSERT INTO `tb_pengaturan` (`jam_masuk`, `jam_keluar`, `latitude`, `longitude`, `gaji_lembur`, `radius_maksimal`) VALUES
+('07:00:00', '18:00:00', -4.193428, 121.607559, 50000, 20);
 
 -- --------------------------------------------------------
 
@@ -208,7 +211,9 @@ INSERT INTO `tb_users` (`id`, `username`, `password`, `name`, `email`, `role`, `
 (118, '7137676782254311', '$2y$10$ghHa5eVSoTDW7WP6Yl4Vuuw4.gCOxRWXEpADTk5DsFKIimOfT2JMa', 'Hasna Lestari', NULL, 'KARYAWAN', '2025-02-27 04:26:22'),
 (119, '1739857628188285', '$2y$10$ghHa5eVSoTDW7WP6Yl4Vuuw4.gCOxRWXEpADTk5DsFKIimOfT2JMa', 'Maria Damanik, M.Kom.', NULL, 'KARYAWAN', '2025-02-27 04:26:22'),
 (120, '10101010', '$2y$10$gryD4Xh0D7kteD/O8wBCge1xwWurClD72eSodRUTV1WfI2Pn3YTve', 'Akmal', NULL, 'KARYAWAN', '2025-02-27 04:31:37'),
-(121, '222', '$2y$10$Jh.k0r8ZUPaIZX0iHrW2he0ZTctXkgLop7xvzKcBTLCoSsblPBoPW', '111', NULL, 'KARYAWAN', '2025-03-11 12:43:27');
+(121, '222', '$2y$10$Jh.k0r8ZUPaIZX0iHrW2he0ZTctXkgLop7xvzKcBTLCoSsblPBoPW', '111', NULL, 'KARYAWAN', '2025-03-11 12:43:27'),
+(122, '12', '$2y$10$hvClHNC5WqZ9cMx024jwZ.BKs1QOIiSgDWpy5uF/Wd7PNn4FeCovS', '23', NULL, 'KARYAWAN', '2025-03-13 02:50:49'),
+(123, '12111', '$2y$10$vkSigLtVr0oyvfE7Q6Krwu8RqNMJSZakE6yk5lOckD9tKCx2j0Pua', '23', NULL, 'KARYAWAN', '2025-03-13 03:00:27');
 
 --
 -- Indexes for dumped tables
@@ -274,13 +279,13 @@ ALTER TABLE `tb_jabatan`
 -- AUTO_INCREMENT for table `tb_karyawan`
 --
 ALTER TABLE `tb_karyawan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
 
 --
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- Constraints for dumped tables
@@ -297,6 +302,12 @@ ALTER TABLE `tb_absensi`
 --
 ALTER TABLE `tb_gaji`
   ADD CONSTRAINT `tb_gaji_ibfk_1` FOREIGN KEY (`karyawan_id`) REFERENCES `tb_karyawan` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `tb_karyawan`
+--
+ALTER TABLE `tb_karyawan`
+  ADD CONSTRAINT `fk_jabatan` FOREIGN KEY (`id_jabatan`) REFERENCES `tb_jabatan` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
