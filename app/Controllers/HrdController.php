@@ -611,15 +611,24 @@ class HrdController extends Controller implements AbsensiInterface
         ]);
     }
 
+
     public function updatePengaturan()
     {
+        header("Content-Type: application/json");
+
         $data = json_decode(file_get_contents("php://input"), true);
 
         $this->pengaturanModel->updateData($data);
 
-        header("Location: {$_ENV['BASE_URL']}/hrd/pengaturan");
+        // header("Location: {$_ENV['BASE_URL']}/hrd/pengaturan");
 
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Pengaturan berhasil diupdate', 
+            'data' => $this->pengaturanModel->all()
+        ]);
     }
+  
 
     public function jabatan()
     {
