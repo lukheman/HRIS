@@ -298,7 +298,7 @@ class HrdController extends Controller implements AbsensiInterface
     {
         header('Content-Type: application/json');
 
-        $radiusMaksimal = 30;
+        $radiusMaksimal = $this->pengaturanModel->radius_maksimal;
 
         // Baca JSON input
         $data = json_decode(file_get_contents('php://input'), true);
