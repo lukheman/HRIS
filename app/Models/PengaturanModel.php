@@ -44,6 +44,12 @@ class PengaturanModel extends Model
         return $this->query($sql)->fetch()->gaji_lembur;
     }
 
+    public function radius_maksimal()
+    {
+        $sql = "SELECT radius_maksimal from {$this->table}";
+        return $this->query($sql)->fetch()->radius_maksimal;
+    }
+
 
     public function updateData($data)
     {
